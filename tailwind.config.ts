@@ -8,6 +8,7 @@ const config: Config = {
         './src/app/**/*.{js,ts,jsx,tsx,mdx}',
         './src/hooks/**/*.{jsx,tsx}',
         './src/layouts/**/*.{jsx,tsx}',
+        './src/configs/**/*.{jsx,tsx}',
         './src/utils/constants/ui.ts',
     ],
     theme: {
