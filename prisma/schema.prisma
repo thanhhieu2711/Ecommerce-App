@@ -1,0 +1,103 @@
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// This is your Prisma schema file,
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum ROLE {
+  USER
+  ADMIN 
+}
+
+enum PAYMENT_METHOD {
+  COD
+  ZALOPAY
+}
+enum ORDER_STATUS {
+  INPROGRESS
+  COMPLETED
+  CANCELED
+}
+
+enum PRODUCT_STATUS {
+  AVAILABLE
+  SOLDOUT
+}
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String?
+  email String 
+  password String 
+  phone String 
+  avatar String 
+  orders Order[] 
+  isAdmin ROLE @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([email,phone])
+}
+
+model Product {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  price String
+  categoryId String
+  brandId String
+  unitQuantity String
+  status PRODUCT_STATUS @default(AVAILABLE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([id,name])
+}
+
+model Category {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  thumbnail String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([id,name])
+}
+
+model Brand {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  thumnail String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([id,name])
+}
+
+model Order {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  customer User @relation(fields: [userId], references: [id])
+  products OrderItem[]
+  deliveryAddress String
+  paymentMethod PAYMENT_METHOD @default(COD)
+  status ORDER_STATUS @default(INPROGRESS)
+  subTotal String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([id,userId])     
+}
+
+
+model OrderItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id])
+  // productId String
+  // product   Product[]
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([id, orderId])
+}
