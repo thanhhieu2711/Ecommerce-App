@@ -1,5 +1,4 @@
-'use client';
-
-export default function Home() {
-    return <></>;
+import HomePage from '@/containers/Home';
+export default function Default() {
+    return <HomePage />;
 }

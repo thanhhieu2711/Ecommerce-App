@@ -1,6 +1,6 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import RootLayout from '@/layouts/RootLayout';
+import RootLayoutCtn from '@/layouts/RootLayout';
 import AppProviders from './app-providers';
 
 export const metadata: Metadata = {
@@ -14,8 +14,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <RootLayout>
+        <RootLayoutCtn>
             <AppProviders>{children}</AppProviders>
-        </RootLayout>
+        </RootLayoutCtn>
     );
 }
