@@ -1,3 +1,4 @@
+import Toast from '@/components/Common/Toast';
 import AdminLayout from '@/layouts/AdminLayout';
 
 export default function RootLayout({
@@ -5,5 +6,10 @@ export default function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
-    return <AdminLayout>{children}</AdminLayout>;
+    return (
+        <AdminLayout>
+            {children}
+            <Toast />
+        </AdminLayout>
+    );
 }

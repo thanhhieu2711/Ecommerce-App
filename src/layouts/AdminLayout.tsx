@@ -1,4 +1,5 @@
-import Container from '@/components/Layout/Container';
+'use client';
+import Header from '@/components/Admin/Header';
 import Sidebar from '@/containers/Admin/Sidebar';
 
 export default function AdminLayout({
@@ -8,10 +9,13 @@ export default function AdminLayout({
 }) {
     return (
         <div className="flex flex-row">
-            <div className="basis-[320px] ">
+            <div className="basis-[320px]">
                 <Sidebar />
             </div>
-            <div className="flex-1 bg-neutral-100">{children}</div>
+            <div className="flex-1 flex bg-neutral-100 p-4 flex-col gap-4 ">
+                <Header />
+                {children}
+            </div>
         </div>
     );
 }

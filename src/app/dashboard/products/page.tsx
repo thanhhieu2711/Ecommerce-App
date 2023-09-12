@@ -1,9 +1,9 @@
 import React from 'react';
-
+import ProductDashboardCtn from '@/containers/Admin/ProductDashboard';
 type Props = {};
 
-const page = (props: Props) => {
-    return <div>page</div>;
+const ProductDashboard = (props: Props) => {
+    return <ProductDashboardCtn />;
 };
 
-export default page;
+export default ProductDashboard;

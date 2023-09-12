@@ -59,7 +59,7 @@ const Input = ({
                 onChange={preFormatValue}
                 type={isShowPassword ? 'text' : type}
                 className={cn(
-                    'block bg-transparent rounded-md pl-3 pr-10 py-3 border border-black w-full focus:outline-none text-sm ',
+                    'block bg-transparent rounded-md p-3 border border-black/40 w-full focus:outline-none text-sm ring-0 ring-black transition focus:ring-1 focus:border-transparent',
                     isError && 'border-common-error',
                     classname
                 )}
