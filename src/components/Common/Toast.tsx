@@ -1,6 +1,8 @@
+'use client';
+
 import { Toaster } from 'react-hot-toast';
 import { toastConfig } from '@/configs/toastConfig';
-const Toast = () => {
+export const Toast = () => {
     return (
         <Toaster
             position="top-right"

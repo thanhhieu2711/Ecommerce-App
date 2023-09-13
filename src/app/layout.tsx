@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import RootLayoutCtn from '@/layouts/RootLayout';
 import AppProviders from './app-providers';
+import 'react-quill/dist/quill.snow.css';
 
 export const metadata: Metadata = {
     title: 'Ecommerce',

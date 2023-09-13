@@ -14,18 +14,22 @@ type InputProps = {
     forceUppercase?: boolean;
     error?: string;
     isError?: boolean;
+    placeholder?: string;
+    prefixIcon?: React.ReactNode;
 };
 
-const Input = ({
+export const Input = ({
     type,
-    label,
     value,
     onChange,
+    placeholder,
+    label,
     classname,
     size = 'lg',
     forceUppercase,
     error,
     isError,
+    prefixIcon,
 }: InputProps) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -54,24 +58,30 @@ const Input = ({
                 {label}
             </label>
             <input
+                placeholder={placeholder}
                 ref={inputRef}
                 value={value}
                 onChange={preFormatValue}
                 type={isShowPassword ? 'text' : type}
                 className={cn(
-                    'block bg-transparent rounded-md p-3 border border-black/40 w-full focus:outline-none text-sm ring-0 ring-black transition focus:ring-1 focus:border-transparent',
+                    'block bg-transparent rounded-md p-3 border border-black/20 w-full focus:outline-none text-sm ring-0 ring-black transition focus:ring-1 focus:border-transparent',
                     isError && 'border-common-error',
+                    prefixIcon && 'pl-8',
                     classname
                 )}
             />
-
+            {prefixIcon && (
+                <div className="max-w-[20px] max-h-[20px] absolute top-0 translate-y-[65%] px-2">
+                    {prefixIcon}
+                </div>
+            )}
             {type === 'password' && (
                 <button
                     className="absolute right-0 mx-3 top-0 translate-y-[65%]"
                     onClick={toggleShowPassword}
                 >
                     {isShowPassword ? (
-                        <BiShow className="w-5 h-5 " />
+                        <BiShow className="w-5 h-5 ring-2" />
                     ) : (
                         <BiHide className="w-5 h-5 " />
                     )}

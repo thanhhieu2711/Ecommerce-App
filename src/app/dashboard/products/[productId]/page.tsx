@@ -1,9 +1,6 @@
-import React from 'react';
-
-type Props = {};
-
-const page = ({}: Props) => {
-    return <div>page</div>;
+import { ProductDetail as ProductDetailCtn } from '@/containers/Dashboard/ProductDashboard/ProductDetail';
+const ProductDetail = ({ params }: { params: { productId: any } }) => {
+    return <ProductDetailCtn productId={params.productId} />;
 };
 
-export default page;
+export default ProductDetail;

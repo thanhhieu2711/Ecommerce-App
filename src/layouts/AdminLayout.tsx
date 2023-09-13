@@ -1,6 +1,5 @@
-'use client';
-import Header from '@/components/Admin/Header';
-import Sidebar from '@/containers/Admin/Sidebar';
+import Header from '@/components/Layout/Dashboard/Header';
+import Sidebar from '@/components/Layout/Dashboard/Sidebar';
 
 export default function AdminLayout({
     children,
@@ -8,11 +7,11 @@ export default function AdminLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="flex flex-row">
-            <div className="basis-[320px]">
+        <div className="flex flex-row max-w-[100vw]">
+            <div className="sm:basis-[320px]">
                 <Sidebar />
             </div>
-            <div className="flex-1 flex bg-neutral-100 p-4 flex-col gap-4 ">
+            <div className="flex-1 flex bg-neutral-100 p-4 flex-col gap-4">
                 <Header />
                 {children}
             </div>

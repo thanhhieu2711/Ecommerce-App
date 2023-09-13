@@ -4,7 +4,7 @@ import useEventListener from './useEventListener';
 export default function useClickOutside(
     ref: RefObject<HTMLDivElement>,
     cb: (e: MouseEvent) => void,
-    targetDocument: Window
+    targetDocument?: Window
 ) {
     useEventListener(
         'click',
@@ -13,6 +13,6 @@ export default function useClickOutside(
                 return;
             cb(e);
         },
-        targetDocument
+        targetDocument || window
     );
 }

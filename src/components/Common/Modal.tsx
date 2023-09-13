@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { Button, Card, CardBody, CardFooter } from '@material-tailwind/react';
 import cn from 'classnames';
@@ -5,7 +6,8 @@ import { AiOutlineClose } from 'react-icons/ai';
 type Props = {
     children: React.ReactNode;
     isOpen: boolean;
-    onClose?: () => void;
+    onClose: () => void;
+    onOk: () => void;
     header?: String;
     headerClassname?: string;
     contentContainerClassname?: string;
@@ -13,12 +15,13 @@ type Props = {
     containerClassname?: string;
 };
 
-const Modal = ({
+export const Modal = ({
     children,
-    header = 'jhdasjdhask',
+    header,
     footer,
     isOpen,
     onClose,
+    onOk,
     headerClassname,
     contentContainerClassname,
     containerClassname,
@@ -27,13 +30,13 @@ const Modal = ({
         isOpen && (
             <div
                 className={cn(
-                    'fixed absolute inset-0 z-[9999] grid place-items-center ',
+                    'absolute inset-0 z-[300] flex flex-row items-center justify-center bg-black/50 mx-auto px-4 sm:!px-0',
                     containerClassname
                 )}
             >
                 <Card
                     className={cn(
-                        'w-full max-w-[700px] max-h-[500px] shadow-lg '
+                        'w-full max-w-[700px] max-h-[500px] shadow-lg z-[400]'
                     )}
                 >
                     {header && (
@@ -57,7 +60,6 @@ const Modal = ({
                     >
                         {children}
                     </CardBody>
-                    {footer && <CardFooter>{footer}</CardFooter>}
                 </Card>
             </div>
         )

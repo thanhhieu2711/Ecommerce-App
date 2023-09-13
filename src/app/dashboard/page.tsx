@@ -1,7 +1,7 @@
 type Props = {};
 
 const HomePageAdmin = (props: Props) => {
-    return <div>ddd</div>;
+    return <>ákdjklasdjaslk</>;
 };
 
 export default HomePageAdmin;

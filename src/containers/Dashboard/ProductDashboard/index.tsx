@@ -1,20 +1,14 @@
 'use client';
 import Input from '@/components/Common/Input';
-import Modal from '@/components/Common/Modal';
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    Chip,
-    Button,
-} from '@material-tailwind/react';
+import { Card, CardHeader, CardBody, Button } from '@material-tailwind/react';
+import { BiSearch } from 'react-icons/bi';
 import { useState } from 'react';
+import ModalCreateProduct from '@/components/Dashboard/ProductDashboard/ModalCreateProduct';
 
 type Props = {};
 
-const ProductDashboardCtn = (props: Props) => {
+export const ProductDashboard = (props: Props) => {
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
-
     const TABLE_HEAD = ['Transaction', 'Amount', 'Date', 'Status', 'Account'];
 
     const TABLE_ROWS = [
@@ -75,10 +69,16 @@ const ProductDashboardCtn = (props: Props) => {
             <Card className="h-full w-full" shadow>
                 <CardHeader
                     shadow={false}
-                    className="flex justify-between items-center flex-row p-6"
+                    className=" flex sm:justify-between items-center sm:flex-row p-6 flex-col justify-start"
                 >
                     <div className="w-fit md:w-60 ">
-                        <Input onChange={() => {}} />
+                        <Input
+                            onChange={() => {}}
+                            placeholder="Nhập thông tin sản phẩm"
+                            prefixIcon={
+                                <BiSearch className="w-5 h-5 text-black/60" />
+                            }
+                        />
                     </div>
                     <Button
                         className="bg-green-600 py-3 text-sm"
@@ -87,14 +87,14 @@ const ProductDashboardCtn = (props: Props) => {
                         Thêm sản phẩm
                     </Button>
                 </CardHeader>
-                <CardBody className="overflow-scroll px-0">
+                <CardBody className="overflow-scroll p-0">
                     <table className="w-full min-w-max table-auto text-center">
                         <thead>
                             <tr className="flex flex-row">
                                 {TABLE_HEAD.map((head) => (
                                     <th
                                         key={head}
-                                        className="border-blue-gray-100 flex-1 border-b py-4"
+                                        className="border-blue-gray-100 flex-1 border-y py-4"
                                     >
                                         <p className="font-normal leading-none text-md">
                                             {head}
@@ -127,20 +127,13 @@ const ProductDashboardCtn = (props: Props) => {
                         </tbody>
                     </table>
                 </CardBody>
-                <Modal
-                    header={'Thêm sản phẩm'}
-                    onClose={() => setIsShowModal(false)}
-                    isOpen={isShowModal}
-                    contentContainerClassname="flex flex-col gap-6"
-                >
-                    <Input label="Tên sản phẩm" onChange={() => {}} />
-                    <Input label="Tên sản phẩm" onChange={() => {}} />
-                    <Input label="Tên sản phẩm" onChange={() => {}} />
-                    <Input label="Tên sản phẩm" onChange={() => {}} />
-                </Modal>
             </Card>
+            <ModalCreateProduct
+                isShow={isShowModal}
+                onClose={() => setIsShowModal(false)}
+            />
         </>
     );
 };
 
-export default ProductDashboardCtn;
+export default ProductDashboard;

@@ -1,4 +1,4 @@
-import Toast from '@/components/Common/Toast';
+import { Toast, Loading } from '@/components/Common';
 import AdminLayout from '@/layouts/AdminLayout';
 
 export default function RootLayout({
