@@ -1,10 +1,12 @@
+'use client';
 import { useState } from 'react';
 import { Modal, Input } from '@/components/Common';
 import { toolbarOptions } from '@/configs/quillToolbarConfig';
 import { Form, SubmitHandler, useForm } from 'react-hook-form';
-import ReactQuill from 'react-quill';
 import { Button } from '@material-tailwind/react';
+import dynamic from 'next/dynamic';
 
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 type Props = {
     isShow: boolean;
     onClose: () => void;

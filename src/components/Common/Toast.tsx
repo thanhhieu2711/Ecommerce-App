@@ -1,5 +1,3 @@
-'use client';
-
 import { Toaster } from 'react-hot-toast';
 import { toastConfig } from '@/configs/toastConfig';
 export const Toast = () => {

@@ -1,4 +1,3 @@
-'use client';
 import React from 'react';
 import { Button, Card, CardBody, CardFooter } from '@material-tailwind/react';
 import cn from 'classnames';

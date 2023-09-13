@@ -1,4 +1,3 @@
-'use client';
 type Props = {};
 
 export const Loading = (props: Props) => {

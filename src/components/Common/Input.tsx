@@ -1,4 +1,3 @@
-'use client';
 import cn from 'classnames';
 import { ChangeEvent, useRef, useState } from 'react';
 import { BiShow } from 'react-icons/bi';
