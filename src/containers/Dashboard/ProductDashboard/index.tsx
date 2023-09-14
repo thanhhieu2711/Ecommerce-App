@@ -2,7 +2,7 @@
 import Input from '@/components/Common/Input';
 import { BiSearch } from 'react-icons/bi';
 import { useState } from 'react';
-import ModalCreateProduct from '@/components/Dashboard/ProductDashboard/ModalCreateProduct';
+import ModalCreateProduct from '@/components/Dashboard/Product/ModalCreateProduct';
 import { Button } from 'antd';
 
 type Props = {};

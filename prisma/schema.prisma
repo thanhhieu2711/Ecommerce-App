@@ -30,25 +30,27 @@ enum PRODUCT_STATUS {
 }
 
 model User {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String?
-  email String 
+  id String @id @default(auto()) @map("_id") @db.ObjectId 
+  name String
+  email String  @unique
   password String 
-  phone String 
-  avatar String 
+  phone String @unique
+  avatar String?
   orders Order[]
   feedback Feedback[]
-  isAdmin ROLE @default(USER)
-  @@unique([email,phone])
+  role ROLE @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Product {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
   price String
-  oldPrice String?
+  discount Float
   description String
   buyTurn String
+  images String[]
   unitQuantity String
   categoryId String @db.ObjectId
   category Category @relation(fields: [categoryId] , references: [id])

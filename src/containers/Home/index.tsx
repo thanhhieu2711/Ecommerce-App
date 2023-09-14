@@ -1,8 +1,6 @@
-import React from 'react';
-
 type Props = {};
 
-const HomePage = (props: Props) => {
+export const HomePage = (props: Props) => {
     return <div>index</div>;
 };
 

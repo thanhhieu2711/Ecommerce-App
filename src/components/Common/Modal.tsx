@@ -54,7 +54,7 @@ export const Modal = ({
                             </button>
                         </div>
                     )}
-                    <div className="h-[550px] p-6 overflow-y-scroll">
+                    <div className="h-[550px] p-6 overflow-y-auto">
                         {children}
                     </div>
                     {footer && (

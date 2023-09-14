@@ -1,11 +1,17 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { Modal } from '@/components/Common';
-import { Button, Input, InputNumber, Select, Upload, UploadFile } from 'antd';
-import { Form } from 'antd';
+import {
+    Button,
+    Input,
+    InputNumber,
+    Select,
+    Upload,
+    UploadFile,
+    Form,
+} from 'antd';
 import toast from 'react-hot-toast';
-import TextEditor from '@/components/Common/TextEditor';
-import TextArea from 'antd/es/input/TextArea';
+
 import dynamic from 'next/dynamic';
 import { toolbarOptions } from '@/configs';
 
@@ -16,7 +22,7 @@ type Props = {
     onClose: () => void;
 };
 
-const ModalCreateProduct = ({ isShow, onClose }: Props) => {
+export const ModalCreateProduct = ({ isShow, onClose }: Props) => {
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState<UploadFile[]>([]);
 
@@ -47,7 +53,7 @@ const ModalCreateProduct = ({ isShow, onClose }: Props) => {
             <Form
                 form={form}
                 name="basic"
-                className="w-full overflow-y-scroll"
+                className="w-full"
                 layout="vertical"
                 scrollToFirstError
                 onFinish={handleSubmit}
@@ -205,15 +211,12 @@ const ModalCreateProduct = ({ isShow, onClose }: Props) => {
                         },
                     ]}
                 >
-                    {/* <TextEditor
-                        placeholder="Mô tả chi tiết sản phẩm ..."
-                        value="ádasdasdsa"
-                        onChange={() => {}}
-                    /> */}
                     <ReactQuill
+                        theme="snow"
                         modules={{
                             toolbar: toolbarOptions,
                         }}
+                        placeholder={'Mô tả chi tiết sản phẩm ...'}
                     />
                 </Form.Item>
             </Form>

@@ -2,8 +2,6 @@ import './globals.css';
 import type { Metadata } from 'next';
 import RootLayoutCtn from '@/layouts/RootLayout';
 import AppProviders from './app-providers';
-import { Suspense } from 'react';
-import Loading from './loading';
 
 export const metadata: Metadata = {
     title: 'Toshiro Ecommerce',
@@ -16,9 +14,7 @@ export default function RootLayout({
 }) {
     return (
         <RootLayoutCtn>
-            <AppProviders>
-                <Suspense fallback={<Loading />}>{children}</Suspense>
-            </AppProviders>
+            <AppProviders>{children}</AppProviders>
         </RootLayoutCtn>
     );
 }
