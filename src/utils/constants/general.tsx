@@ -8,10 +8,6 @@ import {
 import { TbBrandBlogger } from 'react-icons/tb';
 import { TSidebarLink } from '@/types/general';
 
-
-
-
-
 export const SIDEBAR_LINK: TSidebarLink[] = [
     {
         id: 1,
@@ -28,7 +24,7 @@ export const SIDEBAR_LINK: TSidebarLink[] = [
     {
         id: 4,
         name: 'Danh mục',
-        link: '/dashboard/caterogies',
+        link: '/dashboard/categories',
         icon: <BiCategory className="w-6 h-6" />,
     },
     {
@@ -38,13 +34,13 @@ export const SIDEBAR_LINK: TSidebarLink[] = [
         icon: <TbBrandBlogger className="w-6 h-6" />,
     },
     {
-        id: 5,
+        id: 6,
         name: 'Đơn hàng',
         link: '/dashboard/orders',
         icon: <RiBillLine className="w-6 h-6" />,
     },
     {
-        id: 6,
+        id: 7,
         name: 'Tài khoản',
         link: '/dashboard/accounts',
         icon: <RiAccountCircleLine className="w-6 h-6" />,

@@ -2,7 +2,7 @@ type Props = {};
 
 export const Loading = (props: Props) => {
     return (
-        <div className="absolute inset-0 grid place-items-center z-[100] bg-black/30">
+        <div className="absolute inset-0 grid place-items-center z-[100] bg-transparent">
             <div className="absolute w-[500px] h-[500px] flex justify-center items-center z-[200]">
                 <div className="flex items-center justify-center h-screen">
                     <div className="relative">

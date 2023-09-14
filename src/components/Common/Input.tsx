@@ -24,7 +24,6 @@ export const Input = ({
     placeholder,
     label,
     classname,
-    size = 'lg',
     forceUppercase,
     error,
     isError,

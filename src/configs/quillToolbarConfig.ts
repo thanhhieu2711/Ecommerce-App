@@ -17,3 +17,5 @@ export const toolbarOptions = [
 
     ['clean'],
 ];
+
+export default toolbarOptions;

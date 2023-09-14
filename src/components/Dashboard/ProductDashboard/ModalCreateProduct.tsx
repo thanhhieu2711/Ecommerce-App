@@ -1,34 +1,27 @@
 'use client';
-import { useState } from 'react';
-import { Modal, Input } from '@/components/Common';
-import { toolbarOptions } from '@/configs/quillToolbarConfig';
-import { Form, SubmitHandler, useForm } from 'react-hook-form';
-import { Button } from '@material-tailwind/react';
+import { useEffect, useRef, useState } from 'react';
+import { Modal } from '@/components/Common';
+import { Button, Input, InputNumber, Select, Upload, UploadFile } from 'antd';
+import { Form } from 'antd';
+import toast from 'react-hot-toast';
+import TextEditor from '@/components/Common/TextEditor';
+import TextArea from 'antd/es/input/TextArea';
 import dynamic from 'next/dynamic';
+import { toolbarOptions } from '@/configs';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+
 type Props = {
     isShow: boolean;
     onClose: () => void;
 };
 
-type TFormCreateProduct = {
-    name: string;
-    quantity: string;
-    description: string;
-};
-
 const ModalCreateProduct = ({ isShow, onClose }: Props) => {
-    const [quill, setQuill] = useState<string>('');
+    const [form] = Form.useForm();
+    const [fileList, setFileList] = useState<UploadFile[]>([]);
 
-    const methods = useForm<TFormCreateProduct>({
-        defaultValues: {
-            name: 'asdsadkjsal',
-        },
-    });
-
-    const onSubmit: SubmitHandler<TFormCreateProduct> = (data) => {
-        console.log('aksdjlsakd');
+    const handleSubmit = (data: any) => {
+        console.log(data);
     };
 
     return (
@@ -36,44 +29,194 @@ const ModalCreateProduct = ({ isShow, onClose }: Props) => {
             header={'Thêm sản phẩm'}
             onClose={onClose}
             isOpen={isShow}
-            onOk={() => {}}
-            contentContainerClassname="flex flex-col gap-6"
+            footer={
+                <div className="w-full flex flex-row justify-end space-x-2">
+                    <Button className="bg-red-600 text-white" onClick={onClose}>
+                        Hủy bỏ
+                    </Button>
+                    <Button
+                        className="bg-green-600 text-white"
+                        onClick={form.submit}
+                        htmlType="submit"
+                    >
+                        Đồng ý
+                    </Button>
+                </div>
+            }
         >
-            <form onSubmit={() => methods.handleSubmit(onSubmit)}>
-                <div className="flex flex-col gap-6">
-                    <Input
-                        {...methods.register('name')}
-                        label="Tên sản phẩm"
-                        onChange={() => {}}
-                    />
-                    <Input
-                        {...methods.register('quantity')}
+            <Form
+                form={form}
+                name="basic"
+                className="w-full overflow-y-scroll"
+                layout="vertical"
+                scrollToFirstError
+                onFinish={handleSubmit}
+                autoComplete="off"
+            >
+                <Form.Item
+                    name={'name'}
+                    label="Tên sản phẩm"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Vui lòng nhập tên sản phẩm',
+                        },
+                        { max: 5, message: 'Quá dài' },
+                    ]}
+                >
+                    <Input size="large" />
+                </Form.Item>
+
+                <div className="flex gap-4 items-center">
+                    <Form.Item
+                        name="quantity"
                         label="Số lượng"
+                        required
+                        className="flex-1"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng nhập số lượng',
+                            },
+                        ]}
+                    >
+                        <InputNumber className="w-full" min={1} size="large" />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="category"
+                        label="Danh mục"
+                        required
+                        className="flex-1"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng chọn danh mục',
+                            },
+                        ]}
+                    >
+                        <Select
+                            size="large"
+                            placeholder="Danh mục"
+                            options={[
+                                { value: 1, label: 'Điện thoại' },
+                                { value: 2, label: 'Laptop' },
+                                { value: 3, label: 'PC' },
+                                { value: 4, label: 'Phụ kiện' },
+                                { value: 5, label: 'Tai nghe' },
+                            ]}
+                        ></Select>
+                    </Form.Item>
+                    <Form.Item
+                        name="brand"
+                        label="Thương hiệu"
+                        required
+                        className="flex-1"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng chọn thương hiệu',
+                            },
+                        ]}
+                    >
+                        <Select
+                            size="large"
+                            placeholder="Thương hiệu"
+                            options={[
+                                { value: 1, label: 'Apple' },
+                                { value: 2, label: 'Apple' },
+                                { value: 3, label: 'Apple' },
+                                { value: 4, label: 'Apple' },
+                                { value: 5, label: 'Apple' },
+                            ]}
+                        ></Select>
+                    </Form.Item>
+                </div>
+                <Form.Item
+                    name="images"
+                    label="Ảnh sản phẩm (tối đa 5 ảnh)"
+                    required
+                    rules={[
+                        {
+                            required: true,
+
+                            validator: (_, value) => {
+                                if (!value || value?.fileList?.length === 0) {
+                                    return Promise.reject(
+                                        'Vui lòng chọn ảnh sản phẩm'
+                                    );
+                                } else {
+                                    return Promise.resolve(true);
+                                }
+                            },
+                        },
+                    ]}
+                >
+                    <Upload
+                        multiple
+                        maxCount={5}
+                        listType="picture-card"
+                        fileList={fileList}
+                        accept=".png,.jpeg,.jpg"
+                        action={'http://localhost:3000/'}
+                        showUploadList={{ showPreviewIcon: false }}
+                        beforeUpload={(fileUpload: UploadFile) => {
+                            if (
+                                fileUpload &&
+                                fileUpload.size &&
+                                fileUpload.size > 50000
+                            ) {
+                                toast.error('Kích thước ảnh tối đa là 50KB');
+                                return false;
+                            } else {
+                                return false;
+                            }
+                        }}
+                        onChange={({ fileList, file }) => {
+                            if (file.size && file.size > 50000) {
+                                setFileList((prev) => [...prev]);
+                                return;
+                            }
+                            setFileList(fileList);
+                        }}
+                    >
+                        {fileList.length === 5 ? null : (
+                            <div style={{ marginTop: 8 }}>Upload</div>
+                        )}
+                    </Upload>
+                </Form.Item>
+                <Form.Item
+                    name="description"
+                    label="Mô tả"
+                    required
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Vui lòng nhập mô tả sản phẩm',
+                            validator(_, value) {
+                                if (!value || value === '<p><br></p>') {
+                                    return Promise.reject(
+                                        'Vui lòng nhập mô tả sản phẩm'
+                                    );
+                                } else {
+                                    return Promise.resolve(true);
+                                }
+                            },
+                        },
+                    ]}
+                >
+                    {/* <TextEditor
+                        placeholder="Mô tả chi tiết sản phẩm ..."
+                        value="ádasdasdsa"
                         onChange={() => {}}
-                    />
+                    /> */}
                     <ReactQuill
-                        theme="snow"
-                        value={quill}
-                        onChange={setQuill}
                         modules={{
                             toolbar: toolbarOptions,
                         }}
-                        placeholder="Mô tả chi tiết cho sản phẩm ..."
                     />
-                </div>
-
-                <div className="flex flex-row items-center justify-end gap-2  pt-6 border-t border-black/5">
-                    <Button
-                        className="bg-red-600 px-2 py-3 min-w-[80px]"
-                        onClick={onClose}
-                    >
-                        <p>Hủy</p>
-                    </Button>
-                    <Button className="bg-green-600 px-2 py-3 min-w-[80px]">
-                        <p>Đồng ý</p>
-                    </Button>
-                </div>
-            </form>
+                </Form.Item>
+            </Form>
         </Modal>
     );
 };
