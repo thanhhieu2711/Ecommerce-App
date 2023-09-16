@@ -1,6 +1,6 @@
 type Props = {};
 
-export const Loading = (props: Props) => {
+const LoadingPage = (props: Props) => {
     return (
         <div className="absolute inset-0 grid place-items-center z-[100] bg-transparent">
             <div className="absolute w-[500px] h-[500px] flex justify-center items-center z-[200]">
@@ -15,4 +15,4 @@ export const Loading = (props: Props) => {
     );
 };
 
-export default Loading;
+export default LoadingPage;

@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
     try {
-        const { email, password } = await request.json();
+        const { email, password, name, phone, avatar } = await request.json();
 
         if (!email && !password) {
             return;
@@ -13,6 +13,7 @@ export async function POST(request: Request) {
         const isExist = await prisma.user.findFirst({
             where: {
                 email,
+                phone,
             },
         });
 
@@ -20,7 +21,7 @@ export async function POST(request: Request) {
             return NextResponse.json(
                 {
                     isSuccess: false,
-                    message: 'Tài khoản đã tồn tại!',
+                    message: 'Email hoặc số điện thoại đã tồn tại!',
                 },
                 { status: 201 }
             );
@@ -30,11 +31,11 @@ export async function POST(request: Request) {
 
         await prisma.user.create({
             data: {
-                email: email,
+                email,
                 password: hashPassword,
-                name: '',
-                avatar: '',
-                phone: '',
+                name,
+                avatar,
+                phone,
             },
         });
 
@@ -46,6 +47,7 @@ export async function POST(request: Request) {
             { status: 200 }
         );
     } catch (error) {
+        console.log(error);
         return NextResponse.json(
             {
                 isSuccess: false,

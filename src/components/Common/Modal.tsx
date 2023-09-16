@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import cn from 'classnames';
 import { AiOutlineClose } from 'react-icons/ai';
-import useClickOutside from '@/hooks/useClickOutside';
+
 type Props = {
     children: React.ReactNode;
     isOpen: boolean;
@@ -31,13 +31,14 @@ export const Modal = ({
         isOpen && (
             <div
                 className={cn(
-                    'absolute inset-0 z-[300 grid place-items-center bg-black/50 px-4 sm:px-0 ',
+                    'absolute inset-0 z-[300] flex flex-row items-center justify-center bg-black/50 px-4 sm:px-4 md:px-0 ',
                     containerClassname
                 )}
             >
                 <div
                     className={cn(
-                        'w-full max-w-[700px] shadow-lg rounded-lg bg-white '
+                        'w-full max-w-[700px] shadow-lg rounded-lg bg-white m-auto',
+                        contentContainerClassname
                     )}
                     ref={modalRef}
                 >
@@ -54,7 +55,7 @@ export const Modal = ({
                             </button>
                         </div>
                     )}
-                    <div className="h-[550px] p-6 overflow-y-auto">
+                    <div className="max-h-[600px] p-6 overflow-y-auto">
                         {children}
                     </div>
                     {footer && (

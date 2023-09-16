@@ -1,13 +1,14 @@
-import NextAuth from 'next-auth';
+import NextAuth, { NextAuthOptions } from 'next-auth';
+import { NextResponse } from 'next/server';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import Credentials from 'next-auth/providers/credentials';
+import CredentialsProviders from 'next-auth/providers/credentials';
 import prisma from '@/services/prisma/prismaDB';
 import bcrypt from 'bcrypt';
 
-export default NextAuth({
+const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
-        Credentials({
+        CredentialsProviders({
             name: 'credentials',
             credentials: {
                 email: {
@@ -22,7 +23,7 @@ export default NextAuth({
 
             async authorize(credentials) {
                 if (!credentials?.email || !credentials?.password) {
-                    throw new Error('Invalid account');
+                    throw new Error('Invalid input');
                 }
 
                 const user = await prisma.user.findUnique({
@@ -32,30 +33,37 @@ export default NextAuth({
                 });
 
                 if (!user) {
-                    throw new Error('Invalid account');
+                    throw new Error('Email không tồn tại');
                 }
 
                 const isCorrectPassword = bcrypt.compareSync(
                     credentials.password,
-                    user.password ?? ''
+                    user.password
                 );
 
                 if (!isCorrectPassword) {
-                    throw new Error('Invalid password');
+                    throw new Error('Mật khẩu không chính xác');
+                } else {
+                    return user;
                 }
-                return user;
             },
         }),
     ],
-    pages: {
-        signIn: '/login',
+    events: {
+        async signIn(message) {},
     },
-    debug: process.env.NODE_ENV === 'development',
     session: {
         strategy: 'jwt',
     },
     jwt: {
         secret: process.env.NEXTAUTH_JWT_SECRET,
+        maxAge: 24 * 60 * 60,
     },
+    debug: process.env.NODE_ENV === 'development',
+
     secret: process.env.NEXTAUTH_SECRET,
-});
+};
+
+const handler = NextAuth(authOptions);
+
+export { handler as POST, handler as GET };

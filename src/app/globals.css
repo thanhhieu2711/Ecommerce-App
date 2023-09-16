@@ -9,3 +9,21 @@
 html {
     @apply h-full;
 }
+
+.icon-base {
+    @apply h-6 w-6;
+}
+
+.root-layout {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    min-height: 100vh;
+}
+
+/* [ant-click-animating-without-extra-node]:after {
+    -webkit-animation: none !important;
+    -moz-animation: none !important;
+    -o-animation: none !important;
+    -ms-animation: none !important;
+    animation: none !important;
+} */

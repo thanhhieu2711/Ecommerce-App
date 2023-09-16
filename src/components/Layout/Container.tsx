@@ -1,4 +1,3 @@
-'use client';
 import React from 'react';
 import cn from 'classnames';
 
@@ -8,7 +7,7 @@ type Props = {
     fluid?: boolean;
 };
 
-const Container = ({ children, classname, fluid }: Props) => {
+export const Container = ({ children, classname, fluid }: Props) => {
     return (
         <div
             className={cn(

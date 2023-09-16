@@ -20,7 +20,7 @@ export async function POST(request: Request) {
             return NextResponse.json(
                 {
                     isSuccess: false,
-                    message: 'Email không tồn tại !',
+                    message: 'Tài khoản không tồn tại !',
                     data: null,
                 },
                 { status: 201 }
@@ -28,6 +28,7 @@ export async function POST(request: Request) {
         }
 
         const checkUser = await bcrypt.compare(password, user.password);
+
         if (checkUser) {
             return NextResponse.json(
                 {
@@ -44,7 +45,7 @@ export async function POST(request: Request) {
                     message: 'Mật khẩu không chính xác !',
                     data: null,
                 },
-                { status: 401 }
+                { status: 201 }
             );
         }
     } catch (error) {
