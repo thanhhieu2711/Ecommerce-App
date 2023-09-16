@@ -1,5 +1,6 @@
 'use client';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+
 import { Modal } from '@/components/Common';
 import {
     Button,
@@ -9,11 +10,22 @@ import {
     Upload,
     UploadFile,
     Form,
+    Tooltip,
 } from 'antd';
 import toast from 'react-hot-toast';
 
 import dynamic from 'next/dynamic';
 import { toolbarOptions } from '@/configs';
+import {
+    getDownloadURL,
+    ref,
+    uploadBytes,
+    uploadBytesResumable,
+} from 'firebase/storage';
+import { firebaseStorage } from '@/services/firebase/firebaseDB';
+// import { CreateProduct } from '@/app/api/products/route';
+import { formatCurrency } from '@/utils/helper';
+import axios from 'axios';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -25,9 +37,46 @@ type Props = {
 export const ModalCreateProduct = ({ isShow, onClose }: Props) => {
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState<UploadFile[]>([]);
+    const [price, setPrice] = useState<string>('');
 
-    const handleSubmit = (data: any) => {
-        console.log(data);
+    const handleGetOriginFileObj = (fileList: UploadFile[]) => {
+        const tempArr: UploadFile['originFileObj'][] = [];
+        fileList.forEach((item) => {
+            tempArr.push(item.originFileObj);
+        });
+        return tempArr;
+    };
+
+    const handleSubmit = async (formData: any) => {
+        const fileList = handleGetOriginFileObj(formData.images.fileList);
+        const listurl = await handleUploadImagesToFirebase(fileList);
+        console.log(listurl);
+        const response = await axios.post('/api/products', {
+            ...formData,
+            images: listurl,
+            discount: formData.discount / 100,
+        });
+        console.log(response);
+    };
+
+    const handleUploadImagesToFirebase = async (
+        fileList: UploadFile['originFileObj'][]
+    ) => {
+        const listImageUrl: string[] = [];
+        return new Promise(async (res, rej) => {
+            for (let file of fileList) {
+                if (file) {
+                    const storageRef = ref(
+                        firebaseStorage,
+                        `product/${file?.name}`
+                    );
+                    const { ref: _ref } = await uploadBytes(storageRef, file);
+                    const imageUrl = await getDownloadURL(_ref);
+                    listImageUrl.push(imageUrl);
+                }
+            }
+            res(listImageUrl);
+        });
     };
 
     return (
@@ -67,7 +116,6 @@ export const ModalCreateProduct = ({ isShow, onClose }: Props) => {
                             required: true,
                             message: 'Vui lòng nhập tên sản phẩm',
                         },
-                        { max: 5, message: 'Quá dài' },
                     ]}
                 >
                     <Input size="large" />
@@ -88,9 +136,58 @@ export const ModalCreateProduct = ({ isShow, onClose }: Props) => {
                     >
                         <InputNumber className="w-full" min={1} size="large" />
                     </Form.Item>
-
                     <Form.Item
-                        name="category"
+                        name="price"
+                        label="Giá sản phẩm"
+                        required
+                        className="flex-1"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng nhập giá tiền',
+                            },
+                            {
+                                pattern: new RegExp(/^[1-9]|10*$/),
+                                message: 'Giá tiền không hợp lệ',
+                            },
+                        ]}
+                    >
+                        <Input
+                            min={1}
+                            className="w-full"
+                            onChange={(e) => {
+                                setPrice(e.target.value);
+                                console.log(price);
+                            }}
+                            size="large"
+                        />
+                        {/* <Tooltip
+                            trigger={['focus']}
+                            title={formatCurrency(+price)}
+                            placement="topLeft"
+                            overlayClassName="numeric-input"
+                            
+                        /> */}
+                    </Form.Item>
+                    <Form.Item
+                        name="discount"
+                        label="Khuyến mãi"
+                        className="flex-1"
+                        rules={[]}
+                        initialValue={0}
+                    >
+                        <InputNumber
+                            formatter={(value) => `${value}%`}
+                            className="w-full"
+                            min={0}
+                            max={100}
+                            size="large"
+                        />
+                    </Form.Item>
+                </div>
+                {/* <div className="flex gap-4 items-center">
+                    <Form.Item
+                        name="categoryId"
                         label="Danh mục"
                         required
                         className="flex-1"
@@ -104,6 +201,7 @@ export const ModalCreateProduct = ({ isShow, onClose }: Props) => {
                         <Select
                             size="large"
                             placeholder="Danh mục"
+                            // labelInValue
                             options={[
                                 { value: 1, label: 'Điện thoại' },
                                 { value: 2, label: 'Laptop' },
@@ -114,7 +212,7 @@ export const ModalCreateProduct = ({ isShow, onClose }: Props) => {
                         ></Select>
                     </Form.Item>
                     <Form.Item
-                        name="brand"
+                        name="brandId"
                         label="Thương hiệu"
                         required
                         className="flex-1"
@@ -137,7 +235,7 @@ export const ModalCreateProduct = ({ isShow, onClose }: Props) => {
                             ]}
                         ></Select>
                     </Form.Item>
-                </div>
+                </div> */}
                 <Form.Item
                     name="images"
                     label="Ảnh sản phẩm (tối đa 5 ảnh)"
@@ -167,22 +265,26 @@ export const ModalCreateProduct = ({ isShow, onClose }: Props) => {
                         action={'http://localhost:3000/'}
                         showUploadList={{ showPreviewIcon: false }}
                         beforeUpload={(fileUpload: UploadFile) => {
-                            if (
-                                fileUpload &&
-                                fileUpload.size &&
-                                fileUpload.size > 50000
-                            ) {
-                                toast.error('Kích thước ảnh tối đa là 50KB');
-                                return false;
-                            } else {
+                            // if (
+                            //     fileUpload &&
+                            //     fileUpload.size &&
+                            //     fileUpload.size > 50000
+                            // ) {
+                            //     toast.error('Kích thước ảnh tối đa là 50KB');
+                            //     return false;
+                            // } else {
+                            //     return false;
+                            // }
+                            if (fileUpload) {
+                                // toast.error('Kích thước ảnh tối đa là 50KB');
                                 return false;
                             }
                         }}
                         onChange={({ fileList, file }) => {
-                            if (file.size && file.size > 50000) {
-                                setFileList((prev) => [...prev]);
-                                return;
-                            }
+                            // if (file.size && file.size > 50000) {
+                            //     setFileList((prev) => [...prev]);
+                            //     return;
+                            // }
                             setFileList(fileList);
                         }}
                     >

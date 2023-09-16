@@ -1,25 +1,19 @@
 'use client';
 import Container from './Container';
-import { Input, Button } from 'antd';
+import { Input } from 'antd';
 import { BiSearch, BiCart, BiHeart, BiUserCircle } from 'react-icons/bi';
-
 import Link from 'next/link';
 import { useMediaQuery } from 'react-responsive';
 import cn from 'classnames';
 import { useAppDispatch } from '@/stores';
 import { openLoginModal, openRegisterModal } from '@/stores/reducers/authModal';
+import { signOut } from 'next-auth/react';
+
 type Props = {
     isContrast: boolean;
 };
 
 export default function Header({ isContrast }: Props) {
-    const isMobile = useMediaQuery({
-        query: '(min-width: 320px) and (max-width: 480px)',
-    });
-    const isTablet = useMediaQuery({
-        query: '(min-width: 481px) and (max-width: 767px) ',
-    });
-
     const dispatch = useAppDispatch();
 
     return (
@@ -104,6 +98,12 @@ export default function Header({ isContrast }: Props) {
                                             }
                                         >
                                             Đăng ký
+                                        </li>
+                                        <li
+                                            className="text-sm px-3 py-3 hover:bg-neutral-200 cursor-pointer"
+                                            onClick={() => signOut()}
+                                        >
+                                            Đăng xuất
                                         </li>
                                     </ul>
                                 </div>

@@ -106,19 +106,7 @@ const LoginForm = (props: Props) => {
                     <Button type="link">Quên mật khẩu?</Button>
                 </div>
             </Form.Item>
-            <div className="w-full pt-3">
-                <p className="text-center ">
-                    Nếu bạn chưa có tài khoản hãy đăng ký{' '}
-                    <Button
-                        type="link"
-                        className="p-0"
-                        onClick={() => dispatch(swapModal())}
-                    >
-                        <p className="underline">tại đây</p>
-                    </Button>
-                    !
-                </p>
-            </div>
+
             <button
                 className={cn(
                     'w-full border border-black/20 py-2 rounded-lg mt-2 hover:bg-black transition-all duration-200 ease-out hover:text-white',
@@ -135,6 +123,19 @@ const LoginForm = (props: Props) => {
                     </div>
                 )}
             </button>
+            <div className="w-full pt-2 ">
+                <p className="text-center text-sm ">
+                    Nếu bạn chưa có tài khoản hãy đăng ký{' '}
+                    <Button
+                        type="link"
+                        className="p-0"
+                        onClick={() => dispatch(swapModal())}
+                    >
+                        <p className="underline">tại đây</p>
+                    </Button>
+                    !
+                </p>
+            </div>
         </Form>
     );
 };

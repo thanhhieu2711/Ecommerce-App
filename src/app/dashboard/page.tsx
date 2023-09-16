@@ -1,7 +1,9 @@
+'use client';
+import HomeDashboardContainer from '@/containers/Dashboard/HomeDashboard';
+import { useEffect } from 'react';
 type Props = {};
 
-const HomePageAdmin = (props: Props) => {
-    return <>ákdjklasdjaslk</>;
-};
-
-export default HomePageAdmin;
+export default function HomePageAdmin(props: Props) {
+    useEffect(() => {}, []);
+    return <HomeDashboardContainer />;
+}

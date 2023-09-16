@@ -43,14 +43,6 @@ const RegisterForm = (props: Props) => {
             onFinish={handleSubmit}
             autoComplete="off"
         >
-            <Form.Item name={'name'} label="Họ tên" className="mb-2">
-                <Input
-                    maxLength={30}
-                    size="large"
-                    placeholder="Nhập tên của bạn"
-                    className=" "
-                />
-            </Form.Item>
             <Form.Item
                 name={'email'}
                 label="Email"
@@ -126,7 +118,7 @@ const RegisterForm = (props: Props) => {
                 name="confirmPassword"
                 label="Nhập lại mật khẩu"
                 required
-                className="mb-2"
+                className="mb-10"
                 rules={[
                     {
                         required: true,
@@ -150,22 +142,10 @@ const RegisterForm = (props: Props) => {
                     placeholder="Nhập mật khẩu của bạn"
                 />
             </Form.Item>
-            <div className="w-full">
-                <p className="text-center">
-                    Nếu bạn đã có tài khoản ? hãy đăng nhập{' '}
-                    <Button
-                        type="link"
-                        className="p-0"
-                        onClick={() => dispatch(swapModal())}
-                    >
-                        <p className="underline">tại đây</p>
-                    </Button>
-                    !
-                </p>
-            </div>
+
             <button
                 className={cn(
-                    'w-full border border-black/20 py-2 rounded-lg mt-2 hover:bg-black transition-all duration-200 ease-out hover:text-white',
+                    'w-full border border-black/20 py-2 rounded-lg hover:bg-black transition-all duration-200 ease-out hover:text-white',
                     loading && 'bg-black'
                 )}
                 type="submit"
@@ -179,6 +159,19 @@ const RegisterForm = (props: Props) => {
                     </div>
                 )}
             </button>
+            <div className="w-full pt-2">
+                <p className="text-center">
+                    Nếu bạn đã có tài khoản ? hãy đăng nhập{' '}
+                    <Button
+                        type="link"
+                        className="p-0"
+                        onClick={() => dispatch(swapModal())}
+                    >
+                        <p className="underline">tại đây</p>
+                    </Button>
+                    !
+                </p>
+            </div>
         </Form>
     );
 };

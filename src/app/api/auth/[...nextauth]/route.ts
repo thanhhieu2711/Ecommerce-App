@@ -49,15 +49,14 @@ const authOptions: NextAuthOptions = {
             },
         }),
     ],
-    events: {
-        async signIn(message) {},
-    },
+
     session: {
+        maxAge: 84600,
         strategy: 'jwt',
     },
     jwt: {
         secret: process.env.NEXTAUTH_JWT_SECRET,
-        maxAge: 24 * 60 * 60,
+        maxAge: 7 * 24 * 60 * 60,
     },
     debug: process.env.NODE_ENV === 'development',
 

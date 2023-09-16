@@ -1,1 +1,1 @@
-export * from './Product/ModalCreateProduct';
+export * from '../../containers/Dashboard/ProductDashboard/components/ModalCreateProduct';

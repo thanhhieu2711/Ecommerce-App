@@ -1,7 +1,8 @@
 import { useWindowScrollPositions } from '@/hooks/useWindowScrollPosition';
 import Header from '@/components/Layout/Header';
 import Footer from '@/components/Layout/Footer';
-import useUser from '@/hooks/store/useUser';
+import cn from 'classnames';
+import { usePathname } from 'next/navigation';
 
 type Props = {
     children: React.ReactNode;
@@ -9,14 +10,21 @@ type Props = {
 
 export default function DefaultLayout({ children }: Props) {
     const { scrollY } = useWindowScrollPositions();
-    const { currentUser } = useUser();
-
+    const pathName = usePathname();
+    const isAdminPage = pathName.includes('dashboard');
     return (
         <div className="root_layout">
-            {/* <TopHeader /> */}
-            <Header isContrast={scrollY > 0} />
-            <main className="max-w-full pt-20">{children}</main>
-            <Footer />
+            {isAdminPage ? (
+                <main className={cn('max-w-full')}>{children}</main>
+            ) : (
+                <>
+                    <Header isContrast={scrollY > 0} />
+                    <main className={cn('max-w-full', 'pt-10')}>
+                        {children}
+                    </main>
+                    <Footer />
+                </>
+            )}
         </div>
     );
 }

@@ -31,14 +31,13 @@ export const Modal = ({
         isOpen && (
             <div
                 className={cn(
-                    'absolute inset-0 z-[300] flex flex-row items-center justify-center bg-black/50 px-4 sm:px-4 md:px-0 ',
-                    containerClassname
+                    'absolute inset-0 z-[300] flex flex-row items-center justify-center bg-black/50 px-4 sm:px-4 md:px-0 '
                 )}
             >
                 <div
                     className={cn(
                         'w-full max-w-[700px] shadow-lg rounded-lg bg-white m-auto',
-                        contentContainerClassname
+                        containerClassname
                     )}
                     ref={modalRef}
                 >
@@ -55,7 +54,12 @@ export const Modal = ({
                             </button>
                         </div>
                     )}
-                    <div className="max-h-[600px] p-6 overflow-y-auto">
+                    <div
+                        className={cn(
+                            'max-h-[500px] p-6 overflow-y-auto',
+                            contentContainerClassname
+                        )}
+                    >
                         {children}
                     </div>
                     {footer && (

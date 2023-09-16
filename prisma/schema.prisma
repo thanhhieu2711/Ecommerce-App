@@ -47,15 +47,15 @@ model Product {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
   price String
-  discount Float
+  discount Float?
   description String
-  buyTurn String
+  buyTurn Int @default(0)
   images String[]
-  unitQuantity String
-  categoryId String @db.ObjectId
-  category Category @relation(fields: [categoryId] , references: [id])
-  brandId String @db.ObjectId
-  brand Brand @relation(fields: [brandId] , references: [id])
+  quantity Int
+  // categoryId String @db.ObjectId
+  // category Category @relation(fields: [categoryId] , references: [id])
+  // brandId String @db.ObjectId
+  // brand Brand @relation(fields: [brandId] , references: [id])
   status PRODUCT_STATUS @default(AVAILABLE)
   feedback Feedback[]
   OrderDetail OrderDetail[]
@@ -68,7 +68,7 @@ model Category {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   thumbnail String
-  product Product[]
+  // product Product[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   @@unique([id,name])
@@ -78,7 +78,7 @@ model Brand {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
   thumnail String
-  product Product[]
+  // product Product[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   @@unique([id,name])

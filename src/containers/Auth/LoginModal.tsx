@@ -11,7 +11,7 @@ export const LoginModal = () => {
     return (
         <Modal
             header={'Đăng nhập'}
-            contentContainerClassname="!max-w-[450px]"
+            containerClassname="!max-w-[450px]"
             headerClassname="font-normal"
             onClose={() => dispatch(openLoginModal(false))}
             isOpen={isOpenLoginModal}

@@ -10,7 +10,8 @@ export const RegisterModal = () => {
     return (
         <Modal
             header={'Đăng ký'}
-            contentContainerClassname="!max-w-[450px]"
+            containerClassname="!max-w-[450px]"
+            contentContainerClassname="!max-h-[600px]"
             headerClassname="font-normal"
             onClose={() => dispatch(openRegisterModal(false))}
             isOpen={isOpenRegisterModal}
