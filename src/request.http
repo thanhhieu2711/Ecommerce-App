@@ -1,0 +1,18 @@
+POST http://localhost:3000/api/product
+content-type: application/json
+
+{
+  "name": "Nhahas2 ",
+  "price":"10000",
+  "discount":0.1,
+  "categoryId":"650734bbe8d61a9af0d4894c",
+  "brandId":"65074cab5d1bf28358fe4bc1",
+  "description":"description",
+  "images":["ákdasdhaksjdhaskjdhas","ádhaskjdhaskjdhaks"],
+  "quantity":50
+}
+
+###
+
+GET  http://localhost:3000/api/product/12312312
+content-type: application/json

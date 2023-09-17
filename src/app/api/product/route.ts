@@ -5,10 +5,12 @@ import bcrypt from 'bcrypt';
 export async function POST(request: Request) {
     try {
         const requestData = await request.json();
-        console.log(requestData.category.value);
-
+        console.log(requestData);
         const product = await prisma.product.findUnique({
-            where: requestData.name,
+            where: {
+                name: requestData.name,
+            },
+            select: { name: true },
         });
 
         if (!!product) {
@@ -20,8 +22,6 @@ export async function POST(request: Request) {
             await prisma.product.create({
                 data: {
                     ...requestData,
-                    categoryId: requestData.category.value,
-                    brandId: requestData.brand,
                 },
             });
             return NextResponse.json({
@@ -29,6 +29,27 @@ export async function POST(request: Request) {
                 message: 'Thêm sản phẩm thành công!',
             });
         }
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json(
+            {
+                isSuccess: false,
+                message: error,
+            },
+            { status: 500 }
+        );
+    }
+}
+
+export async function GET() {
+    try {
+        const allProducts = await prisma.product.findMany();
+
+        return NextResponse.json({
+            isSuccess: true,
+            message: 'Lấy danh sách sản phẩm thành công!',
+            data: allProducts,
+        });
     } catch (error) {
         console.log(error);
         return NextResponse.json(

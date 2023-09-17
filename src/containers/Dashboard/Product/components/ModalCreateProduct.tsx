@@ -1,9 +1,8 @@
 'use client';
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { Modal } from '@/components/Common';
+import { Button, Modal, Spinner } from '@/components/Common';
 import {
-    Button,
     Input,
     InputNumber,
     Select,
@@ -16,16 +15,12 @@ import toast from 'react-hot-toast';
 
 import dynamic from 'next/dynamic';
 import { toolbarOptions } from '@/configs';
-import {
-    getDownloadURL,
-    ref,
-    uploadBytes,
-    uploadBytesResumable,
-} from 'firebase/storage';
-import { firebaseStorage } from '@/services/firebase/firebaseDB';
-// import { CreateProduct } from '@/app/api/products/route';
-import { formatCurrency } from '@/utils/helper';
 import axios from 'axios';
+import {
+    handleGetOriginFileObj,
+    handleUploadImagesToFirebase,
+} from '@/utils/helper';
+import { TBrandInfo, TCategoryInfo } from '@/types/general';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -38,46 +33,64 @@ export const ModalCreateProduct = ({ isShow, onClose }: Props) => {
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     const [price, setPrice] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
+    const [listCategory, setListCategory] = useState<TCategoryInfo[]>([]);
+    const [listBrand, setListBrand] = useState<TBrandInfo[]>([]);
 
-    const handleGetOriginFileObj = (fileList: UploadFile[]) => {
-        const tempArr: UploadFile['originFileObj'][] = [];
-        fileList.forEach((item) => {
-            tempArr.push(item.originFileObj);
-        });
-        return tempArr;
+    const handleGetListCategory = async () => {
+        try {
+            const response = await axios.get('/api/category');
+            response.data.data && setListCategory(response.data.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleGetListBrand = async () => {
+        try {
+            const response = await axios.get('/api/brand');
+            response.data.data && setListBrand(response.data.data);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const handleSubmit = async (formData: any) => {
-        const fileList = handleGetOriginFileObj(formData.images.fileList);
-        const listurl = await handleUploadImagesToFirebase(fileList);
-        console.log(listurl);
-        const response = await axios.post('/api/products', {
-            ...formData,
-            images: listurl,
-            discount: formData.discount / 100,
-        });
-        console.log(response);
+        setLoading(true);
+        try {
+            const fileList = handleGetOriginFileObj(formData.images.fileList);
+            const listurl = await handleUploadImagesToFirebase(
+                fileList,
+                'product'
+            );
+            const response = await axios.post(
+                '/api/product',
+                {
+                    ...formData,
+                    images: listurl,
+                    discount: formData.discount / 100,
+                },
+                {}
+            );
+            if (response.data.isSuccess) {
+                form.resetFields();
+                setFileList([]);
+                toast.success(response.data.message);
+            } else {
+                toast.error(response.data.message);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error('Lỗi hệ thống , vui lòng thử lại sau');
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const handleUploadImagesToFirebase = async (
-        fileList: UploadFile['originFileObj'][]
-    ) => {
-        const listImageUrl: string[] = [];
-        return new Promise(async (res, rej) => {
-            for (let file of fileList) {
-                if (file) {
-                    const storageRef = ref(
-                        firebaseStorage,
-                        `product/${file?.name}`
-                    );
-                    const { ref: _ref } = await uploadBytes(storageRef, file);
-                    const imageUrl = await getDownloadURL(_ref);
-                    listImageUrl.push(imageUrl);
-                }
-            }
-            res(listImageUrl);
-        });
-    };
+    useEffect(() => {
+        handleGetListCategory();
+        handleGetListBrand();
+    }, [form]);
 
     return (
         <Modal
@@ -86,15 +99,20 @@ export const ModalCreateProduct = ({ isShow, onClose }: Props) => {
             isOpen={isShow}
             footer={
                 <div className="w-full flex flex-row justify-end space-x-2">
-                    <Button className="bg-red-600 text-white" onClick={onClose}>
-                        Hủy bỏ
-                    </Button>
                     <Button
-                        className="bg-green-600 text-white"
+                        className="min-w-[110px] !bg-green-600 text-white"
+                        size="sm"
                         onClick={form.submit}
-                        htmlType="submit"
+                        disabled={loading}
                     >
-                        Đồng ý
+                        {!loading ? (
+                            <p>Thêm</p>
+                        ) : (
+                            <Spinner
+                                color="text-white/50"
+                                fillActive="fill-white"
+                            />
+                        )}
                     </Button>
                 </div>
             }
@@ -157,7 +175,6 @@ export const ModalCreateProduct = ({ isShow, onClose }: Props) => {
                             className="w-full"
                             onChange={(e) => {
                                 setPrice(e.target.value);
-                                console.log(price);
                             }}
                             size="large"
                         />
@@ -185,7 +202,7 @@ export const ModalCreateProduct = ({ isShow, onClose }: Props) => {
                         />
                     </Form.Item>
                 </div>
-                {/* <div className="flex gap-4 items-center">
+                <div className="flex gap-4 items-center">
                     <Form.Item
                         name="categoryId"
                         label="Danh mục"
@@ -201,14 +218,12 @@ export const ModalCreateProduct = ({ isShow, onClose }: Props) => {
                         <Select
                             size="large"
                             placeholder="Danh mục"
-                            // labelInValue
-                            options={[
-                                { value: 1, label: 'Điện thoại' },
-                                { value: 2, label: 'Laptop' },
-                                { value: 3, label: 'PC' },
-                                { value: 4, label: 'Phụ kiện' },
-                                { value: 5, label: 'Tai nghe' },
-                            ]}
+                            options={listCategory.map((item) => {
+                                return {
+                                    label: item.name,
+                                    value: item.id,
+                                };
+                            })}
                         ></Select>
                     </Form.Item>
                     <Form.Item
@@ -226,16 +241,15 @@ export const ModalCreateProduct = ({ isShow, onClose }: Props) => {
                         <Select
                             size="large"
                             placeholder="Thương hiệu"
-                            options={[
-                                { value: 1, label: 'Apple' },
-                                { value: 2, label: 'Apple' },
-                                { value: 3, label: 'Apple' },
-                                { value: 4, label: 'Apple' },
-                                { value: 5, label: 'Apple' },
-                            ]}
+                            options={listBrand.map((item) => {
+                                return {
+                                    label: item.name,
+                                    value: item.id,
+                                };
+                            })}
                         ></Select>
                     </Form.Item>
-                </div> */}
+                </div>
                 <Form.Item
                     name="images"
                     label="Ảnh sản phẩm (tối đa 5 ảnh)"
@@ -265,26 +279,11 @@ export const ModalCreateProduct = ({ isShow, onClose }: Props) => {
                         action={'http://localhost:3000/'}
                         showUploadList={{ showPreviewIcon: false }}
                         beforeUpload={(fileUpload: UploadFile) => {
-                            // if (
-                            //     fileUpload &&
-                            //     fileUpload.size &&
-                            //     fileUpload.size > 50000
-                            // ) {
-                            //     toast.error('Kích thước ảnh tối đa là 50KB');
-                            //     return false;
-                            // } else {
-                            //     return false;
-                            // }
                             if (fileUpload) {
-                                // toast.error('Kích thước ảnh tối đa là 50KB');
                                 return false;
                             }
                         }}
                         onChange={({ fileList, file }) => {
-                            // if (file.size && file.size > 50000) {
-                            //     setFileList((prev) => [...prev]);
-                            //     return;
-                            // }
                             setFileList(fileList);
                         }}
                     >

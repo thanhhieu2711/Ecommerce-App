@@ -45,43 +45,40 @@ model User {
 
 model Product {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  name String @unique
   price String
-  discount Float?
+  discount Float @default(0)
   description String
   buyTurn Int @default(0)
   images String[]
   quantity Int
-  // categoryId String @db.ObjectId
-  // category Category @relation(fields: [categoryId] , references: [id])
-  // brandId String @db.ObjectId
-  // brand Brand @relation(fields: [brandId] , references: [id])
+  categoryId String @db.ObjectId @unique
+  category Category @relation(fields: [categoryId] , references: [id])
+  brandId String @db.ObjectId @unique
+  brand Brand @relation(fields: [brandId] , references: [id])
   status PRODUCT_STATUS @default(AVAILABLE)
   feedback Feedback[]
   OrderDetail OrderDetail[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  @@unique([id,name])
 }
 
 model Category {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
+  name String @unique
   thumbnail String
-  // product Product[]
+  product Product[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  @@unique([id,name])
 }
 
 model Brand {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
-  thumnail String
-  // product Product[]
+  name String @unique
+  thumbnail String
+  product Product[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  @@unique([id,name])
 }
 
 
@@ -118,5 +115,5 @@ model OrderDetail {
   product Product @relation(fields: [productId], references: [id])
   quantity String
   price String
-  @@unique([id, orderId,productId])
+  @@unique([id, orderId])
 }

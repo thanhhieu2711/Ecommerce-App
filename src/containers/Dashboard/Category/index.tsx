@@ -2,12 +2,12 @@
 import Input from '@/components/Common/Input';
 import { BiSearch } from 'react-icons/bi';
 import { useState } from 'react';
-import ModalCreateProduct from './components/ModalCreateProduct';
-import { Button } from 'antd';
+import { Button } from '@/components/Common';
+import ModalCreateCategory from './components/ModalCreateCategory';
 
 type Props = {};
 
-export const ProductDashboard = (props: Props) => {
+export const CategoryDashboard = (props: Props) => {
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
 
     return (
@@ -24,14 +24,15 @@ export const ProductDashboard = (props: Props) => {
                         />
                     </div>
                     <Button
-                        className="bg-green-600 py-5 text-sm flex items-center justify-center text-white"
+                        className="!bg-green-600 text-sm flex items-center justify-center text-white"
+                        size="md"
                         onClick={() => setIsShowModal(true)}
                     >
-                        Thêm sản phẩm
+                        Thêm danh mục
                     </Button>
                 </div>
             </div>
-            <ModalCreateProduct
+            <ModalCreateCategory
                 isShow={isShowModal}
                 onClose={() => setIsShowModal(false)}
             />
@@ -39,4 +40,4 @@ export const ProductDashboard = (props: Props) => {
     );
 };
 
-export default ProductDashboard;
+export default CategoryDashboard;

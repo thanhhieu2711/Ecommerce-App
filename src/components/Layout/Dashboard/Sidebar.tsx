@@ -23,31 +23,31 @@ const SIDEBAR_LINK: TSidebarLink[] = [
     {
         id: 2,
         name: 'Sản phẩm',
-        link: '/dashboard/products',
+        link: '/dashboard/product',
         icon: <RiProductHuntLine className="w-6 h-6" />,
     },
     {
         id: 4,
         name: 'Danh mục',
-        link: '/dashboard/categories',
+        link: '/dashboard/category',
         icon: <BiCategory className="w-6 h-6" />,
     },
     {
         id: 5,
         name: 'Thương hiệu',
-        link: '/dashboard/brands',
+        link: '/dashboard/brand',
         icon: <TbBrandBlogger className="w-6 h-6" />,
     },
     {
         id: 6,
         name: 'Đơn hàng',
-        link: '/dashboard/orders',
+        link: '/dashboard/order',
         icon: <RiBillLine className="w-6 h-6" />,
     },
     {
         id: 7,
         name: 'Tài khoản',
-        link: '/dashboard/accounts',
+        link: '/dashboard/account',
         icon: <RiAccountCircleLine className="w-6 h-6" />,
     },
 ];

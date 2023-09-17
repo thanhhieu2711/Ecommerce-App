@@ -1,5 +1,4 @@
-import React from 'react';
-import { ProductDashboard as ProductDashboardCtn } from '@/containers/Dashboard/ProductDashboard';
+import { ProductDashboard as ProductDashboardCtn } from '@/containers/Dashboard/Product';
 type Props = {};
 
 const ProductDashboard = (props: Props) => {

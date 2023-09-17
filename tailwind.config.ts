@@ -18,6 +18,9 @@ const config: Config = {
                 primary: {
                     DEFAULT: '#FF385C',
                 },
+                secondary: {
+                    DEFAULT: '#f8f8fc',
+                },
 
                 common: {
                     white: '#fff',
@@ -26,8 +29,8 @@ const config: Config = {
                     border: '#D9D9D9',
                     info: '#1890FF',
                     warning: '#F3BB00',
-                    success: '#33C765',
-                    error: '#F55B64',
+                    success: 'bg-green-600',
+                    error: 'bg-red-600',
 
                     disabled: '#999797',
                     subtitle: '#414141',

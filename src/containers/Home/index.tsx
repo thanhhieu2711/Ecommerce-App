@@ -1,5 +1,3 @@
-// import useUser from '@/hooks/store/useUser';
-
 import { useSession } from 'next-auth/react';
 
 type Props = {};
