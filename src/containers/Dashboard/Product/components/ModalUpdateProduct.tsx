@@ -117,6 +117,7 @@ export const ModalUpdateProduct = ({
             'discount',
             (Number(product.discount) * 100).toString()
         );
+        form.setFieldValue('status', product.status);
         form.setFieldValue('categoryId', product.categoryId);
         form.setFieldValue('brandId', product.brandId);
         form.setFieldValue('description', product.description);
@@ -250,6 +251,31 @@ export const ModalUpdateProduct = ({
                                     value: item.id,
                                 };
                             })}
+                        ></Select>
+                    </Form.Item>
+                    <Form.Item
+                        name="status"
+                        label="Trạng thái"
+                        required
+                        className="flex-1"
+                    >
+                        <Select
+                            size="large"
+                            placeholder="Trạng Thái"
+                            // defaultValue={{
+                            //     label: 'Còn Hàng',
+                            //     value: 'AVAILABLE',
+                            // }}
+                            options={[
+                                {
+                                    label: 'Còn Hàng',
+                                    value: 'AVAILABLE',
+                                },
+                                {
+                                    label: 'Hết Hàng',
+                                    value: 'SOLDOUT',
+                                },
+                            ]}
                         ></Select>
                     </Form.Item>
                 </div>

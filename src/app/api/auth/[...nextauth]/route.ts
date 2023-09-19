@@ -5,7 +5,7 @@ import CredentialsProviders from 'next-auth/providers/credentials';
 import prisma from '@/services/prisma/prismaDB';
 import bcrypt from 'bcrypt';
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
         CredentialsProviders({
@@ -61,6 +61,9 @@ const authOptions: NextAuthOptions = {
     debug: process.env.NODE_ENV === 'development',
 
     secret: process.env.NEXTAUTH_SECRET,
+    pages: {
+        signIn: '/',
+    },
 };
 
 const handler = NextAuth(authOptions);

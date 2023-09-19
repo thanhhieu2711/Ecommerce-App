@@ -3,10 +3,8 @@ import { Spinner } from '@/components/Common';
 import { useAppDispatch } from '@/stores';
 import { openLoginModal, swapModal } from '@/stores/reducers/authModal';
 import { Button, Form, Input, Checkbox } from 'antd';
-import axios from 'axios';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { updateUser } from '@/stores/reducers/user';
 import { signIn } from 'next-auth/react';
 
 type Props = {};
@@ -19,20 +17,18 @@ const LoginForm = (props: Props) => {
     const handleSubmit = async (data: any) => {
         try {
             setLoading(true);
-            const response = await signIn('credentials', {
+            await signIn('credentials', {
                 redirect: false,
-                email: data.email,
-                password: data.password,
+                ...data,
+            }).then((result) => {
+                if (result?.error) {
+                    return toast.error(result.error);
+                } else {
+                    toast.success('Đăng nhập thành công');
+                    dispatch(openLoginModal(false));
+                    form.resetFields();
+                }
             });
-            console.log(response);
-
-            if (response?.error) {
-                return toast.error(response.error);
-            } else {
-                toast.success('Đăng nhập thành công');
-                dispatch(openLoginModal(false));
-                form.resetFields();
-            }
         } catch (err) {
             console.log(err);
         } finally {

@@ -1,21 +1,17 @@
 'use client';
 import Container from './Container';
 import { Input } from 'antd';
-import { BiSearch, BiCart, BiHeart, BiUserCircle } from 'react-icons/bi';
+import { BiSearch, BiCart, BiHeart } from 'react-icons/bi';
 import Link from 'next/link';
-import { useMediaQuery } from 'react-responsive';
 import cn from 'classnames';
-import { useAppDispatch } from '@/stores';
-import { openLoginModal, openRegisterModal } from '@/stores/reducers/authModal';
-import { signOut } from 'next-auth/react';
+import UserMenu from '../UserMenu';
+import HomeSeachBox from '../HomeSeachBox';
 
 type Props = {
     isContrast: boolean;
 };
 
 export default function Header({ isContrast }: Props) {
-    const dispatch = useAppDispatch();
-
     return (
         <header
             className={cn(
@@ -27,31 +23,17 @@ export default function Header({ isContrast }: Props) {
                 <div className="flex flex-row items-center justify-between py-5 max-w-full ">
                     <p
                         className={cn(
-                            'font-bold text-3xl',
+                            'font-bold text-3xl ',
                             isContrast && 'text-white'
                         )}
                     >
                         LOGO
                     </p>
 
-                    <div className="flex flex-row items-center gap-4 md:justify-between">
-                        <div className=" sm:w-[300px]">
-                            <Input
-                                suffix={
-                                    <BiSearch className="icon-base ml-px" />
-                                }
-                                placeholder="Nhập thông tin sản phẩm"
-                                className="border-none ring-0 bg-neutral-100 text-sm "
-                                styles={{
-                                    input: {
-                                        backgroundColor: '#F5F5F5',
-                                    },
-                                }}
-                                size="large"
-                            />
-                        </div>
-                        <div className="flex flex-row items-center gap-4">
-                            <Link href={'/'}>
+                    <div className="flex flex-row items-center gap-3 sm:gap-4 md:justify-between">
+                        <HomeSeachBox />
+                        <div className="flex flex-row items-center gap-4 ">
+                            <Link href={'/'} className="hidden sm:block">
                                 <BiHeart
                                     className={cn(
                                         'icon-base ',
@@ -59,7 +41,7 @@ export default function Header({ isContrast }: Props) {
                                     )}
                                 />
                             </Link>
-                            <Link href={'/'}>
+                            <Link href={'/'} className="hidden sm:block">
                                 <BiCart
                                     className={cn(
                                         'icon-base ',
@@ -67,47 +49,8 @@ export default function Header({ isContrast }: Props) {
                                     )}
                                 />
                             </Link>
-                            <div className="relative">
-                                <button
-                                    className="p-0 m-0  border-none hover:ring-0 flex"
-                                    onClick={() => {}}
-                                >
-                                    <BiUserCircle
-                                        className={cn(
-                                            'icon-base ',
-                                            isContrast && 'text-white'
-                                        )}
-                                    />
-                                </button>
-                                <div className="absolute w-[200px] rounded-lg bg-white shadow-lg top-9 right-0">
-                                    <ul>
-                                        <li
-                                            className="text-sm px-3 py-3 cursor-pointer"
-                                            onClick={() =>
-                                                dispatch(openLoginModal(true))
-                                            }
-                                        >
-                                            Đăng nhập
-                                        </li>
-                                        <li
-                                            className="text-sm px-3 py-3 hover:bg-neutral-200 cursor-pointer"
-                                            onClick={() =>
-                                                dispatch(
-                                                    openRegisterModal(true)
-                                                )
-                                            }
-                                        >
-                                            Đăng ký
-                                        </li>
-                                        <li
-                                            className="text-sm px-3 py-3 hover:bg-neutral-200 cursor-pointer"
-                                            onClick={() => signOut()}
-                                        >
-                                            Đăng xuất
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+
+                            <UserMenu />
                         </div>
                     </div>
                 </div>

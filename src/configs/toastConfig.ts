@@ -1,6 +1,6 @@
 export const toastConfig = {
     success: {
-        duration: 3000,
+        duration: 1500,
         style: {
             background: 'green',
             color: 'white',
@@ -11,7 +11,7 @@ export const toastConfig = {
         },
     },
     error: {
-        duration: 3000,
+        duration: 1500,
         style: {
             background: '#ff3333',
             color: 'white',
