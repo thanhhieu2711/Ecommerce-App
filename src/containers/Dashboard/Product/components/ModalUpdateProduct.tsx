@@ -1,40 +1,31 @@
-'use client';
 import { useEffect, useState } from 'react';
-
-import { Button, Modal, Spinner } from '@/components/Common';
-import {
-    Input,
-    InputNumber,
-    Select,
-    Upload,
-    UploadFile,
-    Form,
-    Tooltip,
-} from 'antd';
+import { Modal } from '@/components/Common';
+import { Input, InputNumber, Select, Upload, UploadFile, Form } from 'antd';
 import toast from 'react-hot-toast';
-
-import dynamic from 'next/dynamic';
 import { toolbarOptions } from '@/configs';
 import axios from 'axios';
 import {
     handleGetOriginFileObj,
     handleUploadImagesToFirebase,
 } from '@/utils/helper';
-import { TBrandInfo, TCategoryInfo } from '@/types/general';
-import { useRouter } from 'next/navigation';
+import { TBrandInfo, TCategoryInfo, TProductInfo } from '@/types/general';
 
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 type Props = {
     isShow: boolean;
     onClose: () => void;
+    product: TProductInfo;
     listCategory: TCategoryInfo[];
     listBrand: TBrandInfo[];
 };
 
-export const ModalCreateProduct = ({
+export const ModalUpdateProduct = ({
     isShow,
     onClose,
+    product,
     listCategory,
     listBrand,
 }: Props) => {
@@ -42,6 +33,22 @@ export const ModalCreateProduct = ({
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+
+    useEffect(() => {
+        console.log(product);
+
+        form.setFieldValue('name', product.name);
+        form.setFieldValue('quantity', product.quantity);
+        form.setFieldValue('price', product.price);
+        form.setFieldValue(
+            'discount',
+            (Number(product.discount) * 100).toString()
+        );
+        form.setFieldValue('categoryId', product.categoryId);
+        form.setFieldValue('brandId', product.brandId);
+        form.setFieldValue('description', product.description);
+        form.setFieldValue('images', [] as UploadFile[]);
+    }, []);
 
     const handleSubmit = async (formData: any) => {
         setLoading(true);
@@ -51,15 +58,13 @@ export const ModalCreateProduct = ({
                 fileList,
                 'product'
             );
-            const response = await axios.post('/api/products', {
+
+            const response = await axios.patch(`/api/products/${product.id}`, {
                 ...formData,
-                images: listurl,
+                images: !!listurl ? product.images : listurl,
                 discount: formData.discount / 100,
-                price: Number(formData.price),
             });
             if (response.data.isSuccess) {
-                form.resetFields();
-                setFileList([]);
                 router.refresh();
                 toast.success(response.data.message);
             } else {
@@ -75,17 +80,16 @@ export const ModalCreateProduct = ({
 
     return (
         <Modal
-            header={'Thêm sản phẩm'}
+            header={'Chỉnh sửa sản phẩm'}
             onClose={onClose}
             isOpen={isShow}
-            onOk={() => form.submit()}
             loadingSubmit={loading}
+            onOk={() => form.submit()}
             showCloseIcon={false}
         >
             <Form
-                disabled={loading}
                 form={form}
-                name="createProduct"
+                name="updateProduct"
                 className="w-full"
                 layout="vertical"
                 scrollToFirstError
@@ -227,7 +231,7 @@ export const ModalCreateProduct = ({
                         maxCount={5}
                         listType="picture-card"
                         fileList={fileList}
-                        accept=".png,.jpeg,.jpg"
+                        accept=".png,.jpeg,.jpg,.webp"
                         action={'http://localhost:3000/'}
                         showUploadList={{ showPreviewIcon: false }}
                         beforeUpload={(fileUpload: UploadFile) => {
@@ -236,7 +240,6 @@ export const ModalCreateProduct = ({
                             }
                         }}
                         onChange={({ fileList }) => {
-                            console.log(fileList);
                             setFileList(fileList);
                         }}
                     >
@@ -278,4 +281,4 @@ export const ModalCreateProduct = ({
     );
 };
 
-export default ModalCreateProduct;
+export default ModalUpdateProduct;

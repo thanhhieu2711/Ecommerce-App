@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum ROLE {
+ enum ROLE {
   USER
   ADMIN 
 }
@@ -44,17 +44,17 @@ model User {
 }
 
 model Product {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId 
   name String @unique
-  price String
+  price Int
   discount Float @default(0)
   description String
   buyTurn Int @default(0)
   images String[]
   quantity Int
-  categoryId String @db.ObjectId @unique
+  categoryId String @db.ObjectId 
   category Category @relation(fields: [categoryId] , references: [id])
-  brandId String @db.ObjectId @unique
+  brandId String @db.ObjectId 
   brand Brand @relation(fields: [brandId] , references: [id])
   status PRODUCT_STATUS @default(AVAILABLE)
   feedback Feedback[]

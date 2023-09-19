@@ -31,7 +31,7 @@ export const ModalCreateCategory = ({ isShow, onClose }: Props) => {
                 fileImage,
                 'category'
             );
-            const response = await axios.post('/api/category', {
+            const response = await axios.post('/api/categories', {
                 ...formData,
                 thumbnail: url?.toString(),
             });

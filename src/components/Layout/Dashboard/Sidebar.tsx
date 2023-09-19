@@ -23,31 +23,31 @@ const SIDEBAR_LINK: TSidebarLink[] = [
     {
         id: 2,
         name: 'Sản phẩm',
-        link: '/dashboard/product',
+        link: '/dashboard/products',
         icon: <RiProductHuntLine className="w-6 h-6" />,
     },
     {
         id: 4,
         name: 'Danh mục',
-        link: '/dashboard/category',
+        link: '/dashboard/categories',
         icon: <BiCategory className="w-6 h-6" />,
     },
     {
         id: 5,
         name: 'Thương hiệu',
-        link: '/dashboard/brand',
+        link: '/dashboard/brands',
         icon: <TbBrandBlogger className="w-6 h-6" />,
     },
     {
         id: 6,
         name: 'Đơn hàng',
-        link: '/dashboard/order',
+        link: '/dashboard/orders',
         icon: <RiBillLine className="w-6 h-6" />,
     },
     {
         id: 7,
         name: 'Tài khoản',
-        link: '/dashboard/account',
+        link: '/dashboard/accounts',
         icon: <RiAccountCircleLine className="w-6 h-6" />,
     },
 ];
@@ -58,7 +58,7 @@ const Sidebar = (props: Props) => {
     const pathName = usePathname();
 
     return (
-        <div className="h-screen p-6 flex flex-col text-black gap-6 shadow-lg">
+        <div className=" p-6 flex flex-col text-black gap-6 shadow-lg h-full rounded-xl">
             <p className="hidden sm:block text-2xl font-bold text-center">
                 Admin Dashboard
             </p>

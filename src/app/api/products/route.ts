@@ -1,11 +1,10 @@
 import prisma from '@/services/prisma/prismaDB';
 import { NextResponse } from 'next/server';
-import bcrypt from 'bcrypt';
 
 export async function POST(request: Request) {
     try {
         const requestData = await request.json();
-        console.log(requestData);
+
         const product = await prisma.product.findUnique({
             where: {
                 name: requestData.name,

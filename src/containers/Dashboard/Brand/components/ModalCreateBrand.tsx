@@ -1,13 +1,8 @@
 'use client';
-import {  useState } from 'react';
+import { useState } from 'react';
 
 import { Button, Modal, Spinner } from '@/components/Common';
-import {
-    Input,
-    Upload,
-    UploadFile,
-    Form,
-} from 'antd';
+import { Input, Upload, UploadFile, Form } from 'antd';
 import toast from 'react-hot-toast';
 
 import axios from 'axios';
@@ -33,7 +28,7 @@ export const ModalCreateBrand = ({ isShow, onClose }: Props) => {
                 formData.thumbnail.fileList
             );
             const url = await handleUploadImagesToFirebase(fileImage, 'brand');
-            const response = await axios.post('/api/brand', {
+            const response = await axios.post('/api/brands', {
                 ...formData,
                 thumbnail: url?.toString(),
             });

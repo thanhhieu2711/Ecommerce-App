@@ -18,7 +18,7 @@ export function formatInputPrice(n: string) {
 
 export const handleGetOriginFileObj = (fileList: UploadFile[]) => {
     const tempArr: UploadFile['originFileObj'][] = [];
-    fileList.forEach((item) => {
+    fileList?.forEach((item) => {
         tempArr.push(item.originFileObj);
     });
     return tempArr;
@@ -27,8 +27,12 @@ export const handleGetOriginFileObj = (fileList: UploadFile[]) => {
 export const handleUploadImagesToFirebase = async (
     fileList: UploadFile['originFileObj'][],
     pathName: string
-) => {
+): Promise<string[]> => {
     const listImageUrl: string[] = [];
+
+    if (fileList.length === 0) {
+        return listImageUrl;
+    }
     return new Promise(async (res) => {
         for (let file of fileList) {
             if (file) {

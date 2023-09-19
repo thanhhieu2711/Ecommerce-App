@@ -8,7 +8,7 @@ type Props = {};
 const Header = (props: Props) => {
     const router = useRouter();
     return (
-        <div className="w-full h-16 bg-white rounded-lg flex flex-row items-center px-4">
+        <div className="w-full rounded-lg flex flex-row items-center px-4 py-2">
             <div className="flex flex-row items-center gap-4 ml-auto">
                 <p className="text-right">Hi admin !</p>
                 <button
