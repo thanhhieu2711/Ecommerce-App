@@ -15,6 +15,7 @@ export const RegisterModal = () => {
             headerClassname="font-normal"
             onClose={() => dispatch(openRegisterModal(false))}
             isOpen={isOpenRegisterModal}
+            showFooter={false}
         >
             <RegisterForm />
         </Modal>

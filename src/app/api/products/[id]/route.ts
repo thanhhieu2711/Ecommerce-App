@@ -97,7 +97,7 @@ export async function DELETE(req: NextApiRequest, { params }: TParams) {
                 },
             });
             return NextResponse.json({
-                isSuccess: false,
+                isSuccess: true,
                 message: 'Xóa sản phẩm thành công!',
             });
         } else {

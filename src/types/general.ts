@@ -1,4 +1,4 @@
-import { PRODUCT_STATUS as EProductStatus } from '@prisma/client';
+import { PRODUCT_STATUS } from '@prisma/client';
 
 export type TSidebarLink = {
     id: number;
@@ -26,13 +26,13 @@ export type TBrandInfo = {
 export type TProductInfo = {
     id: string;
     name: string;
-    price: Number;
+    price: number;
     description: string;
-    discount: Number;
-    buyTurn: Number;
+    discount: number;
+    buyTurn: number;
     images: string[];
     quantity: number;
-    status: EProductStatus;
+    status: PRODUCT_STATUS;
     categoryId: string;
     brandId: string;
     createdAt: string;

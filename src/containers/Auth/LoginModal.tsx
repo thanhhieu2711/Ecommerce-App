@@ -15,6 +15,7 @@ export const LoginModal = () => {
             headerClassname="font-normal"
             onClose={() => dispatch(openLoginModal(false))}
             isOpen={isOpenLoginModal}
+            showFooter={false}
         >
             <LoginForm />
         </Modal>

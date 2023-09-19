@@ -1,19 +1,22 @@
 'use client';
 import Input from '@/components/Common/Input';
 import { BiSearch } from 'react-icons/bi';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ModalCreateProduct from './components/ModalCreateProduct';
 import { Button } from '@/components/Common';
 import axios from 'axios';
 import { TBrandInfo, TCategoryInfo, TProductInfo } from '@/types/general';
 import ModalUpdateProduct from './components/ModalUpdateProduct';
-
+import ModalDelete from '@/components/Dashboard/ModalDelete';
+import toast from 'react-hot-toast';
+import { formatCurrency } from '@/utils/helper';
 type Props = {};
 
 export const ProductDashboard = () => {
     const [listProduct, setListProduct] = useState<TProductInfo[]>([]);
     const [isShowModalCreate, setIsShowModalCreate] = useState<boolean>(false);
     const [isShowModalUpdate, setIsShowModalUpdate] = useState<boolean>(false);
+    const [isShowModalDelete, setIsShowModalDelete] = useState<boolean>(false);
     const [listCategory, setListCategory] = useState<TCategoryInfo[]>([]);
     const [listBrand, setListBrand] = useState<TBrandInfo[]>([]);
     const [selectedProduct, setSelectedProduct] = useState<TProductInfo>(
@@ -42,6 +45,19 @@ export const ProductDashboard = () => {
             console.log(error);
         }
     }
+
+    const handleDeleteProduct = useCallback(async () => {
+        console.log('call');
+        const { data } = await axios.delete(
+            `/api/products/${selectedProduct.id}`
+        );
+        if (data.isSuccess) {
+            toast.success(data.message);
+            setIsShowModalDelete(false);
+            return;
+        }
+        return toast.error(data.message);
+    }, [selectedProduct.id]);
 
     useEffect(() => {
         getProducts();
@@ -96,7 +112,9 @@ export const ProductDashboard = () => {
                                             <td>{item.brandId}</td>
                                             <td>Data 3</td>
                                             <td>Data 3</td>
-                                            <td>Data 3</td>
+                                            <td>
+                                                {formatCurrency(item.price)}
+                                            </td>
                                             <td>Data 3</td>
                                             <td className="w-[150px]">
                                                 <div
@@ -111,6 +129,19 @@ export const ProductDashboard = () => {
                                                     }}
                                                 >
                                                     edit
+                                                </div>
+                                                <div
+                                                    className="flex flex-row items-center gap-2 "
+                                                    onClick={() => {
+                                                        setSelectedProduct(
+                                                            item
+                                                        );
+                                                        setIsShowModalDelete(
+                                                            true
+                                                        );
+                                                    }}
+                                                >
+                                                    delete
                                                 </div>
                                             </td>
                                         </tr>
@@ -139,6 +170,15 @@ export const ProductDashboard = () => {
                     product={selectedProduct}
                     listBrand={listBrand}
                     listCategory={listCategory}
+                />
+            )}
+            {isShowModalDelete && (
+                <ModalDelete
+                    isShow={isShowModalDelete}
+                    onClose={() => setIsShowModalDelete(false)}
+                    onOk={() => handleDeleteProduct()}
+                    title="Bạn có chắc muốn xóa sản phẩm này không ?"
+                    subTitle="Nếu có sản phẩm sẽ bị xóa vĩnh viễn á."
                 />
             )}
         </>

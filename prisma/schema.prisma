@@ -17,6 +17,7 @@ datasource db {
 
 enum PAYMENT_METHOD {
   COD
+  PAYPAL
 }
 enum ORDER_STATUS {
   INPROGRESS
@@ -47,11 +48,12 @@ model Product {
   id String @id @default(auto()) @map("_id") @db.ObjectId 
   name String @unique
   price Int
+  quantity Int
   discount Float @default(0)
   description String
-  buyTurn Int @default(0)
   images String[]
-  quantity Int
+  buyTurn Int @default(0)
+  ratting Float @default(0)
   categoryId String @db.ObjectId 
   category Category @relation(fields: [categoryId] , references: [id])
   brandId String @db.ObjectId 

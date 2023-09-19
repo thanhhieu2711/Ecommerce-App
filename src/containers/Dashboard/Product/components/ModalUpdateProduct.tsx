@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Modal } from '@/components/Common';
 import { Input, InputNumber, Select, Upload, UploadFile, Form } from 'antd';
 import toast from 'react-hot-toast';
@@ -12,6 +12,7 @@ import { TBrandInfo, TCategoryInfo, TProductInfo } from '@/types/general';
 
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
+import { RcFile } from 'antd/es/upload';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 type Props = {
@@ -34,21 +35,48 @@ export const ModalUpdateProduct = ({
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
-    useEffect(() => {
-        console.log(product);
-
-        form.setFieldValue('name', product.name);
-        form.setFieldValue('quantity', product.quantity);
-        form.setFieldValue('price', product.price);
-        form.setFieldValue(
-            'discount',
-            (Number(product.discount) * 100).toString()
-        );
-        form.setFieldValue('categoryId', product.categoryId);
-        form.setFieldValue('brandId', product.brandId);
-        form.setFieldValue('description', product.description);
-        form.setFieldValue('images', [] as UploadFile[]);
-    }, []);
+    const handleGetFileImageFromUrl = useCallback(async () => {
+        setLoading(true);
+        try {
+            const fileListFromUrl: UploadFile[] = [];
+            for (let imgUrl of product.images) {
+                const res = await axios.get(imgUrl, { responseType: 'blob' });
+                const blob = res.data;
+                const file = new File(
+                    [blob],
+                    product.images[0].split('/').at(-1) || '',
+                    {
+                        type: blob.type,
+                        lastModified: Date.now(),
+                    }
+                );
+                const updateFile: UploadFile = {
+                    uid: `rc-upload-${Date.now()}`,
+                    lastModified: file.lastModified,
+                    name: file.name,
+                    size: file.size,
+                    status: 'done',
+                    thumbUrl: imgUrl,
+                    type: file.type,
+                    originFileObj: {
+                        uid: `rc-upload-${Date.now()}`,
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        lastModified: file.lastModified,
+                        lastModifiedDate: new Date(),
+                    } as RcFile,
+                };
+                fileListFromUrl.push(updateFile);
+            }
+            setFileList(fileListFromUrl);
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    }, [product]);
 
     const handleSubmit = async (formData: any) => {
         setLoading(true);
@@ -58,14 +86,15 @@ export const ModalUpdateProduct = ({
                 fileList,
                 'product'
             );
-
             const response = await axios.patch(`/api/products/${product.id}`, {
                 ...formData,
                 images: !!listurl ? product.images : listurl,
                 discount: formData.discount / 100,
+                price: Number(formData.price),
             });
             if (response.data.isSuccess) {
                 router.refresh();
+                onClose();
                 toast.success(response.data.message);
             } else {
                 toast.error(response.data.message);
@@ -77,6 +106,23 @@ export const ModalUpdateProduct = ({
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        handleGetFileImageFromUrl();
+
+        form.setFieldValue('name', product.name);
+        form.setFieldValue('quantity', product.quantity);
+        form.setFieldValue('price', product.price);
+        form.setFieldValue(
+            'discount',
+            (Number(product.discount) * 100).toString()
+        );
+        form.setFieldValue('categoryId', product.categoryId);
+        form.setFieldValue('brandId', product.brandId);
+        form.setFieldValue('description', product.description);
+        form.setFieldValue('description', product.description);
+        form.setFieldValue('images', [] as UploadFile[]);
+    }, []);
 
     return (
         <Modal
@@ -95,6 +141,7 @@ export const ModalUpdateProduct = ({
                 scrollToFirstError
                 onFinish={handleSubmit}
                 autoComplete="off"
+                disabled={loading}
             >
                 <Form.Item
                     name={'name'}
@@ -269,6 +316,7 @@ export const ModalUpdateProduct = ({
                     ]}
                 >
                     <ReactQuill
+                        readOnly={loading}
                         theme="snow"
                         modules={{
                             toolbar: toolbarOptions,

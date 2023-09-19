@@ -16,6 +16,8 @@ type Props = {
     containerClassname?: string;
     loadingSubmit?: boolean;
     showCloseIcon?: boolean;
+    showFooter?: boolean;
+    showHeader?: boolean;
 };
 
 export const Modal = ({
@@ -30,12 +32,14 @@ export const Modal = ({
     loadingSubmit,
     containerClassname,
     showCloseIcon = true,
+    showFooter = true,
+    showHeader = true,
 }: Props) => {
     return (
         isOpen && (
             <div
                 className={cn(
-                    'absolute inset-0 z-[100] flex flex-row items-center justify-center bg-black/50 px-4 sm:px-4 md:px-0 '
+                    'absolute inset-0 z-[100] flex flex-row items-center justify-center bg-black/50 px-4 sm:px-4 md:px-0  '
                 )}
                 onClick={(e) => {
                     onClose();
@@ -43,12 +47,12 @@ export const Modal = ({
             >
                 <div
                     className={cn(
-                        'w-full max-w-[700px] shadow-lg rounded-lg bg-white m-auto ',
+                        'w-full max-w-[700px] shadow-lg rounded-lg bg-white ',
                         containerClassname
                     )}
                     onClick={(e) => e.stopPropagation()}
                 >
-                    {header && (
+                    {header && showHeader && (
                         <div
                             className={cn(
                                 'py-4 px-6 rounded-t-xl border-b border-black/5 flex flex-row items-center justify-between font-bold text-xl text-black ',
@@ -74,15 +78,7 @@ export const Modal = ({
                     >
                         {children}
                     </div>
-                    {footer ? (
-                        <div
-                            className={cn(
-                                'flex flex-row items-center justify-end rounded-b-lg border-t border-black/5'
-                            )}
-                        >
-                            <div className="w-full px-6 py-4">{footer}</div>
-                        </div>
-                    ) : (
+                    {showFooter && (
                         <div
                             className={cn(
                                 'flex flex-row items-center justify-end rounded-b-lg border-t border-black/5'

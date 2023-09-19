@@ -9,9 +9,7 @@ export const toolbarOptions = [
     [{ direction: 'rtl' }], // text direction
 
     [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
-    ['link', 'image'],
-
-    ['clean'],
+    ['link', 'image', 'table', 'clean', ''],
 ];
 
 export default toolbarOptions;

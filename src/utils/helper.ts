@@ -33,18 +33,23 @@ export const handleUploadImagesToFirebase = async (
     if (fileList.length === 0) {
         return listImageUrl;
     }
-    return new Promise(async (res) => {
-        for (let file of fileList) {
-            if (file) {
-                const storageRef = ref(
-                    firebaseStorage,
-                    `${pathName}/${file?.name}`
-                );
-                const { ref: _ref } = await uploadBytes(storageRef, file);
-                const imageUrl = await getDownloadURL(_ref);
-                listImageUrl.push(imageUrl);
+    return new Promise(async (res, rej) => {
+        try {
+            for (let file of fileList) {
+                console.log('check');
+                if (file) {
+                    const storageRef = ref(
+                        firebaseStorage,
+                        `${pathName}/${file?.name}`
+                    );
+                    const { ref: _ref } = await uploadBytes(storageRef, file);
+                    const imageUrl = await getDownloadURL(_ref);
+                    listImageUrl.push(imageUrl);
+                }
             }
+            res(listImageUrl);
+        } catch (error) {
+            rej(listImageUrl);
         }
-        res(listImageUrl);
     });
 };

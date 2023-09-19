@@ -76,7 +76,7 @@ export const ModalCreateProduct = ({
     return (
         <Modal
             header={'Thêm sản phẩm'}
-            onClose={onClose}
+            onClose={loading ? () => {} : onClose}
             isOpen={isShow}
             onOk={() => form.submit()}
             loadingSubmit={loading}
