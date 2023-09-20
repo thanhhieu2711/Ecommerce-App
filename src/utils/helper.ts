@@ -36,7 +36,6 @@ export const handleUploadImagesToFirebase = async (
     return new Promise(async (res, rej) => {
         try {
             for (let file of fileList) {
-                console.log('check');
                 if (file) {
                     const storageRef = ref(
                         firebaseStorage,

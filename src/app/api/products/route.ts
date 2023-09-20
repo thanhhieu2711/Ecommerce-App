@@ -40,14 +40,49 @@ export async function POST(request: Request) {
     }
 }
 
-export async function GET() {
+export async function GET({ searchParams }: any) {
+    console.log(searchParams);
     try {
-        const allProducts = await prisma.product.findMany();
-
+        // const allProducts = await prisma.product.findMany({
+        //     take: _req.limit,
+        //     where: {},
+        //     orderBy: {
+        //         createdAt: 'desc',
+        //     },
+        // });
+        // return NextResponse.json({
+        //     isSuccess: true,
+        //     data: {
+        //         pagination: {
+        //             pageNumber: 1,
+        //             totalRecord: allProducts.length,
+        //             totalPage: Math.ceil(
+        //                 allProducts.length / (_req.limit || 10)
+        //             ),
+        //             pageLimit: _req.limit,
+        //         },
+        //         itemsList: allProducts,
+        //     },
+        // });
+        const allProducts = await prisma.product.findMany({
+            take: 8,
+            where: {},
+            orderBy: {
+                createdAt: 'desc',
+            },
+        });
         return NextResponse.json({
             isSuccess: true,
-            message: 'Lấy danh sách sản phẩm thành công!',
             data: allProducts,
+
+            // pagination: {
+            //     pageNumber: 1,
+            //     totalRecord: allProducts.length,
+            //     totalPage: Math.ceil(
+            //         allProducts.length / (_req.limit || 10)
+            //     ),
+            //     pageLimit: _req.limit,
+            // },
         });
     } catch (error) {
         console.log(error);

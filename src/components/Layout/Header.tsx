@@ -39,14 +39,14 @@ export default function Header({ isContrast }: Props) {
 
                     <div
                         className={cn(
-                            'flex flex-row items-center gap-3 sm:gap-4 md:justify-between -mr-8',
+                            'flex flex-row items-center gap-4 sm:gap-4 md:justify-between -mr-6',
                             (isOpenCartDrawer || isOpenWishlistDrawer) &&
-                                '!-mr-4'
+                                '!-mr-6'
                         )}
                     >
                         <HomeSeachBox />
                         <div
-                            className={cn('flex flex-row items-center gap-4 ')}
+                            className={cn('flex flex-row items-center gap-6 ')}
                         >
                             <Link
                                 href={'/'}
@@ -77,12 +77,14 @@ export default function Header({ isContrast }: Props) {
                                     )}
                                 />
                                 <div className="absolute w-5 h-5 flex flex-row items-center justify-center bg-red-600 rounded-full top-[5.5px] -translate-y-full -right-3 text-xs text-white">
-                                    10
+                                    1
                                 </div>
                             </Link>
                             <UserMenu />
-                            <WishlistDrawer />
-                            <CartDrawer />
+                            <div>
+                                <WishlistDrawer />
+                                <CartDrawer />
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -93,58 +93,58 @@ const UserMenu = ({ isContrast }: Props) => {
                     )}
                 />
             </Button>
-            {openMenu && (
-                <div className="absolute w-[200px] rounded-lg bg-white shadow-lg top-9 right-0">
-                    {currentUser ? (
-                        <div onClick={() => setOpenMenu(false)}>
-                            {SIGNED_LINK.map((item, index) => (
-                                <Link
-                                    href={''}
-                                    key={item.id}
-                                    onClick={() =>
-                                        item.action ? item.action() : null
-                                    }
+
+            <div
+                className={cn(
+                    'absolute w-[200px] rounded-lg bg-white shadow-lg top-9 right-0 opacity-0 transition-all duration-200 ease-out',
+                    openMenu && '!opacity-100'
+                )}
+            >
+                {currentUser ? (
+                    <div onClick={() => setOpenMenu(false)}>
+                        {SIGNED_LINK.map((item, index) => (
+                            <Link
+                                href={''}
+                                key={item.id}
+                                onClick={() => item.action && item.action()}
+                            >
+                                <div
+                                    className={cn(
+                                        'px-3 py-3 flex flex-row items-center gap-2 hover:bg-neutral-100 cursor-pointer',
+                                        item?.className,
+                                        {
+                                            'rounded-t-lg': index === 0,
+                                            'rounded-b-lg border-t border-black/5':
+                                                index ===
+                                                SIGNED_LINK.length - 1,
+                                        }
+                                    )}
                                 >
-                                    <div
-                                        className={cn(
-                                            'px-3 py-3 flex flex-row items-center gap-2  hover:bg-neutral-100 cursor-pointer',
-                                            item?.className,
-                                            {
-                                                'rounded-t-lg': index === 0,
-                                                'rounded-b-lg border-t border-black/5':
-                                                    index ===
-                                                    SIGNED_LINK.length - 1,
-                                            }
-                                        )}
-                                    >
-                                        {item.icon}
-                                        <p className={cn('text-sm')}>
-                                            {item.title}
-                                        </p>
-                                    </div>
-                                </Link>
-                            ))}
-                        </div>
-                    ) : (
-                        <ul onClick={() => setOpenMenu(false)}>
-                            <li
-                                className="text-sm px-3 py-3 hover:bg-neutral-100 rounded-t-lg cursor-pointer"
-                                onClick={() => dispatch(openLoginModal(true))}
-                            >
-                                Đăng nhập
-                            </li>
-                            <li
-                                className="text-sm px-3 py-3 hover:bg-neutral-100 rounded-b-lg cursor-pointer"
-                                onClick={() =>
-                                    dispatch(openRegisterModal(true))
-                                }
-                            >
-                                Đăng ký
-                            </li>
-                        </ul>
-                    )}
-                </div>
-            )}
+                                    {item.icon}
+                                    <p className={cn('text-sm')}>
+                                        {item.title}
+                                    </p>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                ) : (
+                    <ul onClick={() => setOpenMenu(false)}>
+                        <li
+                            className="text-sm px-3 py-3 hover:bg-neutral-100 rounded-t-lg cursor-pointer"
+                            onClick={() => dispatch(openLoginModal(true))}
+                        >
+                            Đăng nhập
+                        </li>
+                        <li
+                            className="text-sm px-3 py-3 hover:bg-neutral-100 rounded-b-lg cursor-pointer"
+                            onClick={() => dispatch(openRegisterModal(true))}
+                        >
+                            Đăng ký
+                        </li>
+                    </ul>
+                )}
+            </div>
         </div>
     );
 };

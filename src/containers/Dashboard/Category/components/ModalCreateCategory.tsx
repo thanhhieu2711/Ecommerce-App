@@ -40,6 +40,7 @@ export const ModalCreateCategory = ({ isShow, onClose }: Props) => {
                 form.resetFields();
                 setFileList([]);
                 toast.success(response.data.message);
+                onClose();
             } else {
                 toast.error(response.data.message);
             }
@@ -56,25 +57,8 @@ export const ModalCreateCategory = ({ isShow, onClose }: Props) => {
             header={'Thêm danh mục'}
             onClose={onClose}
             isOpen={isShow}
-            footer={
-                <div className="w-full flex flex-row justify-end space-x-2">
-                    <Button
-                        className="min-w-[110px] !bg-green-600 text-white"
-                        size="sm"
-                        onClick={form.submit}
-                        disabled={loading}
-                    >
-                        {!loading ? (
-                            <p>Thêm</p>
-                        ) : (
-                            <Spinner
-                                color="text-white/50"
-                                fillActive="fill-white"
-                            />
-                        )}
-                    </Button>
-                </div>
-            }
+            onOk={form.submit}
+            loadingSubmit={loading}
         >
             <Form
                 form={form}

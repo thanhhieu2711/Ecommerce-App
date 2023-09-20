@@ -70,8 +70,8 @@ const Sidebar = (props: Props) => {
                         className={cn(
                             'block sm:flex flex-row items-center gap-4 px-6 py-4 rounded-xl text-sm text-black',
                             pathName === item.link
-                                ? 'bg-primary text-white shadow-lg'
-                                : ' hover:bg-primary/20'
+                                ? 'bg-black text-white shadow-lg'
+                                : ' hover:bg-black/20'
                         )}
                     >
                         {item.icon}

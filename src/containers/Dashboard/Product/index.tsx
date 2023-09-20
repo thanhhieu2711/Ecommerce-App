@@ -1,7 +1,7 @@
 'use client';
 import Input from '@/components/Common/Input';
 import { BiSearch } from 'react-icons/bi';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 import ModalCreateProduct from './components/ModalCreateProduct';
 import { Button } from '@/components/Common';
 import axios from 'axios';
@@ -10,11 +10,6 @@ import ModalUpdateProduct from './components/ModalUpdateProduct';
 import ModalDelete from '@/components/Dashboard/ModalDelete';
 import toast from 'react-hot-toast';
 import { formatCurrency } from '@/utils/helper';
-
-async function getProducts() {
-    const res = await axios.get<TProductInfo[]>('/api/products');
-    return res.data;
-}
 
 export const ProductDashboard = () => {
     const [listProduct, setListProduct] = useState<TProductInfo[]>([]);
@@ -26,8 +21,6 @@ export const ProductDashboard = () => {
     const [selectedProduct, setSelectedProduct] = useState<TProductInfo>(
         {} as TProductInfo
     );
-
-    // const listProduct = await getProducts();
 
     async function getProducts() {
         const { data } = await axios.get('/api/products');
@@ -53,13 +46,12 @@ export const ProductDashboard = () => {
     }
 
     const handleDeleteProduct = useCallback(async () => {
-        console.log('call');
         const { data } = await axios.delete(
             `/api/products/${selectedProduct.id}`
         );
         if (data.isSuccess) {
+            // setIsShowModalDelete(false);
             toast.success(data.message);
-            setIsShowModalDelete(false);
             return;
         }
         return toast.error(data.message);
@@ -93,7 +85,7 @@ export const ProductDashboard = () => {
                     </Button>
                 </div>
                 <div className="flex-1 flex flex-col justify-between">
-                    <div>
+                    <div className="px-4">
                         <table className="w-full" align="center">
                             <thead>
                                 <tr>
@@ -101,12 +93,12 @@ export const ProductDashboard = () => {
                                     <th>Thương hiệu</th>
                                     <th>Danh mục</th>
                                     <th>Số lượng</th>
-                                    <th>Giá tiền</th>
+                                    <th>Giá Bán</th>
                                     <th>Trạng thái</th>
                                     <th>Tùy chỉnh</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="text-center">
                                 {listProduct?.map((item, index) => {
                                     return (
                                         <tr key={item.id}>
@@ -115,15 +107,41 @@ export const ProductDashboard = () => {
                                                     {item.name}
                                                 </p>
                                             </td>
-                                            <td>{item.brandId}</td>
-                                            <td>Data 3</td>
-                                            <td>Data 3</td>
                                             <td>
-                                                {formatCurrency(item.price)}
+                                                {
+                                                    listBrand.find(
+                                                        (_item) =>
+                                                            _item.id ===
+                                                            item.brandId
+                                                    )?.name
+                                                }
                                             </td>
-                                            <td>Data 3</td>
-                                            <td className="w-[150px]">
-                                                <div
+                                            <td>
+                                                {' '}
+                                                {
+                                                    listCategory.find(
+                                                        (_item) =>
+                                                            _item.id ===
+                                                            item.categoryId
+                                                    )?.name
+                                                }
+                                            </td>
+                                            <td>{item.quantity}</td>
+                                            <td>
+                                                {formatCurrency(
+                                                    item.price -
+                                                        item.discount *
+                                                            item.price
+                                                )}
+                                            </td>
+                                            <td>
+                                                {item.status === 'AVAILABLE'
+                                                    ? 'Còn hàng'
+                                                    : 'Hết hàng'}
+                                            </td>
+                                            <td>
+                                                {/* <div className="flex flex-row gap-2 justify-center items-center"> */}
+                                                <p
                                                     className="flex flex-row items-center gap-2 "
                                                     onClick={() => {
                                                         setSelectedProduct(
@@ -135,8 +153,8 @@ export const ProductDashboard = () => {
                                                     }}
                                                 >
                                                     edit
-                                                </div>
-                                                <div
+                                                </p>
+                                                <p
                                                     className="flex flex-row items-center gap-2 "
                                                     onClick={() => {
                                                         setSelectedProduct(
@@ -148,7 +166,8 @@ export const ProductDashboard = () => {
                                                     }}
                                                 >
                                                     delete
-                                                </div>
+                                                </p>
+                                                {/* </div> */}
                                             </td>
                                         </tr>
                                     );
@@ -163,6 +182,7 @@ export const ProductDashboard = () => {
             </div>
             {isShowModalCreate && (
                 <ModalCreateProduct
+                    callback={() => getProducts()}
                     isShow={isShowModalCreate}
                     onClose={() => setIsShowModalCreate(false)}
                     listBrand={listBrand}
@@ -171,6 +191,7 @@ export const ProductDashboard = () => {
             )}
             {isShowModalUpdate && (
                 <ModalUpdateProduct
+                    callback={() => getProducts()}
                     isShow={isShowModalUpdate}
                     onClose={() => setIsShowModalUpdate(false)}
                     product={selectedProduct}
@@ -181,8 +202,13 @@ export const ProductDashboard = () => {
             {isShowModalDelete && (
                 <ModalDelete
                     isShow={isShowModalDelete}
+                    loadingSubmit
                     onClose={() => setIsShowModalDelete(false)}
-                    onOk={() => handleDeleteProduct()}
+                    onOk={async () => {
+                        setIsShowModalDelete(false);
+                        await handleDeleteProduct();
+                        await getProducts();
+                    }}
                     title="Bạn có chắc muốn xóa sản phẩm này không ?"
                     subTitle="Nếu có sản phẩm sẽ bị xóa vĩnh viễn á."
                 />

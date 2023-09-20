@@ -1,4 +1,4 @@
-import { Poppins, Nunito } from 'next/font/google';
+import { Nunito } from 'next/font/google';
 const nunito = Nunito({
     subsets: ['latin'],
 });

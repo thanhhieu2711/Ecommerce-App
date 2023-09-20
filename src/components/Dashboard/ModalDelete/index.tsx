@@ -1,4 +1,4 @@
-import { Modal } from '@/components/Common';
+import { Modal, Spinner } from '@/components/Common';
 import { Button } from '@/components/Common';
 import React from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -9,13 +9,21 @@ type Props = {
     onOk: () => void;
     title: string;
     subTitle?: string;
+    loadingSubmit?: boolean;
 };
 
-const ModalDelete = ({ isShow, onClose, onOk, title, subTitle }: Props) => {
+const ModalDelete = ({
+    isShow,
+    onClose,
+    onOk,
+    title,
+    subTitle,
+    loadingSubmit,
+}: Props) => {
     return (
         <Modal
             isOpen={isShow}
-            onClose={onClose}
+            onClose={loadingSubmit ? () => {} : onClose}
             showFooter={false}
             containerClassname="!max-w-[420px]"
         >
@@ -33,7 +41,11 @@ const ModalDelete = ({ isShow, onClose, onOk, title, subTitle }: Props) => {
                     className="!bg-red-600 min-w-[80px] text-white text-sm font-medium ml-auto"
                     onClick={onOk}
                 >
-                    Xóa
+                    {loadingSubmit ? (
+                        <Spinner color="text-white/30" fillActive="white" />
+                    ) : (
+                        'Xóa'
+                    )}
                 </Button>
             </div>
         </Modal>

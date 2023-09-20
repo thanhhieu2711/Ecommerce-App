@@ -18,7 +18,7 @@ const CartDrawer = (props: Props) => {
                 <div className="flex flex-row items-center gap-2">
                     <BiShoppingBag className="icon-base" />
                     <div>
-                        <span className="font-bold text-xl">
+                        <span className="font-bold text-lg sm:text-xl">
                             Giỏ hàng của bạn
                         </span>
                         <span className="text-md text-black/50"> (6)</span>

@@ -1,10 +1,8 @@
 'use client';
 import { useState } from 'react';
-
 import { Button, Modal, Spinner } from '@/components/Common';
 import { Input, Upload, UploadFile, Form } from 'antd';
 import toast from 'react-hot-toast';
-
 import axios from 'axios';
 import {
     handleGetOriginFileObj,
@@ -36,6 +34,7 @@ export const ModalCreateBrand = ({ isShow, onClose }: Props) => {
                 form.resetFields();
                 setFileList([]);
                 toast.success(response.data.message);
+                onClose();
             }
         } catch (error) {
             console.log(error);
@@ -50,29 +49,12 @@ export const ModalCreateBrand = ({ isShow, onClose }: Props) => {
             header={'Thêm thương hiệu'}
             onClose={onClose}
             isOpen={isShow}
-            footer={
-                <div className="w-full flex flex-row justify-end space-x-2">
-                    <Button
-                        className="min-w-[110px] !bg-green-600 text-white"
-                        size="sm"
-                        onClick={form.submit}
-                        disabled={loading}
-                    >
-                        {!loading ? (
-                            <p>Thêm</p>
-                        ) : (
-                            <Spinner
-                                color="text-white/50"
-                                fillActive="fill-white"
-                            />
-                        )}
-                    </Button>
-                </div>
-            }
+            onOk={form.submit}
+            loadingSubmit={loading}
         >
             <Form
                 form={form}
-                name="basic"
+                name="createBrand"
                 className="w-full"
                 layout="vertical"
                 scrollToFirstError

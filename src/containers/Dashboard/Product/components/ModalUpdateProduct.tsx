@@ -21,11 +21,13 @@ type Props = {
     product: TProductInfo;
     listCategory: TCategoryInfo[];
     listBrand: TBrandInfo[];
+    callback: () => void;
 };
 
 export const ModalUpdateProduct = ({
     isShow,
     onClose,
+    callback,
     product,
     listCategory,
     listBrand,
@@ -93,6 +95,7 @@ export const ModalUpdateProduct = ({
                 price: Number(formData.price),
             });
             if (response.data.isSuccess) {
+                await callback();
                 router.refresh();
                 onClose();
                 toast.success(response.data.message);

@@ -30,6 +30,7 @@ type Props = {
     onClose: () => void;
     listCategory: TCategoryInfo[];
     listBrand: TBrandInfo[];
+    callback: () => void;
 };
 
 export const ModalCreateProduct = ({
@@ -37,6 +38,7 @@ export const ModalCreateProduct = ({
     onClose,
     listCategory,
     listBrand,
+    callback,
 }: Props) => {
     const router = useRouter();
     const [form] = Form.useForm();
@@ -60,6 +62,7 @@ export const ModalCreateProduct = ({
             if (response.data.isSuccess) {
                 form.resetFields();
                 setFileList([]);
+                await callback();
                 router.refresh();
                 toast.success(response.data.message);
             } else {
@@ -227,7 +230,7 @@ export const ModalCreateProduct = ({
                         maxCount={5}
                         listType="picture-card"
                         fileList={fileList}
-                        accept=".png,.jpeg,.jpg"
+                        accept=".png,.jpeg,.jpg,.webp"
                         action={'http://localhost:3000/'}
                         showUploadList={{ showPreviewIcon: false }}
                         beforeUpload={(fileUpload: UploadFile) => {
@@ -236,7 +239,6 @@ export const ModalCreateProduct = ({
                             }
                         }}
                         onChange={({ fileList }) => {
-                            console.log(fileList);
                             setFileList(fileList);
                         }}
                     >
