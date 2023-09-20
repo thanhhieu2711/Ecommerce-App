@@ -10,7 +10,11 @@ import ModalUpdateProduct from './components/ModalUpdateProduct';
 import ModalDelete from '@/components/Dashboard/ModalDelete';
 import toast from 'react-hot-toast';
 import { formatCurrency } from '@/utils/helper';
-type Props = {};
+
+async function getProducts() {
+    const res = await axios.get<TProductInfo[]>('/api/products');
+    return res.data;
+}
 
 export const ProductDashboard = () => {
     const [listProduct, setListProduct] = useState<TProductInfo[]>([]);
@@ -22,6 +26,8 @@ export const ProductDashboard = () => {
     const [selectedProduct, setSelectedProduct] = useState<TProductInfo>(
         {} as TProductInfo
     );
+
+    // const listProduct = await getProducts();
 
     async function getProducts() {
         const { data } = await axios.get('/api/products');

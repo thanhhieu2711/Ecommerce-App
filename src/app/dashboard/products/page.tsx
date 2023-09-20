@@ -1,9 +1,5 @@
 import { ProductDashboard as ProductDashboardCtn } from '@/containers/Dashboard/Product';
 
-type Props = {};
-
-const ProductDashboard = (props: Props) => {
+export default function ProductDashboard() {
     return <ProductDashboardCtn />;
-};
-
-export default ProductDashboard;
+}

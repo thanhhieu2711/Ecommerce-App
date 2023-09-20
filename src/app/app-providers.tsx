@@ -8,6 +8,7 @@ import DefaultLayout from '@/layouts/DefaultLayout';
 import LoginModal from '@/containers/Auth/LoginModal';
 import RegisterModal from '@/containers/Auth/RegisterModal';
 import { SessionProvider } from 'next-auth/react';
+import Drawer from '@/components/Common/Drawer';
 
 type Props = {};
 
@@ -18,6 +19,7 @@ const AppProviders = ({ children }: PropsWithChildren<Props>) => {
                 <DefaultLayout>{children}</DefaultLayout>
                 <RegisterModal />
                 <LoginModal />
+
                 <Toast />
             </ReduxProvider>
         </SessionProvider>

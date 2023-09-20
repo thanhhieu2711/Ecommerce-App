@@ -15,49 +15,7 @@ import {
 import useClickOutside from '@/hooks/useClickOutside';
 import { Button } from '../Common';
 import Link from 'next/link';
-
-const SIGNED_LINK: {
-    id: number;
-    title: string;
-    link: string;
-    icon: React.ReactNode;
-    action?: () => void;
-    className?: string;
-}[] = [
-    {
-        id: 1,
-        title: 'Thông tin cá nhân',
-        link: '',
-        icon: <BiUser className="icon-base !w-5 !h-5" />,
-    },
-    {
-        id: 2,
-        title: 'Đơn hàng của tôi',
-        link: '',
-        icon: <BiReceipt className="icon-base !w-5 !h-5" />,
-    },
-    {
-        id: 3,
-        title: 'Giỏ hàng',
-        link: '',
-        icon: <BiShoppingBag className="sm:hidden icon-base !w-5 !h-5" />,
-        className: 'sm:hidden',
-    },
-    {
-        id: 4,
-        title: 'Yêu thích',
-        link: '',
-        icon: <BiHeart className="sm:hidden icon-base !w-5 !h-5" />,
-        className: 'sm:hidden',
-    },
-    {
-        id: 5,
-        title: 'Đăng xuất',
-        link: '',
-        icon: <BiLogOut className="icon-base !w-5 !h-5" />,
-        action: signOut,
-    },
-];
+import { openCartDrawer, openWishlistDrawer } from '@/stores/reducers/drawer';
 
 type Props = {
     isContrast?: boolean;
@@ -65,12 +23,56 @@ type Props = {
 
 const UserMenu = ({ isContrast }: Props) => {
     const dispatch = useAppDispatch();
-
     const currentUser = useSession().data?.user;
 
     const menuRef = useRef<HTMLDivElement>(null);
 
     const [openMenu, setOpenMenu] = useState<boolean>(false);
+
+    const SIGNED_LINK: {
+        id: number;
+        title: string;
+        link: string;
+        icon: React.ReactNode;
+        action?: () => void;
+        className?: string;
+    }[] = [
+        {
+            id: 1,
+            title: 'Thông tin cá nhân',
+            link: '',
+            icon: <BiUser className="icon-base !w-5 !h-5" />,
+        },
+        {
+            id: 2,
+            title: 'Đơn hàng của tôi',
+            link: '',
+            icon: <BiReceipt className="icon-base !w-5 !h-5" />,
+        },
+        {
+            id: 3,
+            title: 'Giỏ hàng',
+            link: '',
+            icon: <BiShoppingBag className="sm:hidden icon-base !w-5 !h-5" />,
+            className: 'sm:hidden',
+            action: () => dispatch(openCartDrawer(true)),
+        },
+        {
+            id: 4,
+            title: 'Yêu thích',
+            link: '',
+            icon: <BiHeart className="sm:hidden icon-base !w-5 !h-5" />,
+            className: 'sm:hidden',
+            action: () => dispatch(openWishlistDrawer(true)),
+        },
+        {
+            id: 5,
+            title: 'Đăng xuất',
+            link: '',
+            icon: <BiLogOut className="icon-base !w-5 !h-5" />,
+            action: signOut,
+        },
+    ];
 
     useClickOutside(menuRef, () => {
         setOpenMenu(false);
