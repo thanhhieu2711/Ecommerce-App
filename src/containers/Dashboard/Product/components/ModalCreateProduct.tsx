@@ -63,6 +63,7 @@ export const ModalCreateProduct = ({
                 form.resetFields();
                 setFileList([]);
                 await callback();
+                onClose();
                 router.refresh();
                 toast.success(response.data.message);
             } else {

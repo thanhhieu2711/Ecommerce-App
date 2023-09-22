@@ -58,20 +58,20 @@ const Sidebar = (props: Props) => {
     const pathName = usePathname();
 
     return (
-        <div className=" p-6 flex flex-col text-black gap-6 shadow-lg h-full rounded-xl">
+        <div className="w-full p-4 sm:p-4 md:p-6 flex flex-col text-primary gap-6 shadow-lg h-full rounded-xl">
             <p className="hidden sm:block text-2xl font-bold text-center">
                 Admin Dashboard
             </p>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col items-center justify-center gap-2">
                 {SIDEBAR_LINK.map((item) => (
                     <Link
                         key={item.id}
                         href={item.link}
                         className={cn(
-                            'block sm:flex flex-row items-center gap-4 px-6 py-4 rounded-xl text-sm text-black',
+                            'block sm:flex flex-row items-center gap-4 px-3 py-3 rounded-xl text-sm text-black w-fit sm:w-full',
                             pathName === item.link
-                                ? 'bg-black text-white shadow-lg'
-                                : ' hover:bg-black/20'
+                                ? 'bg-primary text-white shadow-lg'
+                                : ' hover:bg-primary/10'
                         )}
                     >
                         {item.icon}

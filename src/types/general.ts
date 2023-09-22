@@ -1,4 +1,5 @@
 import { PRODUCT_STATUS } from '@prisma/client';
+import { type } from 'os';
 
 export type TSidebarLink = {
     id: number;
@@ -37,4 +38,11 @@ export type TProductInfo = {
     brandId: string;
     createdAt: string;
     updatedAt: string;
+};
+
+export type TPagination = {
+    pagaLimit: number;
+    pageNumber: number;
+    totalPage: number;
+    totalRecord: number;
 };

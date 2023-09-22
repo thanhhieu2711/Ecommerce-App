@@ -3,6 +3,7 @@ import { Button } from '../Button';
 // import usePagination from '@/hooks/apps/usePagination';
 import { ReactNode } from 'react';
 // import { ArrowLeftSLineIcon, ArrowRightSLineIcon } from '@/components/Icons';
+import { BiArrowToLeft, BiArrowToRight } from 'react-icons/bi';
 import PaginationItem from './PaginationItem';
 import usePagination from '@/hooks/app/usePagination';
 
@@ -11,7 +12,7 @@ type TPagination = {
     onNextButton: () => void;
     onPrevButton: () => void;
     totalPage: number;
-    pageCurrent: number;
+    currentPage: number;
     containerClass?: string;
     pageItemClass?: string;
     prevButtonProps?: {
@@ -26,7 +27,7 @@ type TPagination = {
 
 const Pagination = ({
     totalPage,
-    pageCurrent,
+    currentPage,
     prevButtonProps,
     nextButtonProps,
     pageItemClass,
@@ -40,29 +41,38 @@ const Pagination = ({
         activePage,
         isDisabledNextBtn,
         isDisabledPrevBtn,
-        onPageCurrentChange,
-        onNext,
-        onPrev,
+        onCurrentPageChange,
+        // onNext,
+        // onPrev,
     } = usePagination({
-        totalPage: totalPage,
-        pageCurrent: pageCurrent,
+        totalPage,
+        currentPage,
     });
 
     return (
         <div className={cn('flex flex-row gap-3', containerClass)}>
             <Button
                 disabled={isDisabledPrevBtn}
-                className={cn('h-10 w-10', prevButtonProps?.className)}
+                className={cn(
+                    'h-10 w-10 hover:bg-primary/20 hover:!border-transparent',
+                    isDisabledPrevBtn && '!border !border-black/20',
+                    nextButtonProps?.className
+                )}
+                theme="white"
+                variant="outline"
                 onClick={() => {
-                    onPrev();
                     onPrevButton();
                 }}
             >
-                {prevButtonProps?.content ? (
-                    prevButtonProps.content
+                {nextButtonProps?.content ? (
+                    nextButtonProps.content
                 ) : (
-                    // <ArrowLeftSLineIcon className="h-6 w-6" />
-                    <></>
+                    <BiArrowToLeft
+                        className={cn(
+                            '!w-4 !h-4 m-auto',
+                            isDisabledPrevBtn && 'text-black/50 '
+                        )}
+                    />
                 )}
             </Button>
             {listPageNumber.map((pageNumber, index) => {
@@ -74,7 +84,7 @@ const Pagination = ({
                             className={pageItemClass}
                             isActive={isActive}
                             onClick={() => {
-                                onPageCurrentChange(pageNumber);
+                                onCurrentPageChange(pageNumber);
                                 onPageChange(pageNumber);
                             }}
                             value={pageNumber}
@@ -94,16 +104,26 @@ const Pagination = ({
             })}
             <Button
                 disabled={isDisabledNextBtn}
-                className={cn('h-10 w-10', nextButtonProps?.className)}
+                className={cn(
+                    'h-10 w-10 hover:bg-primary/20 hover:!border-transparent',
+                    isDisabledNextBtn && '!border !border-black/20',
+                    nextButtonProps?.className
+                )}
+                theme="white"
+                variant="outline"
                 onClick={() => {
-                    onNext(), onNextButton();
+                    onNextButton();
                 }}
             >
                 {nextButtonProps?.content ? (
                     nextButtonProps.content
                 ) : (
-                    // <ArrowRightSLineIcon className="h-6 w-6" />
-                    <></>
+                    <BiArrowToRight
+                        className={cn(
+                            '!w-4 !h-4 m-auto ',
+                            isDisabledNextBtn && 'text-black/50'
+                        )}
+                    />
                 )}
             </Button>
         </div>

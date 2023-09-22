@@ -16,12 +16,12 @@ const config: Config = {
             colors: () => ({
                 current: 'currentColor',
                 primary: {
-                    DEFAULT: '#FF385C',
+                    DEFAULT: '#FB7021',
                 },
                 secondary: {
-                    DEFAULT: '#f8f8fc',
+                    DEFAULT: '#f8f8f8',
+                    'variant-1': '#f3f3f3',
                 },
-
                 common: {
                     white: '#fff',
                     description: '#999999',
@@ -105,11 +105,7 @@ const config: Config = {
         aspectRatio: false,
     },
     plugins: [
-        // require('@tailwindcss/aspect-ratio'),
-
-        // require('@tailwindcss/forms')({
-        //     strategy: 'class', // only generate classes
-        // }),
+        require('@tailwindcss/aspect-ratio'),
         require('@tailwindcss/typography'),
         // require('@headlessui/tailwindcss')({ prefix: 'ui' }),
     ],

@@ -39,7 +39,7 @@ Props) => {
             className={cn(
                 'bg-transparent',
                 isOpen &&
-                    'fixed transition-all duration-500 ease-out inset-0 bg-black/20'
+                    'fixed transition-all duration-500 ease-out inset-0 !bg-black/20 z-30'
             )}
             onClick={() => onClose()}
         >

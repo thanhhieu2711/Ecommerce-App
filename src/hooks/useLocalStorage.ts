@@ -1,29 +1,46 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const useLocalStorage = (key: string, initialValue: '') => {
-    const [state, setState] = useState(() => {
-        // Initialize the state
-        try {
-            const value = window.localStorage.getItem(key);
-            return value ? JSON.parse(value) : initialValue;
-        } catch (error) {
-            console.log(error);
+export default function useLocalStorage<T>(
+    key: string,
+    defaultValue: T
+): [T, (value: T) => void] {
+    const [value, setValue] = useState(defaultValue);
+
+    useEffect(() => {
+        const item = localStorage.getItem(key);
+
+        if (!item) {
+            localStorage.setItem(key, JSON.stringify(defaultValue));
         }
-    });
 
-    const setValue = (value: string) => {
+        setValue(item ? JSON.parse(item) : defaultValue);
+
+        function handler(e: StorageEvent) {
+            if (e.key !== key) return;
+
+            const lsi = localStorage.getItem(key);
+            setValue(JSON.parse(lsi ?? ''));
+        }
+
+        window.addEventListener('storage', handler);
+
+        return () => {
+            window.removeEventListener('storage', handler);
+        };
+    }, []);
+
+    const setValueWrap = (value: T) => {
         try {
-            // If the passed value is a callback function,
-            //  then call it with the existing state.
+            setValue(value);
 
-            window.localStorage.setItem(key, JSON.stringify(value));
-            setState(value);
-        } catch (error) {
-            console.log(error);
+            localStorage.setItem(key, JSON.stringify(value));
+            if (typeof window !== 'undefined') {
+                window.dispatchEvent(new StorageEvent('storage', { key }));
+            }
+        } catch (e) {
+            console.error(e);
         }
     };
 
-    return [state, setValue];
-};
-
-export default useLocalStorage;
+    return [value, setValueWrap];
+}

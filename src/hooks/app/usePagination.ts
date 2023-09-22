@@ -3,16 +3,16 @@ import { useEffect, useMemo, useState } from 'react';
 
 type Props = {
     totalPage: number;
-    pageCurrent: number;
+    currentPage: number;
     pageLimit?: number;
 };
 
-const usePagination = ({ totalPage, pageCurrent, pageLimit = 10 }: Props) => {
-    const [activePage, setActivePage] = useState(pageCurrent);
+const usePagination = ({ totalPage, currentPage, pageLimit = 10 }: Props) => {
+    const [activePage, setActivePage] = useState(currentPage);
 
     useEffect(() => {
-        setActivePage(pageCurrent);
-    }, [pageCurrent]);
+        setActivePage(currentPage);
+    }, [currentPage]);
 
     const firstPageValue = 1;
 
@@ -42,7 +42,7 @@ const usePagination = ({ totalPage, pageCurrent, pageLimit = 10 }: Props) => {
         setActivePage((prev) => prev + 1);
     };
 
-    const onPageCurrentChange = (pageNumber: number) => {
+    const onCurrentPageChange = (pageNumber: number) => {
         if (activePage !== pageNumber) {
             return setActivePage(pageNumber);
         }
@@ -98,7 +98,7 @@ const usePagination = ({ totalPage, pageCurrent, pageLimit = 10 }: Props) => {
     return {
         onPrev,
         onNext,
-        onPageCurrentChange,
+        onCurrentPageChange,
         isDisabledNextBtn,
         isDisabledPrevBtn,
         activePage,

@@ -1,5 +1,6 @@
 import prisma from '@/services/prisma/prismaDB';
-import { NextResponse } from 'next/server';
+import { NextApiRequest } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
     try {
@@ -40,49 +41,57 @@ export async function POST(request: Request) {
     }
 }
 
-export async function GET({ searchParams }: any) {
-    console.log(searchParams);
+export async function GET(req: NextRequest, res: NextResponse) {
     try {
-        // const allProducts = await prisma.product.findMany({
-        //     take: _req.limit,
-        //     where: {},
-        //     orderBy: {
-        //         createdAt: 'desc',
-        //     },
-        // });
-        // return NextResponse.json({
-        //     isSuccess: true,
-        //     data: {
-        //         pagination: {
-        //             pageNumber: 1,
-        //             totalRecord: allProducts.length,
-        //             totalPage: Math.ceil(
-        //                 allProducts.length / (_req.limit || 10)
-        //             ),
-        //             pageLimit: _req.limit,
-        //         },
-        //         itemsList: allProducts,
-        //     },
-        // });
+        const _req = req.nextUrl.searchParams;
+
+        const pageLimit = 8;
+
+        const searchPage = Number(_req.get('page'));
+
+        const searchByName = _req.get('name');
+
+        const totalPage = Math.ceil(
+            (await prisma.product.findMany()).length / pageLimit
+        );
+
         const allProducts = await prisma.product.findMany({
-            take: 8,
-            where: {},
+            skip:
+                searchPage < 2
+                    ? 0
+                    : pageLimit * searchPage -
+                      (searchPage * pageLimit) / searchPage,
+            take: pageLimit,
+            where: {
+                name: {
+                    contains: searchByName?.replace(
+                        /[-\/\\^$*+?.()|[\]{}]/g,
+                        '\\$&'
+                    ),
+                    mode: 'insensitive',
+                },
+            },
+
             orderBy: {
                 createdAt: 'desc',
             },
         });
+
+        const searchCount = allProducts.length;
+
         return NextResponse.json({
             isSuccess: true,
             data: allProducts,
-
-            // pagination: {
-            //     pageNumber: 1,
-            //     totalRecord: allProducts.length,
-            //     totalPage: Math.ceil(
-            //         allProducts.length / (_req.limit || 10)
-            //     ),
-            //     pageLimit: _req.limit,
-            // },
+            pagination: {
+                pageNumber: searchByName ? 1 : searchPage,
+                totalRecord: searchByName
+                    ? searchCount
+                    : (await prisma.product.findMany()).length,
+                totalPage: searchByName
+                    ? Math.ceil(searchCount / pageLimit)
+                    : totalPage,
+                pageLimit: pageLimit,
+            },
         });
     } catch (error) {
         console.log(error);
@@ -94,4 +103,14 @@ export async function GET({ searchParams }: any) {
             { status: 500 }
         );
     }
+}
+
+export async function filterProduct(req: NextRequest) {
+    const _req = req.nextUrl.searchParams;
+
+    const filterByCategoryId = _req.get('category');
+
+    const filterByBrandId = _req.get('brand');
+
+    const filterByPriceRange = _req.get('priceRange');
 }

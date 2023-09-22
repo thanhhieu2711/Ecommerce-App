@@ -22,8 +22,8 @@ export default function Header({ isContrast }: Props) {
     return (
         <header
             className={cn(
-                'max-w-full border-b border-black/10 bg-white fixed inset-x-0 top-0 transition-all duration-300 ease-out',
-                isContrast && '!bg-black shadow-lg '
+                'max-w-full border-b border-black/5 bg-white fixed inset-x-0 top-0 transition-all duration-300 ease-out !min-h-[80px]',
+                isContrast && '!bg-primary shadow-xl !border-transparent'
             )}
         >
             <Container>
@@ -31,7 +31,7 @@ export default function Header({ isContrast }: Props) {
                     <p
                         className={cn(
                             'font-bold text-3xl ',
-                            isContrast && 'text-white'
+                            isContrast && 'text-white '
                         )}
                     >
                         LOGO
@@ -80,7 +80,7 @@ export default function Header({ isContrast }: Props) {
                                     1
                                 </div>
                             </Link>
-                            <UserMenu />
+                            <UserMenu isContrast={isContrast} />
                             <div>
                                 <WishlistDrawer />
                                 <CartDrawer />

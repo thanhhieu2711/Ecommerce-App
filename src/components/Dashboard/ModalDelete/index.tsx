@@ -28,7 +28,10 @@ const ModalDelete = ({
             containerClassname="!max-w-[420px]"
         >
             <div className="flex flex-col gap-4">
-                <div className="ml-auto cursor-pointer" onClick={onClose}>
+                <div
+                    className="ml-auto cursor-pointer"
+                    onClick={loadingSubmit ? () => {} : onClose}
+                >
                     <AiOutlineClose className="icon-base !w-4 !h-4" />
                 </div>
                 <div className="flex flex-col gap-2">
@@ -40,6 +43,7 @@ const ModalDelete = ({
                 <Button
                     className="!bg-red-600 min-w-[80px] text-white text-sm font-medium ml-auto"
                     onClick={onOk}
+                    disabled={loadingSubmit}
                 >
                     {loadingSubmit ? (
                         <Spinner color="text-white/30" fillActive="white" />

@@ -96,8 +96,8 @@ export const ModalUpdateProduct = ({
             });
             if (response.data.isSuccess) {
                 await callback();
-                router.refresh();
                 onClose();
+                router.refresh();
                 toast.success(response.data.message);
             } else {
                 toast.error(response.data.message);

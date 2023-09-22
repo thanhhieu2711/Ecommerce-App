@@ -3,17 +3,19 @@ import cn from 'classnames';
 type Props = {
     color?: string;
     fillActive?: string;
+    classname?: string;
 };
 
-export const Spinner = ({ color, fillActive }: Props) => {
+export const Spinner = ({ classname, color, fillActive }: Props) => {
     return (
         <div className="flex flex-row items-center justify-center">
             <svg
                 aria-hidden="true"
                 className={cn(
-                    ` w-5 h-5 animate-spin ${color ?? 'text-gray-200'} ${
+                    ` w-6 h-6 animate-spin ${color ?? 'text-gray-200'} ${
                         fillActive ?? 'fill-black'
-                    }`
+                    }`,
+                    classname
                 )}
                 viewBox="0 0 100 100"
                 fill="none"

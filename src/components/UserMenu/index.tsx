@@ -89,7 +89,7 @@ const UserMenu = ({ isContrast }: Props) => {
                 <BiUserCircle
                     className={cn(
                         'icon-base text-black',
-                        isContrast && 'text-white'
+                        isContrast && '!text-white'
                     )}
                 />
             </Button>
@@ -106,7 +106,9 @@ const UserMenu = ({ isContrast }: Props) => {
                             <Link
                                 href={''}
                                 key={item.id}
-                                onClick={() => item.action && item.action()}
+                                onClick={(e) => {
+                                    item.action && item.action();
+                                }}
                             >
                                 <div
                                     className={cn(
@@ -132,13 +134,17 @@ const UserMenu = ({ isContrast }: Props) => {
                     <ul onClick={() => setOpenMenu(false)}>
                         <li
                             className="text-sm px-3 py-3 hover:bg-neutral-100 rounded-t-lg cursor-pointer"
-                            onClick={() => dispatch(openLoginModal(true))}
+                            onClick={(e) => {
+                                dispatch(openLoginModal(true));
+                            }}
                         >
                             Đăng nhập
                         </li>
                         <li
                             className="text-sm px-3 py-3 hover:bg-neutral-100 rounded-b-lg cursor-pointer"
-                            onClick={() => dispatch(openRegisterModal(true))}
+                            onClick={(e) => {
+                                dispatch(openRegisterModal(true));
+                            }}
                         >
                             Đăng ký
                         </li>
