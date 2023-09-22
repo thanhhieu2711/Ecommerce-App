@@ -96,8 +96,8 @@ const UserMenu = ({ isContrast }: Props) => {
 
             <div
                 className={cn(
-                    'absolute w-[200px] rounded-lg bg-white shadow-lg top-9 right-0 opacity-0 transition-all duration-200 ease-out',
-                    openMenu && '!opacity-100'
+                    'hidden w-[200px] rounded-lg bg-white shadow-lg top-9 right-0 opacity-0 transition-all duration-200 ease-out',
+                    openMenu && '!block absolute !opacity-100'
                 )}
             >
                 {currentUser ? (
