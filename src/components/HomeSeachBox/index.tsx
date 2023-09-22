@@ -30,7 +30,7 @@ const HomeSeachBox = (props: Props) => {
 
                 return;
             }
-            const { data } = await axios.get('/api/products', {
+            const { data } = await axios.get('/api/product', {
                 params: {
                     name: searchValue,
                 },
@@ -48,7 +48,7 @@ const HomeSeachBox = (props: Props) => {
 
     const getTrendingProducts = async () => {
         try {
-            const { data } = await axios.get('/api/products/trending');
+            const { data } = await axios.get('/api/product/trending');
             if (data.isSucess) {
                 setTrendingProduct(data.data);
             }
@@ -71,14 +71,17 @@ const HomeSeachBox = (props: Props) => {
                 onClick={(e) => e.stopPropagation()}
                 suffix={
                     loading ? (
-                        <Spinner />
+                        <Spinner
+                            classname="m-[2px]"
+                            fillActive="fill-black/30"
+                        />
                     ) : (
                         <BiSearch className=" icon-base ml-px" />
                     )
                 }
                 placeholder="Bạn cần tìm gì nào ?"
                 className={cn(
-                    'border-none bg-neutral-100 ring-0 text-sm z-[20] ',
+                    'border-none bg-neutral-100 ring-0 text-sm z-[20] hover:cursor-pointer ',
                     showModal && '!bg-white '
                 )}
                 onChange={(e) => setSearchValue(e.target.value)}

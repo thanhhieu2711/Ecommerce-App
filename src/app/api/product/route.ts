@@ -1,5 +1,4 @@
 import prisma from '@/services/prisma/prismaDB';
-import { NextApiRequest } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
@@ -45,7 +44,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     try {
         const _req = req.nextUrl.searchParams;
 
-        const pageLimit = 8;
+        const pageLimit = Number(_req.get('pageLimit')) || 10;
 
         const searchPage = Number(_req.get('page'));
 
@@ -103,14 +102,4 @@ export async function GET(req: NextRequest, res: NextResponse) {
             { status: 500 }
         );
     }
-}
-
-export async function filterProduct(req: NextRequest) {
-    const _req = req.nextUrl.searchParams;
-
-    const filterByCategoryId = _req.get('category');
-
-    const filterByBrandId = _req.get('brand');
-
-    const filterByPriceRange = _req.get('priceRange');
 }

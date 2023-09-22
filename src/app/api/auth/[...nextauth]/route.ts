@@ -1,5 +1,4 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
-import { NextResponse } from 'next/server';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import CredentialsProviders from 'next-auth/providers/credentials';
 import prisma from '@/services/prisma/prismaDB';
@@ -23,7 +22,7 @@ export const authOptions: NextAuthOptions = {
 
             async authorize(credentials) {
                 if (!credentials?.email || !credentials?.password) {
-                    throw new Error('Invalid input');
+                    return null;
                 }
 
                 const user = await prisma.user.findUnique({
@@ -43,15 +42,32 @@ export const authOptions: NextAuthOptions = {
 
                 if (!isCorrectPassword) {
                     throw new Error('Mật khẩu không chính xác');
-                } else {
-                    return user;
                 }
+                return user;
             },
         }),
     ],
 
+    callbacks: {
+        async jwt({ token, user, session }) {
+            console.log('jwt callback', { token, user, session });
+            if (user) {
+                token.id = user.id;
+                return {
+                    token: token.id,
+                    ...user,
+                };
+            }
+            return token;
+        },
+        async session({ session, token, user }) {
+            session.user = token as Exclude<any, 'password'>;
+            return session;
+        },
+    },
     session: {
-        maxAge: 84600,
+        maxAge: 6 * 60 * 60,
+        // updateAge: 24 * 60 * 60, // 24 hours to update session data into database
         strategy: 'jwt',
     },
     jwt: {

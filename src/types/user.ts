@@ -1,5 +1,5 @@
 import { ROLE as TRoleUser } from '@prisma/client';
-export const enum ROLE {
+export const enum ERole {
     USER = 'USER',
     ADMIN = 'ADMIN',
 }

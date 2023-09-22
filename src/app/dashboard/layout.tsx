@@ -1,7 +1,7 @@
 import { Toast } from '@/components/Common';
-import LoadingPage from '@/components/Common/LoadingPage';
+// import LoadingPage from '@/components/Common/LoadingPage';
 import AdminLayout from '@/layouts/AdminLayout';
-import { Suspense } from 'react';
+// import { Suspense, useMemo } from 'react';
 export default function RootLayout({
     children,
 }: {
@@ -9,7 +9,8 @@ export default function RootLayout({
 }) {
     return (
         <AdminLayout>
-            <Suspense fallback={<LoadingPage />}>{children}</Suspense>
+            {/* <Suspense fallback={<LoadingPage />}>{children}</Suspense> */}
+            {children}
             <Toast />
         </AdminLayout>
     );

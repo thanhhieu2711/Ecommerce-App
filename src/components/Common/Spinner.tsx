@@ -12,7 +12,7 @@ export const Spinner = ({ classname, color, fillActive }: Props) => {
             <svg
                 aria-hidden="true"
                 className={cn(
-                    ` w-6 h-6 animate-spin ${color ?? 'text-gray-200'} ${
+                    ` w-5 h-5 animate-spin ${color ?? 'text-gray-200'} ${
                         fillActive ?? 'fill-black'
                     }`,
                     classname

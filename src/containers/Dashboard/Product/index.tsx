@@ -50,10 +50,11 @@ export const ProductDashboard = () => {
     async function getProducts() {
         setLoading(true);
         try {
-            const { data } = await axios.get('/api/products', {
+            const { data } = await axios.get('/api/product', {
                 params: {
                     page: currentPage,
                     name: searchValue,
+                    pageLimit: 8,
                 },
             });
 
@@ -91,7 +92,7 @@ export const ProductDashboard = () => {
         setLoading(true);
         try {
             const { data } = await axios.delete(
-                `/api/products/${selectedProduct.id}`
+                `/api/product/${selectedProduct.id}`
             );
             if (data.isSuccess) {
                 toast.success(data.message);
