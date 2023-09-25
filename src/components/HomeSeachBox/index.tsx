@@ -6,12 +6,10 @@ import { TProductInfo } from '@/types/general';
 import cn from 'classnames';
 import axios from 'axios';
 import InitialView from './InititalView';
-
-import 'react-loading-skeleton/dist/skeleton.css';
-import Image from 'next/image';
-import { formatCurrency } from '@/utils/helper';
 import SearchResultView from './SeachResultView';
 import { Spinner } from '../Common';
+
+import 'react-loading-skeleton/dist/skeleton.css';
 
 type Props = {};
 const HomeSeachBox = (props: Props) => {
@@ -66,7 +64,7 @@ const HomeSeachBox = (props: Props) => {
     }, []);
 
     return (
-        <div className="sm:w-[320px] relative z-[10]">
+        <div className="sm:w-[320px] z-10 shadow-sm rounded-full">
             <Input
                 onClick={(e) => e.stopPropagation()}
                 suffix={
@@ -81,14 +79,15 @@ const HomeSeachBox = (props: Props) => {
                 }
                 placeholder="Bạn cần tìm gì nào ?"
                 className={cn(
-                    'border-none bg-neutral-100 ring-0 text-sm z-[20] hover:cursor-pointer ',
+                    'border-none bg-secondary rounded-full ring-0 text-sm z-[20] hover:cursor-pointer ',
                     showModal && '!bg-white '
                 )}
+                aria-placeholder="text-black/20"
                 onChange={(e) => setSearchValue(e.target.value)}
                 onFocus={() => setShowModal(true)}
                 styles={{
                     input: {
-                        backgroundColor: showModal ? 'white' : '#F5F5F5',
+                        backgroundColor: showModal ? 'white' : '#f6f9fc',
                     },
                 }}
                 size="large"
@@ -107,7 +106,7 @@ const HomeSeachBox = (props: Props) => {
                     className={cn(
                         'hidden',
                         showModal &&
-                            '!block absolute top-20 inset-x-2 sm:left-auto sm:right-[17.5%] sm:w-fit max-w-[500px] h-full max-h-[500px] bg-white rounded-lg shadow-md'
+                            '!block absolute top-20 inset-x-6 sm:left-auto sm:right-[17.5%] sm:w-fit max-w-[500px] h-full max-h-[500px] bg-white rounded-lg shadow-md'
                     )}
                 >
                     {searchResults.length <= 0 ? (

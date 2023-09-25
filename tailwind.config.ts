@@ -19,7 +19,7 @@ const config: Config = {
                     DEFAULT: '#FB7021',
                 },
                 secondary: {
-                    DEFAULT: '#f8f8f8',
+                    DEFAULT: '#f6f9fc',
                     'variant-1': '#f3f3f3',
                 },
                 common: {
@@ -52,6 +52,25 @@ const config: Config = {
             },
 
             backgroundImage: {},
+
+            gridColumn: {
+                'span-1.5': 'span 1.5 / span 1.5',
+                'span-3.5': 'span 3.5 / span 3.5',
+            },
+
+            boxShadow: {
+                'sub-header': '0px 0px 30px 0px rgba(0, 0, 0, 0.05)',
+                'box-login':
+                    '0px 2px 4px rgba(151, 151, 151, 0.3), 0px 32px 32px rgba(217, 217, 217, 0.2)',
+                'basic-tab':
+                    '0px 2px 4px rgba(151, 151, 151, 0.3), 0px 32px 32px rgba(217, 217, 217, 0.2)',
+                card: '0px 0px 40px 0px rgba(0, 0, 0, 0.1)',
+                'card-flight': '0px 4px 18px 0px rgba(0, 0, 0, 0.10)',
+                'popover-search-flight': '0px 4px 40px 0px rgba(0, 0, 0, 0.10)',
+                'selection-flight-search':
+                    '0px 0px 30px 0px rgba(0, 0, 0, 0.05)',
+                toast: '0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05)',
+            },
         },
         screens: {
             sm: '640px',
@@ -63,10 +82,10 @@ const config: Config = {
         container: {
             padding: {
                 DEFAULT: '1.5625rem',
-                // md: '4.96875rem',
-                // sm: '1.25rem',
-                lg: '7.5rem',
-                // xl: '1.5625rem',
+                sm: '1.25rem',
+                md: '0.25rem',
+                lg: '1.5625rem',
+                xl: '7.5rem',
             },
 
             screens: {

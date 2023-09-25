@@ -46,3 +46,5 @@ export type TPagination = {
     totalPage: number;
     totalRecord: number;
 };
+
+export type TBannerType = 'main' | 'sub';

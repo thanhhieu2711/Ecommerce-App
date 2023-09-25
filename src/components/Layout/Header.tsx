@@ -22,7 +22,7 @@ export default function Header({ isContrast }: Props) {
     return (
         <header
             className={cn(
-                'max-w-full border-b border-black/5 bg-white fixed inset-x-0 top-0 transition-all duration-300 ease-out !min-h-[80px]',
+                'max-w-full border-b border-black/5 bg-white fixed inset-x-0 top-0 transition-all duration-300 ease-out !min-h-[80px] z-30',
                 isContrast && '!bg-primary shadow-xl !border-transparent'
             )}
         >
@@ -82,8 +82,8 @@ export default function Header({ isContrast }: Props) {
                             </Link>
                             <UserMenu isContrast={isContrast} />
                             <div>
-                                <WishlistDrawer />
                                 <CartDrawer />
+                                <WishlistDrawer />
                             </div>
                         </div>
                     </div>

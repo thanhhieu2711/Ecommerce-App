@@ -39,7 +39,7 @@ export const Modal = ({
         isOpen && (
             <div
                 className={cn(
-                    'absolute inset-0 z-[100] flex flex-row items-center justify-center bg-black/50 px-4 sm:px-4 md:px-0  '
+                    'fixed inset-0 z-[100] flex flex-row items-center justify-center bg-black/50 px-4 sm:px-4 md:px-0 !overflow-hidden'
                 )}
                 onClick={(e) => {
                     onClose();

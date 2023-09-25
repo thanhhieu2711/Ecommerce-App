@@ -37,16 +37,18 @@ Props) => {
     return (
         <div
             className={cn(
-                'bg-transparent',
+                'bg-transparent z-[100] h-full',
                 isOpen &&
-                    'fixed transition-all duration-500 ease-out inset-0 !bg-black/20 z-30'
+                    'fixed transition-all duration-500 ease-out inset-0 !bg-black/20 '
             )}
             onClick={() => onClose()}
         >
             <div
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                    e.stopPropagation();
+                }}
                 className={cn(
-                    'fixed top-0 right-0 w-4/5 sm:w-96 md:w-96 bg-white h-screen transition-all duration-200 ease-in translate-x-full',
+                    'fixed top-0 right-0 bottom-0 w-4/5 sm:w-96 md:w-96 bg-white h-screen transition-all duration-200 ease-in translate-x-full',
                     isOpen && '!translate-x-0'
                 )}
             >

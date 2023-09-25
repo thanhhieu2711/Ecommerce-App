@@ -20,13 +20,13 @@ export async function GET(req: NextApiRequest, { params }: TParams) {
 
         if (!!product) {
             return NextResponse.json({
-                isSuccess: false,
-                message: 'Không tìm thấy sản phẩm!',
+                isSuccess: true,
                 data: product,
             });
         } else {
             return NextResponse.json({
-                isSuccess: true,
+                isSuccess: false,
+                message: 'Không tìm thấy sản phẩm!',
                 data: product,
             });
         }
