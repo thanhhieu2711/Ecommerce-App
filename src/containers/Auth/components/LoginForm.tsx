@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { Spinner } from '@/components/Common';
 import { useAppDispatch } from '@/stores';
-import { openLoginModal, swapModal } from '@/stores/reducers/authModal';
+import { openLoginModal, swapAuthModal } from '@/stores/reducers/modal';
 import { Button, Form, Input, Checkbox } from 'antd';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -125,7 +125,7 @@ const LoginForm = (props: Props) => {
                     <Button
                         type="link"
                         className="p-0"
-                        onClick={() => dispatch(swapModal())}
+                        onClick={() => dispatch(swapAuthModal())}
                     >
                         <p className="underline">tại đây</p>
                     </Button>

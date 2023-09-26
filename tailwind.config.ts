@@ -51,7 +51,9 @@ const config: Config = {
                 '2xl': ['1.5rem', '150%'],
             },
 
-            backgroundImage: {},
+            backgroundImage: {
+                fade: 'linear-gradient(180deg,hsla(0,0%,100%,0),hsla(0,0%,100%,.91) 50%,#fff 55%)',
+            },
 
             gridColumn: {
                 'span-1.5': 'span 1.5 / span 1.5',
@@ -83,13 +85,12 @@ const config: Config = {
             padding: {
                 DEFAULT: '1.5625rem',
                 sm: '1.25rem',
-                md: '0.25rem',
+                md: '1.25rem',
                 lg: '1.5625rem',
                 xl: '7.5rem',
             },
 
             screens: {
-                md: '960px',
                 lg: '1280px',
                 xl: '1440px',
                 '2xl': '1920px',

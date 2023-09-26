@@ -37,7 +37,7 @@ Props) => {
     return (
         <div
             className={cn(
-                'bg-transparent z-[100] h-full',
+                'bg-transparent z-[150] h-full',
                 isOpen &&
                     'fixed transition-all duration-500 ease-out inset-0 !bg-black/20 '
             )}
@@ -48,7 +48,7 @@ Props) => {
                     e.stopPropagation();
                 }}
                 className={cn(
-                    'fixed top-0 right-0 bottom-0 w-4/5 sm:w-96 md:w-96 bg-white h-screen transition-all duration-200 ease-in translate-x-full',
+                    'fixed top-0 right-0 bottom-0 w-4/5 sm:w-96 md:w-96 bg-white h-screen transition-all duration-300 ease-out translate-x-full z-50',
                     isOpen && '!translate-x-0'
                 )}
             >

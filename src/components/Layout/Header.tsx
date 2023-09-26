@@ -49,7 +49,7 @@ export default function Header({ isContrast }: Props) {
                             className={cn('flex flex-row items-center gap-6 ')}
                         >
                             <Link
-                                href={'/'}
+                                href={''}
                                 className="hidden sm:block relative"
                             >
                                 <BiHeart

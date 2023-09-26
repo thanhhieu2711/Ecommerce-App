@@ -1,6 +1,4 @@
 import { PRODUCT_STATUS } from '@prisma/client';
-import { type } from 'os';
-
 export type TSidebarLink = {
     id: number;
     name: string;
@@ -29,13 +27,18 @@ export type TProductInfo = {
     name: string;
     price: number;
     description: string;
+    specifications: string;
     discount: number;
     buyTurn: number;
     images: string[];
+    color: string[];
+    capacity: string[];
+    rattting: number;
     quantity: number;
     status: PRODUCT_STATUS;
     categoryId: string;
     brandId: string;
+    feedback: string[];
     createdAt: string;
     updatedAt: string;
 };
@@ -45,6 +48,18 @@ export type TPagination = {
     pageNumber: number;
     totalPage: number;
     totalRecord: number;
+};
+
+export type TColorInfo = {
+    id: number;
+    name: string;
+    hexcode: string;
+    extraPrice: number;
+};
+export type TCapacityInfo = {
+    id: number;
+    name: string;
+    extraPrice: number;
 };
 
 export type TBannerType = 'main' | 'sub';

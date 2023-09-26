@@ -5,11 +5,15 @@ export async function POST(request: Request) {
     try {
         const requestData = await request.json();
 
+        console.log(requestData);
+
         const product = await prisma.product.findUnique({
             where: {
                 name: requestData.name,
             },
-            select: { name: true },
+            include: {
+                feedback: true,
+            },
         });
 
         if (!!product) {

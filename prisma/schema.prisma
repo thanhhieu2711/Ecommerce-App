@@ -30,6 +30,15 @@ enum PRODUCT_STATUS {
   SOLDOUT
 }
 
+enum COLOR {
+  BLACK
+  YELLOW
+  GREEN
+  BLUE
+  GRAY
+  
+}
+
 model User {
   id String @id @default(auto()) @map("_id") @db.ObjectId 
   name String?
@@ -51,7 +60,10 @@ model Product {
   quantity Int
   discount Float @default(0)
   description String
+  specifications String
   images String[]
+  color String[]
+  capacity String[]
   buyTurn Int @default(0)
   ratting Float @default(0)
   categoryId String @db.ObjectId 
@@ -111,11 +123,13 @@ model Order {
 
 model OrderDetail {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  orderId String @db.ObjectId
+  orderId String @db.ObjectId @unique
   order Order @relation(fields: [orderId], references: [id])
   productId String @db.ObjectId
   product Product @relation(fields: [productId], references: [id])
   quantity String
   price String
-  @@unique([id, orderId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
+

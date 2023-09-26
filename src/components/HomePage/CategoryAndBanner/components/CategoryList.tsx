@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import cn from 'classnames';
 import axios from 'axios';
 import { TCategoryInfo } from '@/types/general';
 import Link from 'next/link';

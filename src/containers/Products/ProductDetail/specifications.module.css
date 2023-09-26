@@ -1,7 +1,0 @@
-.detail > p:nth-child(even) {
-    background: grey;
-}
-.detail > p {
-    font-size: 16px;
-    padding: 8px;
-}

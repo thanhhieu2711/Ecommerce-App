@@ -1,6 +1,15 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import cn from 'classnames';
 import { Modal } from '@/components/Common';
-import { Input, InputNumber, Select, Upload, UploadFile, Form } from 'antd';
+import {
+    Input,
+    InputNumber,
+    Select,
+    Upload,
+    UploadFile,
+    Form,
+    Tag,
+} from 'antd';
 import toast from 'react-hot-toast';
 import { toolbarOptions } from '@/configs';
 import axios from 'axios';
@@ -13,6 +22,7 @@ import { TBrandInfo, TCategoryInfo, TProductInfo } from '@/types/general';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { RcFile } from 'antd/es/upload';
+import { capacityList, colorList } from '@/utils/constants/general';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 type Props = {
@@ -36,6 +46,12 @@ export const ModalUpdateProduct = ({
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+    const [selectedColors, setSelectedColors] = useState<string[]>(
+        product.color
+    );
+    const [selectedCapacities, setSelectedCapacities] = useState<string[]>(
+        product.capacity
+    );
 
     const handleGetFileImageFromUrl = useCallback(async () => {
         setLoading(true);
@@ -93,6 +109,8 @@ export const ModalUpdateProduct = ({
                 images: !!listurl ? product.images : listurl,
                 discount: formData.discount / 100,
                 price: Number(formData.price),
+                color: selectedColors,
+                capacity: selectedCapacities,
             });
             if (response.data.isSuccess) {
                 await callback();
@@ -109,6 +127,43 @@ export const ModalUpdateProduct = ({
             setLoading(false);
         }
     };
+    const handleCheckedColor = useCallback(
+        (color: string, isChecked: boolean) => {
+            setSelectedColors((prev) => {
+                if (!prev.includes(color) && isChecked) {
+                    return [...prev, color];
+                }
+                if (!isChecked) {
+                    return [
+                        ...prev.filter(
+                            (selectedColor) => selectedColor !== color
+                        ),
+                    ];
+                }
+                return prev;
+            });
+        },
+        [selectedColors]
+    );
+
+    const handleCheckedCapacity = useCallback(
+        (capacity: string, isChecked: boolean) => {
+            setSelectedCapacities((prev) => {
+                if (!prev.includes(capacity) && isChecked) {
+                    return [...prev, capacity];
+                }
+                if (!isChecked) {
+                    return [
+                        ...prev.filter(
+                            (selectedCapacity) => selectedCapacity !== capacity
+                        ),
+                    ];
+                }
+                return prev;
+            });
+        },
+        [selectedCapacities]
+    );
 
     useEffect(() => {
         handleGetFileImageFromUrl();
@@ -124,7 +179,7 @@ export const ModalUpdateProduct = ({
         form.setFieldValue('categoryId', product.categoryId);
         form.setFieldValue('brandId', product.brandId);
         form.setFieldValue('description', product.description);
-        form.setFieldValue('description', product.description);
+        form.setFieldValue('specifications', product.specifications);
         form.setFieldValue('images', [] as UploadFile[]);
     }, []);
 
@@ -159,7 +214,64 @@ export const ModalUpdateProduct = ({
                 >
                     <Input size="large" />
                 </Form.Item>
-
+                <Form.Item
+                    name="color"
+                    label="Màu sắc"
+                    required
+                    className="flex-1"
+                    rules={[
+                        {
+                            required: selectedColors.length === 0,
+                            message: 'Vui lòng chọn màu sắc',
+                        },
+                    ]}
+                >
+                    {colorList.map((color) => (
+                        <Tag.CheckableTag
+                            key={color.id}
+                            className={cn(
+                                'px-3 py-[2px] border border-black/10',
+                                selectedColors.includes(color.name) &&
+                                    'bg-primary hover:bg-primary !border-transparent'
+                            )}
+                            checked={selectedColors.includes(color.name)}
+                            onChange={(checked) => {
+                                handleCheckedColor(color.name, checked);
+                            }}
+                        >
+                            {color.name}
+                        </Tag.CheckableTag>
+                    ))}
+                </Form.Item>
+                <Form.Item
+                    name="capacity"
+                    label="Dung lượng"
+                    required
+                    className="flex-1"
+                    rules={[
+                        {
+                            required: selectedCapacities.length === 0,
+                            message: 'Vui lòng chọn dung lượng',
+                        },
+                    ]}
+                >
+                    {capacityList.map((capacity) => (
+                        <Tag.CheckableTag
+                            key={capacity.id}
+                            className={cn(
+                                'px-3 py-[2px] border border-black/10',
+                                selectedCapacities.includes(capacity.name) &&
+                                    'bg-primary hover:bg-primary !border-transparent'
+                            )}
+                            checked={selectedCapacities.includes(capacity.name)}
+                            onChange={(checked) => {
+                                handleCheckedCapacity(capacity.name, checked);
+                            }}
+                        >
+                            {capacity.name}
+                        </Tag.CheckableTag>
+                    ))}
+                </Form.Item>
                 <div className="flex gap-4 items-center">
                     <Form.Item
                         name="quantity"
@@ -351,6 +463,32 @@ export const ModalUpdateProduct = ({
                             toolbar: toolbarOptions,
                         }}
                         placeholder={'Mô tả chi tiết sản phẩm ...'}
+                    />
+                </Form.Item>
+                <Form.Item
+                    name="specifications"
+                    label="Thông số kỹ thuật"
+                    required
+                    rules={[
+                        {
+                            required: true,
+                            message:
+                                'Vui lòng nhập thông số kĩ thuật của sản phẩm',
+                            validator(_, value) {
+                                if (!value || value === '<p><br></p>') {
+                                    return Promise.reject(
+                                        'Vui lòng nhập thông số kĩ thuật của sản phẩm'
+                                    );
+                                } else {
+                                    return Promise.resolve(true);
+                                }
+                            },
+                        },
+                    ]}
+                >
+                    <ReactQuill
+                        theme="snow"
+                        placeholder={'Thông số kỹ thuật của sản phẩm ...'}
                     />
                 </Form.Item>
             </Form>

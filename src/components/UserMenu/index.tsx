@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import cn from 'classnames';
 import { useAppDispatch } from '@/stores';
-import { openLoginModal, openRegisterModal } from '@/stores/reducers/authModal';
+import { openLoginModal, openRegisterModal } from '@/stores/reducers/modal';
 import { signOut, useSession } from 'next-auth/react';
 
 import {
@@ -201,7 +201,7 @@ const UserMenu = ({ isContrast }: Props) => {
 
             <div
                 className={cn(
-                    'hidden w-[200px] rounded-lg bg-white shadow-lg top-9 right-0 opacity-0 transition-all duration-200 ease-out',
+                    'hidden w-[200px] rounded-lg bg-white shadow-card top-9 right-0 opacity-0 transition-all duration-200 ease-out',
                     openMenu && '!block absolute !opacity-100'
                 )}
             >

@@ -4,5 +4,6 @@ import { useParams } from 'next/navigation';
 
 export default function ProductDetail() {
     const { id } = useParams();
-    return <ProductDetailCtn pid={id.toString()} />;
+    console.log(id);
+    return <ProductDetailCtn pid={id as string} />;
 }

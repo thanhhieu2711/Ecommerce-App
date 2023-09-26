@@ -1,6 +1,6 @@
 import { Spinner } from '@/components/Common';
 import { useAppDispatch } from '@/stores';
-import { openRegisterModal, swapModal } from '@/stores/reducers/authModal';
+import { openRegisterModal, swapAuthModal } from '@/stores/reducers/modal';
 import { Button, Form, Input } from 'antd';
 import axios from 'axios';
 import { useState } from 'react';
@@ -165,7 +165,7 @@ const RegisterForm = (props: Props) => {
                     <Button
                         type="link"
                         className="p-0"
-                        onClick={() => dispatch(swapModal())}
+                        onClick={() => dispatch(swapAuthModal())}
                     >
                         <p className="underline">tại đây</p>
                     </Button>

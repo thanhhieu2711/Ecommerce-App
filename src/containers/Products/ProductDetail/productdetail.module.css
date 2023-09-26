@@ -1,0 +1,7 @@
+.specifications > p:nth-child(even) {
+    background: #f8f8f8;
+}
+.specifications > p {
+    font-size: 16px;
+    padding: 8px;
+}

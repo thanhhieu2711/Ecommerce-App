@@ -1,4 +1,4 @@
-import { TBannerType } from '@/types/general';
+import { TBannerType, TCapacityInfo, TColorInfo } from '@/types/general';
 
 export const bannerList: {
     id: number;
@@ -54,5 +54,106 @@ export const bannerList: {
         id: 10,
         path: '/assets/images/banner/sub-banner-3.png',
         type: 'sub',
+    },
+];
+
+export const colorList: TColorInfo[] = [
+    {
+        id: 1,
+        name: 'Đen',
+        hexcode: '#000000',
+        extraPrice: 0,
+    },
+    {
+        id: 2,
+        name: 'Trắng',
+        hexcode: '#ffffff',
+        extraPrice: 0.02,
+    },
+    {
+        id: 3,
+        name: 'Đỏ',
+        hexcode: '#ad0000',
+        extraPrice: 0,
+    },
+    {
+        id: 4,
+        name: 'Vàng',
+        hexcode: '#ffc125',
+        extraPrice: 0.02,
+    },
+    {
+        id: 5,
+        name: 'Xanh',
+        hexcode: '#1b4d80',
+        extraPrice: 0.05,
+    },
+    {
+        id: 6,
+        name: 'Xanh lá',
+        hexcode: '#4cbb17',
+        extraPrice: 0.02,
+    },
+    {
+        id: 7,
+        name: 'Tím',
+        hexcode: '#a020f0',
+        extraPrice: 0.05,
+    },
+    {
+        id: 8,
+        name: 'Xám',
+        hexcode: '#808080',
+        extraPrice: 0,
+    },
+    {
+        id: 9,
+        name: 'Titan',
+        hexcode: '#DDE1D6',
+        extraPrice: 0.06,
+    },
+    {
+        id: 10,
+        name: 'Hồng',
+        hexcode: '#e9d3d4',
+        extraPrice: 0.03,
+    },
+];
+
+export const capacityList: TCapacityInfo[] = [
+    {
+        id: 0,
+        name: '8GB',
+        extraPrice: 0,
+    },
+    {
+        id: 1,
+        name: '16GB',
+        extraPrice: 0.02,
+    },
+    {
+        id: 2,
+        name: '32GB',
+        extraPrice: 0.04,
+    },
+    {
+        id: 3,
+        name: '64GB',
+        extraPrice: 0.06,
+    },
+    {
+        id: 4,
+        name: '128GB',
+        extraPrice: 0.08,
+    },
+    {
+        id: 5,
+        name: '256GB',
+        extraPrice: 0.1,
+    },
+    {
+        id: 6,
+        name: '512GB',
+        extraPrice: 0.15,
     },
 ];

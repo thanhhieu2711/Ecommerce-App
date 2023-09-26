@@ -3,11 +3,11 @@ import { Modal } from '@/components/Common';
 
 import LoginForm from './components/LoginForm';
 import { useAppDispatch } from '@/stores';
-import { openLoginModal } from '@/stores/reducers/authModal';
-import useAuthModal from '@/hooks/store/useAuthModal';
+import { openLoginModal } from '@/stores/reducers/modal';
+import useModal from '@/hooks/store/useModal';
 export const LoginModal = () => {
     const dispatch = useAppDispatch();
-    const { isOpenLoginModal } = useAuthModal();
+    const { isOpenLoginModal } = useModal();
     return (
         <Modal
             header={'Đăng nhập'}

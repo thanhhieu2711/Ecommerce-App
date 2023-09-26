@@ -11,6 +11,15 @@ export const formatCurrency = (value: number) => {
     return formatValue;
 };
 
+export const priceCalculator = (value: number, extraPrice?: number) => {
+    const formatValue = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+    }).format(value + value * (extraPrice || 0));
+
+    return formatValue;
+};
+
 export function formatInputPrice(n: string) {
     // format number 1000000 to 1,234,567
     return n.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');

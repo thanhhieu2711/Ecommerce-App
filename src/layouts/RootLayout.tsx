@@ -1,8 +1,9 @@
-import { Nunito } from 'next/font/google';
-const nunito = Nunito({
-    subsets: ['latin'],
-});
+import { Inter } from 'next/font/google';
 
+const inter = Inter({
+    weight: ['400', '500', '600', '700'],
+    subsets: ['latin', 'vietnamese'],
+});
 export default function RootLayout({
     children,
 }: {
@@ -10,7 +11,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body className={nunito.className}>{children}</body>
+            <body className={inter.className}>{children}</body>
         </html>
     );
 }

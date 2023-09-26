@@ -1,3 +1,5 @@
+import { useAppDispatch } from '@/stores';
+import { openHomeSearchBoxModal } from '@/stores/reducers/modal';
 import { TProductInfo } from '@/types/general';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,10 +9,12 @@ type Props = {
 };
 
 const TrendingProductItem = ({ product }: Props) => {
+    const dispatch = useAppDispatch();
     return (
         <Link
-            href={''}
+            href={`/products/${product.id}`}
             className="flex flex-row items-center gap-2 hover:bg-[#f3f3f3] px-1 rounded-md"
+            onClick={() => dispatch(openHomeSearchBoxModal(false))}
         >
             <Image
                 alt="product-img"

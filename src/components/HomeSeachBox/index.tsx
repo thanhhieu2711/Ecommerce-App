@@ -10,33 +10,29 @@ import SearchResultView from './SeachResultView';
 import { Spinner } from '../Common';
 
 import 'react-loading-skeleton/dist/skeleton.css';
+import useModal from '@/hooks/store/useModal';
+import { useAppDispatch } from '@/stores';
+import { openHomeSearchBoxModal } from '@/stores/reducers/modal';
 
 type Props = {};
 const HomeSeachBox = (props: Props) => {
-    const [searchValue, setSearchValue] = useDebounce('', 250);
+    const [searchValue, setSearchValue] = useDebounce('', 200);
     const [searchResults, setSearchResults] = useState<TProductInfo[]>([]);
     const [trendingProducts, setTrendingProduct] = useState<TProductInfo[]>([]);
-    const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState<boolean>(false);
+
+    const dispatch = useAppDispatch();
+    const { isOpenHomeSearchBoxModal } = useModal();
 
     const getProducts = async () => {
         setLoading(true);
         try {
-            if (searchValue.trim() === '') {
-                setSearchResults([]);
-                setLoading(false);
-
-                return;
-            }
             const { data } = await axios.get('/api/product', {
                 params: {
                     name: searchValue,
                 },
             });
-            if (data.isSuccess) {
-                console.log(data.data);
-                setSearchResults(data.data);
-            }
+            data.isSuccess && setSearchResults(data.data);
         } catch (error) {
             console.log(error);
         } finally {
@@ -56,7 +52,7 @@ const HomeSeachBox = (props: Props) => {
     };
 
     useEffect(() => {
-        getProducts();
+        searchValue.trim() !== '' && getProducts();
     }, [searchValue]);
 
     useEffect(() => {
@@ -64,7 +60,7 @@ const HomeSeachBox = (props: Props) => {
     }, []);
 
     return (
-        <div className="sm:w-[320px] z-10 shadow-sm rounded-full">
+        <div className=" sm:w-[350px] z-10 shadow-sm rounded-full">
             <Input
                 onClick={(e) => e.stopPropagation()}
                 suffix={
@@ -80,36 +76,39 @@ const HomeSeachBox = (props: Props) => {
                 placeholder="Bạn cần tìm gì nào ?"
                 className={cn(
                     'border-none bg-secondary rounded-full ring-0 text-sm z-[20] hover:cursor-pointer ',
-                    showModal && '!bg-white '
+                    isOpenHomeSearchBoxModal && '!bg-white '
                 )}
                 aria-placeholder="text-black/20"
                 onChange={(e) => setSearchValue(e.target.value)}
-                onFocus={() => setShowModal(true)}
+                onFocus={() => dispatch(openHomeSearchBoxModal(true))}
                 styles={{
                     input: {
-                        backgroundColor: showModal ? 'white' : '#f6f9fc',
+                        backgroundColor: isOpenHomeSearchBoxModal
+                            ? 'white'
+                            : '#f6f9fc',
                     },
                 }}
                 size="large"
             />
             <div
                 onClick={(e) => {
-                    setShowModal(false);
+                    dispatch(openHomeSearchBoxModal(false));
                 }}
                 className={cn(
                     ' transition-all duration-300 ease-out px-4',
-                    showModal && 'fixed inset-0 ring-0 bg-black/20'
+                    isOpenHomeSearchBoxModal &&
+                        'fixed inset-0 ring-0 bg-black/20'
                 )}
             >
                 <div
                     onClick={(e) => e.stopPropagation()}
                     className={cn(
                         'hidden',
-                        showModal &&
+                        isOpenHomeSearchBoxModal &&
                             '!block absolute top-20 inset-x-6 sm:left-auto sm:right-[17.5%] sm:w-fit max-w-[500px] h-full max-h-[500px] bg-white rounded-lg shadow-md'
                     )}
                 >
-                    {searchResults.length <= 0 ? (
+                    {searchResults.length <= 0 || searchValue.trim() === '' ? (
                         <InitialView trendingProducts={trendingProducts} />
                     ) : (
                         <SearchResultView searchResults={searchResults} />

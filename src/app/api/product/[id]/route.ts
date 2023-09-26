@@ -1,7 +1,7 @@
 import prisma from '@/services/prisma/prismaDB';
 import { NextResponse } from 'next/server';
 import { NextApiRequest } from 'next';
-import { redirect } from 'next/navigation';
+
 type TParams = {
     params: {
         id: string;
