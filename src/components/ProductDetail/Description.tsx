@@ -19,9 +19,9 @@ export const Description = ({ product, handleExpanedDesc }: Props) => {
                     }}
                 />
                 <div className="absolute bg-white bottom-0 right-0 left-0 flex flex-row justify-center">
-                    <div className="absolute w-full bg-fade pt-6 top-0 -translate-y-full"></div>
+                    <div className="absolute w-full bg-mask h-10 top-0 -translate-y-full"></div>
                     <Button
-                        onClick={() => handleExpanedDesc}
+                        onClick={() => handleExpanedDesc()}
                         className="mt-1 min-w-[150px] sm:min-w-[300px] border-black/50 hover:border-black/10"
                         size="md"
                         theme="white"

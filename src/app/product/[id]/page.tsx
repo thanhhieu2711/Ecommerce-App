@@ -1,5 +1,5 @@
 'use client';
-import ProductDetailCtn from '@/containers/Products/ProductDetail';
+import ProductDetailCtn from '@/containers/Product/ProductDetail';
 import { useParams } from 'next/navigation';
 
 export default function ProductDetail() {

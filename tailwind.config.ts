@@ -55,6 +55,7 @@ const config: Config = {
 
             backgroundImage: {
                 fade: 'linear-gradient(180deg,hsla(0,0%,100%,0),hsla(0,0%,100%,.9) 50%,#fff 55%)',
+                mask: 'linear-gradient(1turn,#fff 25.58%,hsla(0,0%,100%,0) 181.4%);',
             },
 
             gridColumn: {

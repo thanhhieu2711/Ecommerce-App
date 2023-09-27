@@ -37,7 +37,6 @@ const ProductDetailCtn = ({ pid }: Props) => {
     );
     const getProductDetail = async () => {
         const { data } = await axios.get(`/api/product/${pid}`);
-        console.log(data);
         data.isSuccess && setProduct(data.data);
         !!data.data?.images?.length && setActiveImage(data.data?.images[0]);
     };

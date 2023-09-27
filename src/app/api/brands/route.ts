@@ -4,8 +4,6 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
     try {
         const _request = await request.json();
-        console.log(_request);
-
         const brand = await prisma.brand.findUnique({
             where: {
                 name: _request.name,
