@@ -1,4 +1,5 @@
-import { PRODUCT_STATUS } from '@prisma/client';
+import { Brand, Category, Feedback, Product } from '@prisma/client';
+import { TUserInfo } from './user';
 export type TSidebarLink = {
     id: number;
     name: string;
@@ -6,41 +7,16 @@ export type TSidebarLink = {
     icon?: React.ReactNode;
 };
 
-export type TCategoryInfo = {
-    id: string;
-    name: string;
-    thumbnail: string;
-    createdAt: string;
-    updatedAt: string;
+export type TCategoryInfo = Category;
+
+export type TBrandInfo = Brand;
+
+export type TProductInfo = Product & {
+    feedback: TFeedback[];
 };
 
-export type TBrandInfo = {
-    id: string;
-    name: string;
-    thumbnail: string;
-    createdAt: string;
-    updatedAt: string;
-};
-
-export type TProductInfo = {
-    id: string;
-    name: string;
-    price: number;
-    description: string;
-    specifications: string;
-    discount: number;
-    buyTurn: number;
-    images: string[];
-    color: string[];
-    capacity: string[];
-    rattting: number;
-    quantity: number;
-    status: PRODUCT_STATUS;
-    categoryId: string;
-    brandId: string;
-    feedback: string[];
-    createdAt: string;
-    updatedAt: string;
+export type TFeedback = Feedback & {
+    user: TUserInfo;
 };
 
 export type TPagination = {

@@ -7,7 +7,9 @@ import { signOut, useSession } from 'next-auth/react';
 import {
     BiUserCircle,
     BiLogOut,
+    BiLogIn,
     BiShoppingBag,
+    BiRegistered,
     BiHeart,
     BiUser,
     BiReceipt,
@@ -19,6 +21,7 @@ import Link from 'next/link';
 import { openCartDrawer, openWishlistDrawer } from '@/stores/reducers/drawer';
 import { ERole } from '@/types/user';
 import { Session } from 'next-auth';
+import toast from 'react-hot-toast';
 
 type Props = {
     isContrast?: boolean;
@@ -32,6 +35,46 @@ const UserMenu = ({ isContrast }: Props) => {
     const menuRef = useRef<HTMLDivElement>(null);
 
     const [openMenu, setOpenMenu] = useState<boolean>(false);
+
+    const DEFAULT_OPTIONS: {
+        id: number;
+        title: string;
+        link: string;
+        icon: React.ReactNode;
+        action?: () => void;
+        className?: string;
+    }[] = [
+        {
+            id: 1,
+            title: 'Giỏ hàng',
+            link: '',
+            icon: <BiShoppingBag className="sm:hidden icon-base !w-5 !h-5" />,
+            className: 'sm:hidden',
+            action: () => dispatch(openCartDrawer(true)),
+        },
+        {
+            id: 2,
+            title: 'Yêu thích',
+            link: '',
+            icon: <BiHeart className="sm:hidden icon-base !w-5 !h-5" />,
+            className: 'sm:hidden',
+            action: () => dispatch(openWishlistDrawer(true)),
+        },
+        {
+            id: 3,
+            title: 'Đăng nhập',
+            link: '',
+            icon: <BiLogIn className="icon-base !w-5 !h-5" />,
+            action: () => dispatch(openLoginModal(true)),
+        },
+        {
+            id: 4,
+            title: 'Đăng ký',
+            link: '',
+            icon: <BiRegistered className="icon-base !w-5 !h-5" />,
+            action: () => dispatch(openRegisterModal(true)),
+        },
+    ];
 
     const USER_OPTIONS: {
         id: number;
@@ -74,7 +117,10 @@ const UserMenu = ({ isContrast }: Props) => {
             title: 'Đăng xuất',
             link: '',
             icon: <BiLogOut className="icon-base !w-5 !h-5" />,
-            action: signOut,
+            action: () => {
+                signOut();
+                toast.success('Bạn đã đăng xuất !');
+            },
         },
     ];
 
@@ -106,26 +152,31 @@ const UserMenu = ({ isContrast }: Props) => {
 
     const _renderMenuOption = useCallback(() => {
         if (status === 'unauthenticated') {
-            return (
-                <ul onClick={() => setOpenMenu(false)}>
-                    <li
-                        className="text-sm px-3 py-3 hover:bg-neutral-100 rounded-t-lg cursor-pointer"
-                        onClick={(e) => {
-                            dispatch(openLoginModal(true));
-                        }}
+            return DEFAULT_OPTIONS.map((option, index) => (
+                <Link
+                    href={''}
+                    key={option.id}
+                    onClick={(e) => {
+                        setOpenMenu(false);
+                        option.action && option.action();
+                    }}
+                >
+                    <div
+                        className={cn(
+                            'px-3 py-3 flex flex-row items-center gap-2 hover:bg-neutral-100 cursor-pointer',
+                            option?.className,
+                            {
+                                'rounded-t-lg': index === 0,
+                                'rounded-b-lg border-t border-black/5':
+                                    index === USER_OPTIONS.length - 1,
+                            }
+                        )}
                     >
-                        Đăng nhập
-                    </li>
-                    <li
-                        className="text-sm px-3 py-3 hover:bg-neutral-100 rounded-b-lg cursor-pointer"
-                        onClick={(e) => {
-                            dispatch(openRegisterModal(true));
-                        }}
-                    >
-                        Đăng ký
-                    </li>
-                </ul>
-            );
+                        {option.icon}
+                        <p className={cn('text-sm')}>{option.title}</p>
+                    </div>
+                </Link>
+            ));
         }
         if (data?.user.role === ERole.ADMIN) {
             return ADMIN_OPTIONS.map((item, index) => (
@@ -191,12 +242,7 @@ const UserMenu = ({ isContrast }: Props) => {
                 size="sm"
                 onClick={() => setOpenMenu(!openMenu)}
             >
-                <BiUserCircle
-                    className={cn(
-                        'icon-base text-black',
-                        isContrast && '!text-white'
-                    )}
-                />
+                <BiUserCircle className={cn('icon-base text-black')} />
             </Button>
 
             <div

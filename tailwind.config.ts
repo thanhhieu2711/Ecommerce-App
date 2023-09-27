@@ -16,11 +16,13 @@ const config: Config = {
             colors: () => ({
                 current: 'currentColor',
                 primary: {
-                    DEFAULT: '#FB7021',
+                    DEFAULT: '#fe3564',
+                    // DEFAULT: '#0CCBE0',
                 },
                 secondary: {
                     DEFAULT: '#f6f9fc',
                     'variant-1': '#f3f3f3',
+                    'variant-2': '#0364ee',
                 },
                 common: {
                     white: '#fff',
@@ -52,7 +54,7 @@ const config: Config = {
             },
 
             backgroundImage: {
-                fade: 'linear-gradient(180deg,hsla(0,0%,100%,0),hsla(0,0%,100%,.91) 50%,#fff 55%)',
+                fade: 'linear-gradient(180deg,hsla(0,0%,100%,0),hsla(0,0%,100%,.9) 50%,#fff 55%)',
             },
 
             gridColumn: {

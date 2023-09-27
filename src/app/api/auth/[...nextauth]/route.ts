@@ -3,6 +3,7 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import CredentialsProviders from 'next-auth/providers/credentials';
 import prisma from '@/services/prisma/prismaDB';
 import bcrypt from 'bcrypt';
+import { JWT } from 'next-auth/jwt';
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
@@ -29,6 +30,10 @@ export const authOptions: NextAuthOptions = {
                     where: {
                         email: credentials.email,
                     },
+                    include: {
+                        orders: true,
+                        feedback: true,
+                    },
                 });
 
                 if (!user) {
@@ -50,7 +55,8 @@ export const authOptions: NextAuthOptions = {
 
     callbacks: {
         async jwt({ token, user, session }) {
-            console.log('jwt callback', { token, user, session });
+            console.log(user);
+
             if (user) {
                 token.id = user.id;
                 return {
@@ -61,7 +67,7 @@ export const authOptions: NextAuthOptions = {
             return token;
         },
         async session({ session, token, user }) {
-            session.user = token as Exclude<any, 'password'>;
+            session.user = token as any;
             return session;
         },
     },

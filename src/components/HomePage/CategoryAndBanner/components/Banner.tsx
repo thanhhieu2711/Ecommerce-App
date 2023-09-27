@@ -15,12 +15,12 @@ type Props = {};
 
 const Banner = (props: Props) => {
     return (
-        <div className="col-span-5 md:col-span-4 h-full rounded-lg shadow-card bg-white ">
+        <div className="col-span-4 h-full rounded-lg shadow-card bg-white ">
             <Swiper
                 spaceBetween={30}
                 centeredSlides={true}
                 autoplay={{
-                    delay: 2000,
+                    delay: 4000,
                     disableOnInteraction: false,
                 }}
                 pagination={{
@@ -37,7 +37,7 @@ const Banner = (props: Props) => {
                 {bannerList
                     .filter((banner) => banner.type !== 'sub')
                     .map((banner) => (
-                        <SwiperSlide key={banner.id}>
+                        <SwiperSlide key={banner.id} className="w-full h-full">
                             <img
                                 src={banner.path}
                                 className="w-full h-full rounded-lg"

@@ -1,6 +1,7 @@
 import prisma from '@/services/prisma/prismaDB';
 import { NextResponse } from 'next/server';
 import { NextApiRequest } from 'next';
+import { calculateRating } from '@/utils/helper';
 
 type TParams = {
     params: {
@@ -11,17 +12,30 @@ type TParams = {
 export async function GET(req: NextApiRequest, { params }: TParams) {
     try {
         const { id } = params;
-
         const product = await prisma.product.findUnique({
             where: {
-                id,
+                id: id.slice(id.lastIndexOf('-') + 1),
+            },
+            include: {
+                feedback: {
+                    include: {
+                        user: true,
+                    },
+                },
             },
         });
 
         if (!!product) {
             return NextResponse.json({
                 isSuccess: true,
-                data: product,
+                data: {
+                    ...product,
+                    ratting: Math.ceil(
+                        calculateRating(
+                            product.feedback.map((feed) => feed.ratting)
+                        )
+                    ),
+                },
             });
         } else {
             return NextResponse.json({

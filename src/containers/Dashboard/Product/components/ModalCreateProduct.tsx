@@ -1,7 +1,7 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import cn from 'classnames';
-import { Button, Modal, Spinner } from '@/components/Common';
+import { Modal } from '@/components/Common';
 import { colorList, capacityList } from '@/utils/constants/general';
 import {
     Input,
@@ -13,22 +13,17 @@ import {
     Tag,
 } from 'antd';
 import toast from 'react-hot-toast';
-
-import dynamic from 'next/dynamic';
 import { toolbarOptions } from '@/configs';
 import axios from 'axios';
 import {
     handleGetOriginFileObj,
     handleUploadImagesToFirebase,
 } from '@/utils/helper';
-import {
-    TBrandInfo,
-    TCapacityInfo,
-    TCategoryInfo,
-    TColorInfo,
-} from '@/types/general';
+import { TBrandInfo, TCategoryInfo } from '@/types/general';
 import { useRouter } from 'next/navigation';
+import slugify from 'slugify';
 
+import dynamic from 'next/dynamic';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 type Props = {
@@ -73,6 +68,7 @@ export const ModalCreateProduct = ({
                 price: Number(formData.price),
                 color: selectedColors,
                 capacity: selectedCapacities,
+                slug: slugify(formData.name),
             });
             if (response.data.isSuccess) {
                 form.resetFields();

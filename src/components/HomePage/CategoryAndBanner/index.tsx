@@ -6,7 +6,7 @@ import { bannerList } from '@/utils/constants/general';
 export const CategoryAndBanner = () => {
     return (
         <div className="w-full h-full flex flex-col gap-8">
-            <div className="w-full md:min-h-[380px] 2xl:min-h-[500px] grid grid-cols-5 gap-4 row-auto ">
+            <div className="w-full grid grid-cols-4 gap-4 row-auto ">
                 <CategoryList />
                 <Banner />
             </div>

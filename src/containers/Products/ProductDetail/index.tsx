@@ -2,16 +2,24 @@
 import { TCapacityInfo, TColorInfo, TProductInfo } from '@/types/general';
 import axios from 'axios';
 import { useEffect, useMemo, useState } from 'react';
-import styles from './productdetail.module.css';
 import cn from 'classnames';
 import Container from '@/components/Layout/Container';
-import { priceCalculator } from '@/utils/helper';
-import { BiGift } from 'react-icons/bi';
-import { TbDiscountCheck } from 'react-icons/tb';
+import { formatDate, priceCalculator } from '@/utils/helper';
+import { BiCartAdd, BiTime } from 'react-icons/bi';
 import { Rate, Tag, Tooltip } from 'antd';
 import { capacityList, colorList } from '@/utils/constants/general';
 import Image from 'next/image';
 import { Button, Modal } from '@/components/Common';
+import 'react-loading-skeleton/dist/skeleton.css';
+import {
+    Description,
+    ProductImage,
+    Promotion,
+    Specification,
+    Evaluate,
+    ProductInfo,
+} from '@/components/ProductDetail';
+
 type Props = {
     pid: string;
 };
@@ -20,6 +28,7 @@ const ProductDetailCtn = ({ pid }: Props) => {
     const [product, setProduct] = useState<TProductInfo>({} as TProductInfo);
     const [activeImage, setActiveImage] = useState<string>('');
     const [isExpanedDesc, setExpanedDesc] = useState<boolean>(false);
+    const [isShowFeedback, setShowFeedback] = useState<boolean>(false);
     const [selectedColor, setSelectedColor] = useState<TColorInfo>(
         {} as TColorInfo
     );
@@ -49,6 +58,38 @@ const ProductDetailCtn = ({ pid }: Props) => {
         return findListCapacity;
     }, [product]);
 
+    const ratingScaleList = useMemo(() => {
+        const tempArr = [
+            {
+                ratingScale: 5,
+                ratingTurn: 0,
+            },
+            {
+                ratingScale: 4,
+                ratingTurn: 0,
+            },
+            {
+                ratingScale: 3,
+                ratingTurn: 0,
+            },
+            {
+                ratingScale: 2,
+                ratingTurn: 0,
+            },
+            {
+                ratingScale: 1,
+                ratingTurn: 0,
+            },
+        ];
+        for (let i = 0; i < product.feedback?.length; i++) {
+            const index = tempArr.findIndex(
+                (item) => item.ratingScale === product.feedback[i]?.ratting
+            );
+            tempArr[index].ratingTurn += 1;
+        }
+        return tempArr;
+    }, [product]);
+
     useEffect(() => {
         getProductDetail();
     }, [pid]);
@@ -58,297 +99,73 @@ const ProductDetailCtn = ({ pid }: Props) => {
             {product && product.images && (
                 <Container>
                     <div className=" grid grid-cols-4 md:row-auto gap-6 bg-white p-4 rounded-lg shadow-card">
+                        {/* ẢNH SẢN PHẨM */}
                         {product.images && (
-                            <div className="col-span-4 md:col-span-2 ">
-                                <div className="flex flex-row gap-2 h-full md:max-h-[450px]">
-                                    <div className="flex flex-col justify-between  basis-[15.5%] sm:basis-[15.7%] md:basis-[15%] h-full">
-                                        {product.images.map((image) => (
-                                            <div
-                                                key={image}
-                                                className={cn(
-                                                    'cursor-pointer border border-black/10 rounded-lg ',
-                                                    image === activeImage &&
-                                                        'border-primary '
-                                                )}
-                                                onClick={() =>
-                                                    setActiveImage(image)
-                                                }
-                                            >
-                                                <Image
-                                                    width={80}
-                                                    height={80}
-                                                    src={image}
-                                                    loading="lazy"
-                                                    alt="product-image"
-                                                    className="p-1 rounded-lg w-full h-full"
-                                                />
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <div className="flex-1 rounded-lg border border-black/10">
-                                        <img
-                                            src={activeImage}
-                                            className="object-contain w-full h-full rounded-lg"
-                                            alt=""
-                                            loading="lazy"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
+                            <ProductImage
+                                activeImage={activeImage}
+                                handleChangeActiveImage={setActiveImage}
+                                product={product}
+                            />
                         )}
                         <div className="col-span-4 md:col-span-2">
-                            <div className="w-full h-full flex flex-col gap-3">
-                                {/* TÊN / ĐÁNH GIÁ */}
-                                <div className="border-b border-black/5 pb-3">
-                                    <p className="text-2xl font-medium">
-                                        {product.name}
-                                    </p>
-                                    <div className="flex flex-row items-center gap-2 flex-wrap ">
-                                        <Rate
-                                            className="text-sm text-common-warning"
-                                            disabled
-                                            defaultValue={product.rattting}
-                                        />
-                                        <p className="text-sm text-black/50">
-                                            (0 lượt đánh giá)
-                                        </p>
-                                        <span className="text-black/50 text-xs ">
-                                            |
-                                        </span>
-                                        <p
-                                            className={cn(
-                                                'text-sm ',
-                                                product.status === 'AVAILABLE'
-                                                    ? 'text-green-600'
-                                                    : 'text-red-600'
-                                            )}
-                                        >
-                                            {product.status === 'AVAILABLE'
-                                                ? 'Còn hàng'
-                                                : 'Hết hàng'}
-                                        </p>
-                                        <p></p>
-                                    </div>
-                                </div>
-
-                                {/* GIÁ BÁN */}
-                                <div className="flex flex-row items-center gap-4 flex-wrap">
-                                    <p className="text-sm">Giá niêm yết : </p>
-                                    <p className="text-2xl font-bold text-primary">
-                                        {priceCalculator(
-                                            product.price -
-                                                product.price *
-                                                    product.discount,
-                                            selectedColor?.extraPrice +
-                                                selectedCapacity?.extraPrice
-                                        )}
-                                    </p>
-                                    <p className="text-md line-through text-black/50">
-                                        {priceCalculator(
-                                            product.price,
-                                            selectedColor?.extraPrice +
-                                                selectedCapacity?.extraPrice
-                                        )}
-                                    </p>
-                                </div>
-                                {/* MÀU SẮC */}
-                                <div className="flex flex-row items-center gap-4 flex-wrap">
-                                    <p className="text-sm">Màu sắc :</p>
-                                    <div className="flex flex-row items-center gap-2">
-                                        {productColors.map((color, index) => {
-                                            return (
-                                                <div
-                                                    key={color.id}
-                                                    className={cn(
-                                                        'p-[2px] flex flex-row items-center justify-center border-2 border-transparent rounded-full',
-                                                        selectedColor?.id ===
-                                                            color?.id &&
-                                                            '!border-primary'
-                                                    )}
-                                                >
-                                                    <Tooltip
-                                                        title={color.name}
-                                                        key={color.id}
-                                                        className="mx-auto"
-                                                    >
-                                                        <Tag.CheckableTag
-                                                            checked
-                                                            onChange={() =>
-                                                                setSelectedColor(
-                                                                    color
-                                                                )
-                                                            }
-                                                            style={{
-                                                                backgroundColor:
-                                                                    color.hexcode,
-                                                            }}
-                                                            className={`w-7 h-7 rounded-full border border-black/10 `}
-                                                        ></Tag.CheckableTag>
-                                                    </Tooltip>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-                                {/* DUNG LƯỢNG */}
-                                {product.capacity && (
-                                    <div className="flex flex-row items-center gap-4 flex-wrap">
-                                        <p className="text-sm">Dung lượng :</p>
-                                        <div className="flex flex-row items-center gap-3 flex-wrap">
-                                            {productCapacities?.map(
-                                                (capacity, index) => {
-                                                    return (
-                                                        <div
-                                                            onClick={() =>
-                                                                setSelectedCapacity(
-                                                                    capacity
-                                                                )
-                                                            }
-                                                            key={capacity.id}
-                                                            className={cn(
-                                                                'text-sm rounded-lg px-3 py-1 border border-black/20 cursor-pointer',
-                                                                selectedCapacity?.id ===
-                                                                    capacity.id &&
-                                                                    '!border-primary'
-                                                            )}
-                                                        >
-                                                            {capacity.name}
-                                                        </div>
-                                                    );
-                                                }
-                                            )}
-                                        </div>
-                                    </div>
-                                )}
-                                {/* ƯU ĐÃI */}
-                                <div className="flex flex-col gap-2 p-4 rounded-lg border border-black/10">
-                                    <div className="flex flex-row items-center gap-2">
-                                        <BiGift className="icon-base !w-5 !h-5" />
-                                        <p className="font-semibold text-sm">
-                                            Chương trình khuyến mãi
-                                        </p>
-                                    </div>
-                                    <div className="flex flex-col gap-2 pl-7">
-                                        <div className="flex flex-col gap-2">
-                                            <p className="text-red-600 text-sm font-semibold">
-                                                Ưu đãi sinh viên
-                                            </p>
-                                            <div className="flex flex-row items-center gap-2">
-                                                <TbDiscountCheck className="!w-5 !h-5 text-green-600" />
-                                                <p className="text-sm">
-                                                    Giảm 200.000đ cho khách hàng
-                                                    là HS-SV
-                                                </p>
-                                            </div>
-                                            <div className="flex flex-row items-center gap-2">
-                                                <TbDiscountCheck className="!w-5 !h-5 text-green-600" />
-                                                <p className="text-sm">
-                                                    Thi tốt quà to - Đỗ cao giảm
-                                                    khủng đến 500.000đ
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div className="flex flex-col gap-2">
-                                            <p className="text-red-600 text-sm font-semibold">
-                                                Ưu đãi mua kèm
-                                            </p>
-                                            <div className="flex flex-row items-center gap-2">
-                                                <TbDiscountCheck className="!w-5 !h-5 text-green-600" />
-                                                <p className="text-sm">
-                                                    Mua nhiều giảm sâu, giảm đến
-                                                    200.000đ khi mua phụ kiện
-                                                </p>
-                                            </div>
-                                            <div className="flex flex-row items-center gap-2">
-                                                <TbDiscountCheck className="!w-5 !h-5 text-green-600" />
-                                                <p className="text-sm">
-                                                    Giảm thêm 200.000đ khi mua
-                                                    kèm gói bảo hành VIP tại cửa
-                                                    hàng
-                                                </p>
-                                            </div>
-                                            <div className="flex flex-row items-center gap-2">
-                                                <TbDiscountCheck className="!w-5 !h-5 text-green-600" />
-                                                <p className="text-sm">
-                                                    Giảm thêm 500.000đ khi mua
-                                                    kèm gói Microsoft Office 365
-                                                    Personal
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* <p
-                                        className="sm:hidden ml-auto text-sm text-common-info cursor-pointer"
+                            <div className="w-full h-full flex flex-col gap-5">
+                                <ProductInfo
+                                    product={product}
+                                    productColors={productColors}
+                                    productCapacities={productCapacities}
+                                    selectedColor={selectedColor}
+                                    selectedCapacity={selectedCapacity}
+                                    handleSelectColor={setSelectedColor}
+                                    handleSelectCapacity={setSelectedCapacity}
+                                />
+                                <Promotion />
+                                {/* THÊM VÀO GIỎ HANG */}
+                                <div className="flex flex-row items-center gap-3">
+                                    <Button
+                                        className="sm:basis-1/3 flex flex-row items-center  justify-center gap-2 text-lg text-secondary-variant-2
+                                        hover:border-opacity-50
+                                        border-secondary-variant-2
+                                        "
+                                        size="md"
+                                        variant="outline"
                                         onClick={() => {}}
                                     >
-                                        Chi tiết
-                                    </p> */}
-                                </div>
-                                {/* THÊM VÀO GIỎ HANG */}
-                                {
+                                        <BiCartAdd className="icon-base" />
+                                        <p className="hidden sm:block">
+                                            Thêm vào giỏ
+                                        </p>
+                                    </Button>
                                     <Button
-                                        className="text-lg font-medium text-white hover:bg-opacity-80"
+                                        className="flex-1 text-lg text-white hover:bg-opacity-80"
                                         size="md"
                                         onClick={() => {}}
                                     >
-                                        <p>Thêm vào giỏ hàng</p>
+                                        <p>Mua ngay</p>
                                     </Button>
-                                }
+                                </div>
                             </div>
                         </div>
                         <div className="h-px col-span-4 border-b border-black/10"></div>
                         {/* MÔ TẢ / THÔNG SỐ */}
                         <div className="col-span-4">
                             <div className="grid grid-cols-5 gap-8 grid-flow-dense row-auto ">
-                                <div className="col-span-5 md:col-span-3">
-                                    <div className="w-full h-full flex flex-col gap-4 relative">
-                                        <p className="text-2xl font-medium">
-                                            Mô tả chi tiết
-                                        </p>
-                                        <div
-                                            className=" text-justify h-full max-h-[900px] overflow-clip "
-                                            dangerouslySetInnerHTML={{
-                                                __html:
-                                                    product.description || '',
-                                            }}
-                                        />
-                                        <div className="absolute bg-white bottom-0 right-0 left-0 flex flex-row justify-center">
-                                            <div className="absolute w-full backdrop-blur-sm  h-5 top-0 -translate-y-full"></div>
-                                            <Button
-                                                onClick={() =>
-                                                    setExpanedDesc(true)
-                                                }
-                                                className="mt-1 min-w-[150px] sm:min-w-[300px] border-black/50 hover:border-black/10"
-                                                size="md"
-                                                theme="white"
-                                                variant="outline"
-                                            >
-                                                Nhấn để xem thêm
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-span-5 md:col-span-2">
-                                    <div className="w-full h-full flex flex-col gap-4">
-                                        <p className="text-2xl font-medium">
-                                            Thông số kỹ thuật
-                                        </p>
-                                        <div
-                                            className={cn(
-                                                'text-justify border border-black/10',
-
-                                                styles.specifications
-                                            )}
-                                            dangerouslySetInnerHTML={{
-                                                __html:
-                                                    product.specifications ||
-                                                    '',
-                                            }}
-                                        />
-                                    </div>
-                                </div>
+                                <Description
+                                    product={product}
+                                    handleExpanedDesc={() =>
+                                        setExpanedDesc(true)
+                                    }
+                                />
+                                <Specification product={product} />
                             </div>
                         </div>
+                        {/* ĐÁNH GIÁ SẢN PHẨM */}
+                        <Evaluate
+                            handleShowModalFeedback={() =>
+                                setShowFeedback(!!product.feedback.length)
+                            }
+                            product={product}
+                            ratingScaleList={ratingScaleList}
+                        />
                     </div>
                 </Container>
             )}
@@ -366,6 +183,59 @@ const ProductDetailCtn = ({ pid }: Props) => {
                         __html: product.description || '',
                     }}
                 />
+            </Modal>
+            <Modal
+                // containerClassname="md:!max-w-[800px]"
+                onClose={() => setShowFeedback(false)}
+                isOpen={isShowFeedback}
+                header={'Đánh giá và nhận xét'}
+                showCloseIcon={true}
+                showFooter={false}
+            >
+                <div className="w-full h-full flex flex-col gap-4">
+                    {product.feedback?.map((feedback, index) => (
+                        <div
+                            key={feedback.id}
+                            className={cn(
+                                'flex flex-col pb-3',
+                                index !== product.feedback.length - 1 &&
+                                    'border-b border-black/5'
+                            )}
+                        >
+                            <div
+                                key={feedback.id}
+                                className="flex flex-row items-center gap-3"
+                            >
+                                <div className="flex flex-row items-center gap-2">
+                                    <Image
+                                        src={
+                                            '/assets/images/fallback_user.jpeg'
+                                        }
+                                        width={35}
+                                        height={35}
+                                        alt=""
+                                    />
+                                    <p className="text-lg font-medium">
+                                        {feedback.user.name || 'Vô danh'}
+                                    </p>
+                                </div>
+                                <div className="flex flex-row items-center gap-1 text-xs">
+                                    <BiTime />
+                                    <p>{formatDate(feedback.createdAt)}</p>
+                                </div>
+                            </div>
+                            <div className="flex flex-col gap-2 ml-11">
+                                <div className="flex flex-row items-center gap-2">
+                                    <Rate
+                                        defaultValue={feedback.ratting}
+                                        className="text-common-warning text-sm"
+                                    />
+                                </div>
+                                <p>{feedback.content}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </Modal>
         </div>
     );

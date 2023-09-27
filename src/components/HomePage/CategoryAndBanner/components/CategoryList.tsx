@@ -2,14 +2,24 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { TCategoryInfo } from '@/types/general';
 import Link from 'next/link';
-import { HiOutlineDevicePhoneMobile } from 'react-icons/hi2';
-import { PiLaptop } from 'react-icons/pi';
-import { TfiTablet } from 'react-icons/tfi';
-import { BsSmartwatch } from 'react-icons/bs';
-import { SlScreenDesktop } from 'react-icons/sl';
-import { FaComputer } from 'react-icons/fa6';
-import { BsKeyboard } from 'react-icons/bs';
-import { PiTelevisionSimple, PiHeadphonesBold } from 'react-icons/pi';
+import Image from 'next/image';
+
+// import { HiOutlineDevicePhoneMobile } from 'react-icons/hi2';
+// import { PiLaptop } from 'react-icons/pi';
+// import { TfiTablet } from 'react-icons/tfi';
+// import { BsSmartwatch } from 'react-icons/bs';
+// import { SlScreenDesktop } from 'react-icons/sl';
+// import { FaComputer } from 'react-icons/fa6';
+// import { BsKeyboard } from 'react-icons/bs';
+// import { PiTelevisionSimple, PiHeadphonesBold } from 'react-icons/pi';
+import { BiCategory } from 'react-icons/bi';
+
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+
+// Swiper
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 type Props = {};
 
@@ -20,45 +30,78 @@ const CategoryList = () => {
         data.isSuccess && setCategories(data.data);
     };
 
-    const _renderIcon = (name: string) => {
-        switch (name) {
-            case 'Điện thoại': {
-                return <HiOutlineDevicePhoneMobile className="icon-base" />;
-            }
-            case 'Laptop': {
-                return <PiLaptop className="icon-base" />;
-            }
-            case 'Máy tính bảng': {
-                return <TfiTablet className="icon-base" />;
-            }
-            case 'Đồng hồ thông minh': {
-                return <BsSmartwatch className="icon-base" />;
-            }
-            case 'Màn hình': {
-                return <SlScreenDesktop className="icon-base" />;
-            }
-            case 'Linh kiện - PC': {
-                return <FaComputer className="icon-base" />;
-            }
-            case 'Bàn phím': {
-                return <BsKeyboard className="icon-base" />;
-            }
-            case 'Tai nghe': {
-                return <PiHeadphonesBold className="icon-base" />;
-            }
-            case 'Tivi': {
-                return <PiTelevisionSimple className="icon-base" />;
-            }
-        }
-    };
-
     useEffect(() => {
         getCategories();
     }, []);
 
     return (
-        <div className="hidden h-full md:col-span-1 md:block rounded-lg border border-black/5 shadow-card bg-white">
-            <div className="w-full h-full flex flex-col">
+        <div className="col-span-4 rounded-lg border border-black/5 shadow-card bg-white">
+            <div className="w-full h-full grid grid-cols-6">
+                <div className="col-span-1 border-r border-black/10">
+                    <div className="w-full h-full flex flex-row items-center justify-center gap-3">
+                        <BiCategory className="icon-base" />
+                        <p className="hidden md:block text-md font-medium cursor-default">
+                            Danh mục
+                        </p>
+                    </div>
+                </div>
+                <div className="col-span-5">
+                    <Swiper
+                        spaceBetween={8}
+                        slidesPerView={'auto'}
+                        grabCursor
+                        style={{
+                            borderRadius: 8,
+                            padding: '8px 16px',
+                        }}
+                    >
+                        {!!categories.length ? (
+                            categories.map((category) => (
+                                <SwiperSlide
+                                    key={category.id}
+                                    className="hover:bg-secondary-variant-1 rounded-lg"
+                                    onClick={() => {
+                                        console.log('first');
+                                    }}
+                                >
+                                    <Link
+                                        href={`/category/${category.id}`}
+                                        className="flex flex-row items-center justify-center gap-2 py-2 px-4"
+                                    >
+                                        <Image
+                                            alt=""
+                                            width={45}
+                                            height={45}
+                                            src={category.thumbnail}
+                                        />
+
+                                        <p className="text-sm font-semibold ">
+                                            {category.name}
+                                        </p>
+                                    </Link>
+                                </SwiperSlide>
+                            ))
+                        ) : (
+                            <div className="flex flex-row items-center gap-2 px-4">
+                                {Array.from({ length: 6 }).map((_, index) => (
+                                    <Skeleton
+                                        key={index}
+                                        width={150}
+                                        height={60}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </Swiper>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default CategoryList;
+{
+    /* <div className="w-full h-full flex flex-col">
                 {categories.map((category) => {
                     return (
                         <Link
@@ -73,9 +116,10 @@ const CategoryList = () => {
                         </Link>
                     );
                 })}
-            </div>
-        </div>
-    );
-};
-
-export default CategoryList;
+            </div> */
+}
+{
+    /*
+ 
+/> */
+}

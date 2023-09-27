@@ -18,7 +18,7 @@ import { formatCurrency } from '@/utils/helper';
 import Pagination from '@/components/Common/Pagination/Pagination';
 import useDebounce from '@/hooks/useDebounce';
 import { Input, Tooltip } from 'antd';
-import LoadingSpinner from '@/components/Common/LoadingSpinner/LoadingSpinner';
+// import LoadingSpinner from '@/components/Common/LoadingSpinner/LoadingSpinner';
 
 const DEFAULT_PAGINATION: TPagination = {
     pagaLimit: 8,
@@ -154,7 +154,8 @@ export const ProductDashboard = () => {
                 <div className="flex-1 flex flex-col justify-between">
                     {loading ? (
                         <div className="flex-1 flex flex-col justify-center items-center">
-                            <LoadingSpinner />
+                            {/* <LoadingSpinner /> */}
+                            loading...
                         </div>
                     ) : (
                         <div className="px-4 ">

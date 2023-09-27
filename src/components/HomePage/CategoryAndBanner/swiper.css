@@ -1,6 +1,9 @@
 .swiper {
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .swiper:hover .swiper-button-next,
 .swiper:hover .swiper-button-prev {
@@ -9,18 +12,21 @@
     transform: translateX(0);
 }
 .swiper-slide {
-    background-position: center;
-    background-size: cover;
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .swiper-slide img {
     display: block;
-    width: 100%;
+    /* width: 100%; */
+    object-fit: cover;
 }
 
 .swiper-slide:hover .swiper-button-next,
 .swiper-button-prev {
-    display: fle;
+    display: flex;
 }
 
 .swiper-pagination-bullet {

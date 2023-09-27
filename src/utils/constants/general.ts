@@ -116,7 +116,7 @@ export const colorList: TColorInfo[] = [
         id: 10,
         name: 'Hồng',
         hexcode: '#e9d3d4',
-        extraPrice: 0.03,
+        extraPrice: 0.05,
     },
 ];
 
@@ -149,7 +149,7 @@ export const capacityList: TCapacityInfo[] = [
     {
         id: 5,
         name: '256GB',
-        extraPrice: 0.1,
+        extraPrice: 0.11,
     },
     {
         id: 6,

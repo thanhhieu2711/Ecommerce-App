@@ -23,19 +23,17 @@ export default function Header({ isContrast }: Props) {
         <header
             className={cn(
                 'max-w-full border-b border-black/5 bg-white fixed inset-x-0 top-0 transition-all duration-300 ease-out !min-h-[80px] z-30',
-                isContrast && '!bg-primary shadow-xl !border-transparent'
+                isContrast && 'shadow-xl'
             )}
         >
             <Container>
                 <div className="flex flex-row items-center justify-between py-5 max-w-full ">
-                    <p
-                        className={cn(
-                            'font-bold text-3xl ',
-                            isContrast && 'text-white '
-                        )}
+                    <Link
+                        href={'/'}
+                        className={cn('font-bold text-3xl text-primary')}
                     >
                         LOGO
-                    </p>
+                    </Link>
 
                     <div
                         className={cn(
@@ -53,13 +51,11 @@ export default function Header({ isContrast }: Props) {
                                 className="hidden sm:block relative"
                             >
                                 <BiHeart
-                                    onClick={() =>
-                                        dispatch(openWishlistDrawer(true))
-                                    }
-                                    className={cn(
-                                        'icon-base ',
-                                        isContrast && 'text-white'
-                                    )}
+                                    onClick={(e: Event) => {
+                                        e.preventDefault();
+                                        dispatch(openWishlistDrawer(true));
+                                    }}
+                                    className={cn('icon-base ')}
                                 />
                                 <div className="absolute w-5 h-5 flex flex-row items-center justify-center bg-red-600 rounded-full top-[5.5px] -translate-y-full -right-[12px] text-xs text-white">
                                     10
@@ -68,14 +64,12 @@ export default function Header({ isContrast }: Props) {
                             <Link
                                 href={''}
                                 className="hidden sm:block relative"
-                                onClick={() => dispatch(openCartDrawer(true))}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    dispatch(openCartDrawer(true));
+                                }}
                             >
-                                <BiCart
-                                    className={cn(
-                                        'icon-base ',
-                                        isContrast && 'text-white'
-                                    )}
-                                />
+                                <BiCart className={cn('icon-base ')} />
                                 <div className="absolute w-5 h-5 flex flex-row items-center justify-center bg-red-600 rounded-full top-[5.5px] -translate-y-full -right-3 text-xs text-white">
                                     1
                                 </div>

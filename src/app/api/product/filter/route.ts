@@ -5,8 +5,6 @@ export async function GET(req: NextRequest) {
     try {
         const _req = req.nextUrl.searchParams;
 
-        console.log(_req);
-
         const pageLimit = Number(_req.get('pageLimit')) || 10;
 
         const categoryId = _req.get('category');

@@ -5,7 +5,7 @@ type Props = {};
 
 export default function HomePageContainer(props: Props) {
     return (
-        <div className=" sm:pt-20 pb-10 bg-secondary">
+        <div className="pt-4 pb-4 bg-secondary">
             <Container>
                 <CategoryAndBanner />
             </Container>
