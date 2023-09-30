@@ -38,4 +38,12 @@ export type TCapacityInfo = {
     extraPrice: number;
 };
 
+export type TCartItem = {
+    product: TProductInfo;
+    quantity: number;
+    color: TColorInfo;
+    capacity: TCapacityInfo;
+    price: number;
+};
+
 export type TBannerType = 'main' | 'sub';

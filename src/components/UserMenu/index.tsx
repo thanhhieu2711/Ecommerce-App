@@ -20,7 +20,6 @@ import { Button } from '../Common';
 import Link from 'next/link';
 import { openCartDrawer, openWishlistDrawer } from '@/stores/reducers/drawer';
 import { ERole } from '@/types/user';
-import { Session } from 'next-auth';
 import toast from 'react-hot-toast';
 
 type Props = {
@@ -88,19 +87,19 @@ const UserMenu = ({ isContrast }: Props) => {
             id: 1,
             title: 'Thông tin cá nhân',
             link: '',
-            icon: <BiUser className="icon-base !w-5 !h-5" />,
+            icon: <BiUser className="!w-5 !h-5" />,
         },
         {
             id: 2,
             title: 'Đơn hàng của tôi',
             link: '',
-            icon: <BiReceipt className="icon-base !w-5 !h-5" />,
+            icon: <BiReceipt className="!w-5 !h-5" />,
         },
         {
             id: 3,
             title: 'Giỏ hàng',
             link: '',
-            icon: <BiShoppingBag className="sm:hidden icon-base !w-5 !h-5" />,
+            icon: <BiShoppingBag className="sm:hidden !w-5 !h-5" />,
             className: 'sm:hidden',
             action: () => dispatch(openCartDrawer(true)),
         },
@@ -108,7 +107,7 @@ const UserMenu = ({ isContrast }: Props) => {
             id: 4,
             title: 'Yêu thích',
             link: '',
-            icon: <BiHeart className="sm:hidden icon-base !w-5 !h-5" />,
+            icon: <BiHeart className="sm:hidden !w-5 !h-5" />,
             className: 'sm:hidden',
             action: () => dispatch(openWishlistDrawer(true)),
         },
@@ -116,7 +115,7 @@ const UserMenu = ({ isContrast }: Props) => {
             id: 5,
             title: 'Đăng xuất',
             link: '',
-            icon: <BiLogOut className="icon-base !w-5 !h-5" />,
+            icon: <BiLogOut className=" !w-5 !h-5" />,
             action: () => {
                 signOut();
                 toast.success('Bạn đã đăng xuất !');

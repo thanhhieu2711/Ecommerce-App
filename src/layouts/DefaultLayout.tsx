@@ -13,16 +13,17 @@ type Props = {
 };
 
 export default function DefaultLayout({ children }: Props) {
-    const { scrollY } = useWindowScrollPositions();
+    // const { scrollY } = useWindowScrollPositions();
     const pathName = usePathname();
     const isAdminPage = pathName.includes('dashboard');
+
     return (
         <div className="">
             {isAdminPage ? (
                 <main className={cn('max-w-full')}>{children}</main>
             ) : (
                 <>
-                    <Header isContrast={scrollY > 0} />
+                    <Header isContrast={true} />
                     <main className={cn('max-w-full pt-20')}>{children}</main>
                     <RegisterModal />
                     <LoginModal />

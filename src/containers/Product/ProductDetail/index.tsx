@@ -4,41 +4,64 @@ import axios from 'axios';
 import { useEffect, useMemo, useState } from 'react';
 import cn from 'classnames';
 import Container from '@/components/Layout/Container';
-import { formatDate, priceCalculator } from '@/utils/helper';
-import { BiCartAdd, BiTime } from 'react-icons/bi';
-import { Rate, Tag, Tooltip } from 'antd';
+import { priceCalculator } from '@/utils/helper';
+import { BiCartAdd } from 'react-icons/bi';
 import { capacityList, colorList } from '@/utils/constants/general';
-import Image from 'next/image';
-import { Button, Modal } from '@/components/Common';
+import { Button } from '@/components/Common';
 import 'react-loading-skeleton/dist/skeleton.css';
 import {
     Description,
     ProductImage,
     Promotion,
     Specification,
-    Evaluate,
     ProductInfo,
+    ModalDescription,
+    Feedback,
+    ModalPromotion,
 } from '@/components/ProductDetail';
+import LoadingPage from '@/components/Common/LoadingPage';
+import { useAppDispatch } from '@/stores';
+import { addToCart, clearCart } from '@/stores/reducers/cart';
+import toast from 'react-hot-toast';
+import ModalFeedback from '@/components/ProductDetail/ModalFeedback';
 
 type Props = {
     pid: string;
 };
 
 const ProductDetailCtn = ({ pid }: Props) => {
+    const dispatch = useAppDispatch();
     const [product, setProduct] = useState<TProductInfo>({} as TProductInfo);
     const [activeImage, setActiveImage] = useState<string>('');
     const [isExpanedDesc, setExpanedDesc] = useState<boolean>(false);
     const [isShowFeedback, setShowFeedback] = useState<boolean>(false);
+    const [isShowPromotion, setShowPromotion] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
     const [selectedColor, setSelectedColor] = useState<TColorInfo>(
         {} as TColorInfo
     );
     const [selectedCapacity, setSelectedCapacity] = useState<TCapacityInfo>(
         {} as TCapacityInfo
     );
+    const [quantity, setQuantity] = useState<number>(1);
+
     const getProductDetail = async () => {
-        const { data } = await axios.get(`/api/product/${pid}`);
-        data.isSuccess && setProduct(data.data);
-        !!data.data?.images?.length && setActiveImage(data.data?.images[0]);
+        setLoading(true);
+        try {
+            const { data } = await axios.get(`/api/product/${pid}`);
+            if (data.isSuccess) {
+                setLoading(false);
+                setProduct(data.data);
+                !!data.data?.images?.length &&
+                    setActiveImage(data.data?.images[0]);
+            } else {
+                setLoading(false);
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const productColors = useMemo(() => {
@@ -89,153 +112,134 @@ const ProductDetailCtn = ({ pid }: Props) => {
         return tempArr;
     }, [product]);
 
+    const checkoutInfo = {
+        product: product,
+        capacity: selectedCapacity,
+        color: selectedColor,
+        quantity: quantity,
+        price: priceCalculator({
+            value: product.price * quantity,
+            extraPrice:
+                selectedColor?.extraPrice + selectedCapacity?.extraPrice,
+            discount: product.discount,
+        }),
+    };
+
     useEffect(() => {
         getProductDetail();
     }, [pid]);
 
-    return (
+    return loading ? (
+        <LoadingPage />
+    ) : (
         <div className="h-full w-full min-h-[75vh] bg-secondary py-[25px]">
-            {product && product.images && (
-                <Container>
-                    <div className=" grid grid-cols-4 md:row-auto gap-6 bg-white p-4 rounded-lg shadow-card">
-                        {/* ẢNH SẢN PHẨM */}
-                        {product.images && (
-                            <ProductImage
-                                activeImage={activeImage}
-                                handleChangeActiveImage={setActiveImage}
-                                product={product}
-                            />
-                        )}
-                        <div className="col-span-4 md:col-span-2">
-                            <div className="w-full h-full flex flex-col gap-5">
-                                <ProductInfo
+            {!!product.id ? (
+                <>
+                    <Container>
+                        <div className=" grid grid-cols-4 md:row-auto gap-6 bg-white p-4 rounded-lg shadow-card">
+                            {/* ẢNH SẢN PHẨM */}
+                            {product.images && (
+                                <ProductImage
+                                    activeImage={activeImage}
+                                    handleChangeActiveImage={setActiveImage}
                                     product={product}
-                                    productColors={productColors}
-                                    productCapacities={productCapacities}
-                                    selectedColor={selectedColor}
-                                    selectedCapacity={selectedCapacity}
-                                    handleSelectColor={setSelectedColor}
-                                    handleSelectCapacity={setSelectedCapacity}
                                 />
-                                <Promotion />
-                                {/* THÊM VÀO GIỎ HANG */}
-                                <div className="flex flex-row items-center gap-3">
-                                    <Button
-                                        className="sm:basis-1/3 flex flex-row items-center  justify-center gap-2 text-lg text-secondary-variant-2
-                                        hover:border-opacity-50
-                                        border-secondary-variant-2
-                                        "
-                                        size="md"
-                                        variant="outline"
-                                        onClick={() => {}}
-                                    >
-                                        <BiCartAdd className="icon-base" />
-                                        <p className="hidden sm:block">
-                                            Thêm vào giỏ
-                                        </p>
-                                    </Button>
-                                    <Button
-                                        className="flex-1 text-lg text-white hover:bg-opacity-80"
-                                        size="md"
-                                        onClick={() => {}}
-                                    >
-                                        <p>Mua ngay</p>
-                                    </Button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="h-px col-span-4 border-b border-black/10"></div>
-                        {/* MÔ TẢ / THÔNG SỐ */}
-                        <div className="col-span-4">
-                            <div className="grid grid-cols-5 gap-8 grid-flow-dense row-auto ">
-                                <Description
-                                    product={product}
-                                    handleExpanedDesc={() =>
-                                        setExpanedDesc(true)
-                                    }
-                                />
-                                <Specification product={product} />
-                            </div>
-                        </div>
-                        {/* ĐÁNH GIÁ SẢN PHẨM */}
-                        <Evaluate
-                            handleShowModalFeedback={() =>
-                                setShowFeedback(!!product.feedback.length)
-                            }
-                            product={product}
-                            ratingScaleList={ratingScaleList}
-                        />
-                    </div>
-                </Container>
-            )}
-            <Modal
-                containerClassname="md:!max-w-[800px]"
-                onClose={() => setExpanedDesc(false)}
-                isOpen={isExpanedDesc}
-                header={'Mô tả chi tiết'}
-                showCloseIcon={true}
-                showFooter={false}
-            >
-                <div
-                    className=" text-justify h-full overflow-clip "
-                    dangerouslySetInnerHTML={{
-                        __html: product.description || '',
-                    }}
-                />
-            </Modal>
-            <Modal
-                // containerClassname="md:!max-w-[800px]"
-                onClose={() => setShowFeedback(false)}
-                isOpen={isShowFeedback}
-                header={'Đánh giá và nhận xét'}
-                showCloseIcon={true}
-                showFooter={false}
-            >
-                <div className="w-full h-full flex flex-col gap-4">
-                    {product.feedback?.map((feedback, index) => (
-                        <div
-                            key={feedback.id}
-                            className={cn(
-                                'flex flex-col pb-3',
-                                index !== product.feedback.length - 1 &&
-                                    'border-b border-black/5'
                             )}
-                        >
-                            <div
-                                key={feedback.id}
-                                className="flex flex-row items-center gap-3"
-                            >
-                                <div className="flex flex-row items-center gap-2">
-                                    <Image
-                                        src={
-                                            '/assets/images/fallback_user.jpeg'
+                            <div className="col-span-4 md:col-span-2">
+                                <div className="w-full h-full flex flex-col gap-5">
+                                    <ProductInfo
+                                        product={product}
+                                        quantity={quantity}
+                                        productColors={productColors}
+                                        productCapacities={productCapacities}
+                                        selectedColor={selectedColor}
+                                        selectedCapacity={selectedCapacity}
+                                        handleSelectColor={setSelectedColor}
+                                        handleSelectCapacity={
+                                            setSelectedCapacity
                                         }
-                                        width={35}
-                                        height={35}
-                                        alt=""
+                                        handleChangeQuantity={setQuantity}
                                     />
-                                    <p className="text-lg font-medium">
-                                        {feedback.user.name || 'Vô danh'}
-                                    </p>
-                                </div>
-                                <div className="flex flex-row items-center gap-1 text-xs">
-                                    <BiTime />
-                                    <p>{formatDate(feedback.createdAt)}</p>
+                                    <Promotion
+                                        handleShowPromotionModal={() =>
+                                            setShowPromotion(true)
+                                        }
+                                    />
+                                    {/* THÊM VÀO GIỎ HANG */}
+                                    <div className="flex flex-row items-center gap-3">
+                                        <Button
+                                            className="sm:basis-1/3 flex flex-row items-center  justify-center gap-2 text-lg text-secondary-variant-2
+                             hover:border-opacity-50
+                             border-secondary-variant-2
+                             "
+                                            size="md"
+                                            variant="outline"
+                                            onClick={() => {
+                                                dispatch(
+                                                    addToCart(checkoutInfo)
+                                                );
+                                                toast.success(
+                                                    'Đã thêm vào giỏ hàng !'
+                                                );
+                                                // dispatch(clearCart(true));
+                                            }}
+                                        >
+                                            <BiCartAdd className="icon-base" />
+                                            <p className="hidden sm:block">
+                                                Thêm vào giỏ
+                                            </p>
+                                        </Button>
+                                        <Button
+                                            className="flex-1 text-lg text-white hover:bg-opacity-80"
+                                            size="md"
+                                            onClick={() => {}}
+                                        >
+                                            <p>Mua ngay</p>
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="flex flex-col gap-2 ml-11">
-                                <div className="flex flex-row items-center gap-2">
-                                    <Rate
-                                        defaultValue={feedback.ratting}
-                                        className="text-common-warning text-sm"
+                            <div className="h-px col-span-4 border-b border-black/10"></div>
+                            {/* MÔ TẢ / THÔNG SỐ */}
+                            <div className="col-span-4">
+                                <div className="grid grid-cols-5 gap-8 grid-flow-dense row-auto ">
+                                    <Description
+                                        product={product}
+                                        handleExpanedDesc={() =>
+                                            setExpanedDesc(true)
+                                        }
                                     />
+                                    <Specification product={product} />
                                 </div>
-                                <p>{feedback.content}</p>
                             </div>
+                            {/* ĐÁNH GIÁ SẢN PHẨM */}
+                            <Feedback
+                                handleShowModalFeedback={() =>
+                                    setShowFeedback(!!product.feedback.length)
+                                }
+                                product={product}
+                                ratingScaleList={ratingScaleList}
+                            />
                         </div>
-                    ))}
-                </div>
-            </Modal>
+                    </Container>
+                    <ModalDescription
+                        isOpen={isExpanedDesc}
+                        handleShowAnhClose={setExpanedDesc}
+                        product={product}
+                    />
+                    <ModalFeedback
+                        isOpen={isShowFeedback}
+                        handleShowAndClose={setShowFeedback}
+                        product={product}
+                    />
+                    <ModalPromotion
+                        isOpen={isShowPromotion}
+                        handleShowAndClose={setShowPromotion}
+                    />
+                </>
+            ) : (
+                <>Không tìm thấy sản phẩm</>
+            )}
         </div>
     );
 };

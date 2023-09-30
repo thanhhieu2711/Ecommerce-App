@@ -12,7 +12,7 @@ type Props = {
     handleShowModalFeedback: () => void;
 };
 
-export const Evaluate = ({
+export const Feedback = ({
     product,
     ratingScaleList,
     handleShowModalFeedback,
@@ -83,4 +83,4 @@ export const Evaluate = ({
     );
 };
 
-export default Evaluate;
+export default Feedback;

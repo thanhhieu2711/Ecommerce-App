@@ -106,7 +106,7 @@ export const ModalUpdateProduct = ({
             );
             const response = await axios.patch(`/api/product/${product.id}`, {
                 ...formData,
-                images: !!listurl ? product.images : listurl,
+                images: !!listurl ? listurl : product.images,
                 discount: formData.discount / 100,
                 price: Number(formData.price),
                 color: selectedColors,

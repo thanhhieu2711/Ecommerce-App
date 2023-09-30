@@ -11,13 +11,16 @@ export const formatCurrency = (value: number) => {
     return formatValue;
 };
 
-export const priceCalculator = (value: number, extraPrice?: number) => {
-    const formatValue = new Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND',
-    }).format(value + value * (extraPrice || 0));
-
-    return formatValue;
+export const priceCalculator = ({
+    value,
+    extraPrice,
+    discount,
+}: {
+    value: number;
+    extraPrice?: number;
+    discount?: number;
+}) => {
+    return value - value * (discount || 0) + value * (extraPrice || 0);
 };
 
 export const calculateRating = (ratings: number[]): number => {

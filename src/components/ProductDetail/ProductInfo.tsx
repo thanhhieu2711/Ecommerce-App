@@ -1,26 +1,31 @@
 import cn from 'classnames';
 import { TCapacityInfo, TColorInfo, TProductInfo } from '@/types/general';
-import { priceCalculator } from '@/utils/helper';
+import { formatCurrency, priceCalculator } from '@/utils/helper';
 import { Rate, Tag, Tooltip } from 'antd';
+import Counter from '../Common/Counter';
 
 type Props = {
     product: TProductInfo;
+    quantity: number;
     selectedColor: TColorInfo;
     selectedCapacity: TCapacityInfo;
     productColors: TColorInfo[];
     productCapacities: TCapacityInfo[];
+    handleChangeQuantity: (quantity: number) => void;
     handleSelectColor: (color: TColorInfo) => void;
     handleSelectCapacity: (capacity: TCapacityInfo) => void;
 };
 
 export const ProductInfo = ({
     product,
+    quantity,
     selectedCapacity,
     selectedColor,
     productColors,
     productCapacities,
     handleSelectCapacity,
     handleSelectColor,
+    handleChangeQuantity,
 }: Props) => {
     return (
         <>
@@ -34,7 +39,7 @@ export const ProductInfo = ({
                         defaultValue={product.ratting}
                     />
                     <p className="text-sm text-black/50">
-                        {`(${product.feedback.length} lượt đánh giá)`}
+                        {`(${product.feedback?.length} lượt đánh giá)`}
                     </p>
                     <span className="text-black/50 text-xs ">|</span>
                     <p
@@ -56,17 +61,25 @@ export const ProductInfo = ({
             <div className="flex flex-row items-center gap-4 flex-wrap">
                 <p className="text-sm">Giá niêm yết : </p>
                 <p className="text-2xl font-bold text-primary">
-                    {priceCalculator(
-                        product.price - product.price * product.discount,
-                        selectedColor?.extraPrice + selectedCapacity?.extraPrice
+                    {formatCurrency(
+                        priceCalculator({
+                            value: product.price,
+                            discount: product.discount,
+                            extraPrice:
+                                selectedColor?.extraPrice +
+                                selectedCapacity?.extraPrice,
+                        })
                     )}
                 </p>
                 <div className="flex flex-row items-center gap-1">
                     <p className="text-sm line-through text-black/50">
-                        {priceCalculator(
-                            product.price,
-                            selectedColor?.extraPrice +
-                                selectedCapacity?.extraPrice
+                        {formatCurrency(
+                            priceCalculator({
+                                value: product.price,
+                                extraPrice:
+                                    selectedColor?.extraPrice +
+                                    selectedCapacity?.extraPrice,
+                            })
                         )}
                     </p>
                     <p className="text-sm text-primary">{`(-${
@@ -85,7 +98,7 @@ export const ProductInfo = ({
                                 className={cn(
                                     'p-[2px] flex flex-row items-center justify-center border-2 border-transparent rounded-full',
                                     selectedColor?.id === color?.id &&
-                                        '!border-secondary-variant-2'
+                                        '!border-primary'
                                 )}
                             >
                                 <Tooltip
@@ -122,9 +135,9 @@ export const ProductInfo = ({
                                     }
                                     key={capacity.id}
                                     className={cn(
-                                        'text-sm rounded-lg px-3 py-1 border border-black/20 cursor-pointer',
+                                        'text-sm rounded-lg px-3 py-1 border  border-black/20 cursor-pointer',
                                         selectedCapacity?.id === capacity.id &&
-                                            '!border-secondary-variant-2'
+                                            '!border-primary border-2'
                                     )}
                                 >
                                     {capacity.name}
@@ -134,6 +147,18 @@ export const ProductInfo = ({
                     </div>
                 </div>
             )}
+            {/* SỐ LƯỢNG */}
+            <div className="flex flex-row items-center gap-4 flex-wrap">
+                <p className="text-sm">Số lượng :</p>
+                <Counter
+                    onChange={handleChangeQuantity}
+                    handleDecrease={() => handleChangeQuantity(quantity - 1)}
+                    handleIncrease={() => handleChangeQuantity(quantity + 1)}
+                    defaultValue={quantity}
+                    isDisableDecrease={quantity === 1}
+                    minValue={0}
+                />
+            </div>
         </>
     );
 };

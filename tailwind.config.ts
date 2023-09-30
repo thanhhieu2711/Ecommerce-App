@@ -21,8 +21,9 @@ const config: Config = {
                 },
                 secondary: {
                     DEFAULT: '#f6f9fc',
-                    'variant-1': '#f3f3f3',
+                    'variant-1': '#D9D9D9',
                     'variant-2': '#0364ee',
+                    'variant-3': '#f3f3f3',
                 },
                 common: {
                     white: '#fff',
@@ -78,6 +79,7 @@ const config: Config = {
             },
         },
         screens: {
+            xs: '490px',
             sm: '640px',
             md: '960px',
             lg: '1280px',
@@ -86,7 +88,7 @@ const config: Config = {
         },
         container: {
             padding: {
-                DEFAULT: '1.5625rem',
+                DEFAULT: '1rem',
                 sm: '1.25rem',
                 md: '1.25rem',
                 lg: '1.5625rem',

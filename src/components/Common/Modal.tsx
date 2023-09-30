@@ -9,7 +9,7 @@ type Props = {
     isOpen: boolean;
     onClose: () => void;
     onOk?: () => void;
-    header?: String;
+    header?: String | React.ReactNode;
     headerClassname?: string;
     contentContainerClassname?: string;
     footer?: React.ReactNode;
@@ -72,7 +72,7 @@ export const Modal = ({
                     )}
                     <div
                         className={cn(
-                            'max-h-[500px] p-6 overflow-y-auto',
+                            'max-h-[500px] p-6 overflow-y-auto no-scrollbar',
                             contentContainerClassname
                         )}
                     >

@@ -1,6 +1,6 @@
 import { useAppSelector } from '@/stores';
 
-function useModal() {
+export const useModal = () => {
     const isOpenLoginModal = useAppSelector(
         (state) => state.modal.isOpenLoginModal
     );
@@ -16,6 +16,6 @@ function useModal() {
         isOpenRegisterModal,
         isOpenHomeSearchBoxModal,
     };
-}
+};
 
 export default useModal;

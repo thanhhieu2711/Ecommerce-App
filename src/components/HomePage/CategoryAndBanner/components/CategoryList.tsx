@@ -59,7 +59,7 @@ const CategoryList = () => {
                             categories.map((category) => (
                                 <SwiperSlide
                                     key={category.id}
-                                    className="hover:bg-secondary-variant-1 rounded-lg"
+                                    className="hover:bg-secondary-variant-3 rounded-lg"
                                     onClick={() => {
                                         console.log('first');
                                     }}

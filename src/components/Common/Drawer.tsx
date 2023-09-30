@@ -1,9 +1,5 @@
-import React, { useRef } from 'react';
 import cn from 'classnames';
 import { AiOutlineClose } from 'react-icons/ai';
-
-import { Button } from './Button';
-import Spinner from './Spinner';
 
 type Props = {
     children: React.ReactNode;
@@ -19,6 +15,7 @@ type Props = {
     showCloseIcon?: boolean;
     showFooter?: boolean;
     showHeader?: boolean;
+    closeIconClassname?: string;
 };
 
 export const Drawer = ({
@@ -32,8 +29,9 @@ export const Drawer = ({
     contentContainerClassname,
     loadingSubmit,
     containerClassname,
-}: // showCloseIcon = true,
-Props) => {
+    showCloseIcon = true,
+    closeIconClassname,
+}: Props) => {
     return (
         <div
             className={cn(
@@ -48,22 +46,37 @@ Props) => {
                     e.stopPropagation();
                 }}
                 className={cn(
-                    'fixed top-0 right-0 bottom-0 w-4/5 sm:w-96 md:w-96 bg-white h-screen transition-all duration-300 ease-out translate-x-full z-50',
+                    'fixed top-0 right-0 bottom-0 w-full sm:w-96 md:w-96 bg-white h-screen transition-all duration-300 ease-out translate-x-full z-50',
                     isOpen && '!translate-x-0'
                 )}
             >
                 <div className="w-full h-full flex flex-col">
-                    <div className="flex flex-row items-center justify-between border-b border-black/5 p-4">
+                    <div
+                        className={cn(
+                            'flex flex-row items-center justify-between border-b border-black/5 p-4',
+                            headerClassname
+                        )}
+                    >
                         {header}
 
                         <div
-                            className="p-1 rounded-full hover:bg-neutral-200 cursor-pointer text-black"
+                            className={cn(
+                                'p-1 cursor-pointer text-black',
+                                closeIconClassname
+                            )}
                             onClick={() => onClose()}
                         >
-                            <AiOutlineClose className="icon-base !w-5 !h-5" />
+                            <AiOutlineClose className="!w-5 !h-5" />
                         </div>
                     </div>
-                    <div className="w-full h-full p-4">{children}</div>
+                    <div className="w-full flex-1 p-3 overflow-y-auto no-scrollbar">
+                        {children}
+                    </div>
+                    {footer && (
+                        <div className="w-full p-4 border-t border-black/5">
+                            {footer}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

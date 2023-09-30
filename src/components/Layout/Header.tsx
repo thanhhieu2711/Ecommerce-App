@@ -5,20 +5,20 @@ import Link from 'next/link';
 import cn from 'classnames';
 import UserMenu from '../UserMenu';
 import HomeSeachBox from '../HomeSeachBox';
-import useDrawer from '@/hooks/store/useDrawer';
 import { useAppDispatch } from '@/stores';
 import { openCartDrawer, openWishlistDrawer } from '@/stores/reducers/drawer';
 import CartDrawer from '../CartDrawer';
 import WishlistDrawer from '../WishlistDrawer';
+import { useCart, useDrawer } from '@/hooks/store';
 
 type Props = {
     isContrast: boolean;
 };
 
 export default function Header({ isContrast }: Props) {
-    const { isOpenCartDrawer, isOpenWishlistDrawer } = useDrawer();
     const dispatch = useAppDispatch();
-
+    const { listCart } = useCart();
+    const { isOpenCartDrawer, isOpenWishlistDrawer } = useDrawer();
     return (
         <header
             className={cn(
@@ -44,7 +44,7 @@ export default function Header({ isContrast }: Props) {
                     >
                         <HomeSeachBox />
                         <div
-                            className={cn('flex flex-row items-center gap-6 ')}
+                            className={cn('flex flex-row items-center gap-5 ')}
                         >
                             <Link
                                 href={''}
@@ -70,9 +70,11 @@ export default function Header({ isContrast }: Props) {
                                 }}
                             >
                                 <BiCart className={cn('icon-base ')} />
-                                <div className="absolute w-5 h-5 flex flex-row items-center justify-center bg-red-600 rounded-full top-[5.5px] -translate-y-full -right-3 text-xs text-white">
-                                    1
-                                </div>
+                                {!!listCart.length && (
+                                    <div className="absolute w-5 h-5 flex flex-row items-center justify-center bg-red-600 rounded-full top-[5.5px] -translate-y-full -right-[12px] text-xs text-white">
+                                        {listCart.length}
+                                    </div>
+                                )}
                             </Link>
                             <UserMenu isContrast={isContrast} />
                             <div>

@@ -1,6 +1,6 @@
 import { useAppSelector } from '@/stores';
 
-function useDrawer() {
+export const useDrawer = () => {
     const isOpenCartDrawer = useAppSelector(
         (state) => state.drawer.isOpenCartDrawer
     );
@@ -12,6 +12,6 @@ function useDrawer() {
         isOpenCartDrawer,
         isOpenWishlistDrawer,
     };
-}
+};
 
 export default useDrawer;
