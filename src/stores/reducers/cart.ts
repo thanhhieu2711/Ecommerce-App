@@ -5,7 +5,6 @@ import toast from 'react-hot-toast';
 
 interface CartState {
     listCart: TCartItem[];
-    isClearCart: boolean;
 }
 
 const initialState = { listCart: [], isClearCart: false } as CartState;
@@ -59,16 +58,17 @@ const cartSlice = createSlice({
             const item = state.listCart[index];
 
             item.quantity += 1;
+
             item.price =
                 priceCalculator({
                     value: item.product.price,
                     extraPrice:
-                        item.color?.extraPrice ||
-                        0 + item.capacity?.extraPrice ||
-                        0,
+                        (item.color?.extraPrice || 0) +
+                        (item.capacity?.extraPrice || 0),
                     discount: item.product.discount,
                 }) * item.quantity;
         },
+
         decreaseQuantity(
             state: CartState,
             action: PayloadAction<{ index: number }>
@@ -77,13 +77,14 @@ const cartSlice = createSlice({
             const item = state.listCart[index];
 
             item.quantity -= 1;
+
             item.price =
                 priceCalculator({
                     value: item.product.price,
                     extraPrice:
-                        item.color?.extraPrice ||
-                        0 + item.capacity?.extraPrice ||
-                        0,
+                        (item.color?.extraPrice || 0) +
+                        (item.capacity?.extraPrice || 0),
+                    discount: item.product.discount,
                 }) * item.quantity;
 
             if (item.quantity === 0) {
@@ -93,13 +94,9 @@ const cartSlice = createSlice({
             }
         },
 
-        clearCart(
-            state: CartState,
-            action: PayloadAction<CartState['isClearCart']>
-        ) {
-            if (action.payload === true) {
-                state.listCart = [];
-            }
+        clearCart(state: CartState) {
+            state.listCart = [];
+            toast.success('Đã xóa giỏ hàng !');
         },
     },
 });

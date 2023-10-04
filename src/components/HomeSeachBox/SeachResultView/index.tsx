@@ -5,10 +5,10 @@ import SearchResultItem from './SearchResultItem';
 type Props = {
     searchResults: TProductInfo[];
     loading?: boolean;
-    handleSearch: (throttle: string) => void;
+    setSearchValue: (text: string) => void;
 };
 
-const SearchResultView = ({ searchResults, handleSearch }: Props) => {
+const SearchResultView = ({ searchResults, setSearchValue }: Props) => {
     return (
         <div className="flex flex-col w-full sm:!w-[400px] h-full ">
             <p className="text-sm p-2 bg-[#f3f3f3] rounded-t-lg text-black/50">
@@ -17,7 +17,7 @@ const SearchResultView = ({ searchResults, handleSearch }: Props) => {
             </p>
             <div className="flex-1 flex flex-col gap-3 p-2 overflow-y-auto">
                 {searchResults.map((product) => (
-                    <div key={product.id} onClick={() => handleSearch('')}>
+                    <div key={product.id} onClick={() => setSearchValue('')}>
                         <SearchResultItem product={product} />
                     </div>
                 ))}

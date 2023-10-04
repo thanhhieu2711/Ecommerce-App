@@ -29,8 +29,12 @@ const wishlistSlice = createSlice({
                 toast.success('Đã xóa khỏi yêu thích !');
             }
         },
+        clearWishlist(state: WishlistState) {
+            state.wishList = [];
+            toast.success('Đã xóa danh sách yêu thích !');
+        },
     },
 });
 
-export const { toggleAddToWishlist } = wishlistSlice.actions;
+export const { toggleAddToWishlist, clearWishlist } = wishlistSlice.actions;
 export default wishlistSlice.reducer;

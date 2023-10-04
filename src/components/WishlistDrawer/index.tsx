@@ -3,9 +3,11 @@ import Drawer from '../Common/Drawer';
 import useDrawer from '@/hooks/store/useDrawer';
 import { useAppDispatch } from '@/stores';
 import { openWishlistDrawer } from '@/stores/reducers/drawer';
-import { BiHeart } from 'react-icons/bi';
+import { BiHeart, BiTrash } from 'react-icons/bi';
 import { useWishlist } from '@/hooks/store';
 import WishlistItem from './WishlistItem';
+import { Button } from '../Common';
+import { clearWishlist } from '@/stores/reducers/wishlist';
 type Props = {};
 
 const WishlistDrawer = (props: Props) => {
@@ -29,17 +31,29 @@ const WishlistDrawer = (props: Props) => {
             }
         >
             <div className="h-full w-full flex flex-col">
-                {wishList.map((_item, index) => (
-                    <div
-                        key={_item.id}
-                        className={cn(
-                            index !== wishList.length - 1 &&
-                                'border-b border-black/5'
-                        )}
+                {!!wishList.length && (
+                    <Button
+                        onClick={() => dispatch(clearWishlist())}
+                        variant="ghost"
+                        className="!p-0 !bg-white w-fit h-fit ml-auto mb-2 !text-black/50 hover:!text-red-600 flex flex-row items-center gap-1"
                     >
-                        <WishlistItem item={_item} />
-                    </div>
-                ))}
+                        <p className="text-sm">Xóa tất cả</p>
+                        <BiTrash />
+                    </Button>
+                )}
+                <div className="flex-1 flex flex-col gap-2">
+                    {wishList.map((_item, index) => (
+                        <div
+                            key={_item.id}
+                            className={cn(
+                                index !== wishList.length - 1 &&
+                                    'border-b border-black/5 pb-2'
+                            )}
+                        >
+                            <WishlistItem item={_item} />
+                        </div>
+                    ))}
+                </div>
             </div>
         </Drawer>
     );

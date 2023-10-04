@@ -31,7 +31,7 @@ export const ProductInfo = ({
         <>
             {/* TÊN / ĐÁNH GIÁ */}
             <div className="border-b border-black/5 pb-3">
-                <p className="text-2xl font-medium">{product.name}</p>
+                <p className="text-2xl font-semibold">{product.name}</p>
                 <div className="flex flex-row items-center gap-2 flex-wrap ">
                     <Rate
                         className="text-sm text-common-warning"
@@ -159,7 +159,7 @@ export const ProductInfo = ({
                     handleDecrease={() => handleChangeQuantity(quantity - 1)}
                     handleIncrease={() => handleChangeQuantity(quantity + 1)}
                     defaultValue={quantity}
-                    isDisableDecrease={quantity === 1}
+                    isDisableDecrease={quantity <= 1}
                     minValue={0}
                 />
             </div>

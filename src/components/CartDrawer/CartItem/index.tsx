@@ -33,12 +33,12 @@ const CartItem = ({ item, index }: Props) => {
             />
             {/* </div> */}
             <div className="flex flex-1 flex-col gap-1">
-                <div className=" flex flex-row justify-between">
-                    <p className="text-sm font-medium line-clamp-1">
+                <div className=" flex flex-row justify-between items-center">
+                    <p className="text-sm font-medium line-clamp-2">
                         {item.product.name}
                     </p>
                     <div
-                        className="bg-secondary-variant-1/50 p-1 rounded-full text-black/50 hover:text-black cursor-pointer ml-[2px]"
+                        className="hover:bg-secondary-variant-1/50 border border-black/10 hover:!border-transparent w-fit h-fit p-2 rounded-full text-black/50 hover:text-red-600 cursor-pointer ml-[2px]"
                         onClick={() => {
                             dispatch(removeFromCart({ index: index }));
                         }}
@@ -47,7 +47,9 @@ const CartItem = ({ item, index }: Props) => {
                     </div>
                 </div>
                 <div className="flex flex-row items-center gap-2 text-xs text-black/50 flex-wrap">
-                    <span>{`Màu sắc : ${item.color.name}`}</span>
+                    {item.color?.name && (
+                        <span>{`Màu sắc : ${item.color.name}`}</span>
+                    )}
                     {item.capacity && (
                         <>
                             <span className="text-[10px]">|</span>

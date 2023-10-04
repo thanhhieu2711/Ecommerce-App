@@ -3,13 +3,12 @@ import Drawer from '../Common/Drawer';
 import useDrawer from '@/hooks/store/useDrawer';
 import { useAppDispatch } from '@/stores';
 import { openCartDrawer } from '@/stores/reducers/drawer';
-import { BiShoppingBag } from 'react-icons/bi';
+import { BiShoppingBag, BiTrash } from 'react-icons/bi';
 import { Button } from '../Common';
 import useCart from '@/hooks/store/useCart';
-import Image from 'next/image';
-import Counter from '../Common/Counter';
 import CartItem from './CartItem';
 import { formatCurrency } from '@/utils/helper';
+import { clearCart } from '@/stores/reducers/cart';
 type Props = {};
 
 const CartDrawer = (props: Props) => {
@@ -58,24 +57,36 @@ const CartDrawer = (props: Props) => {
             }
         >
             <div className="w-full h-full flex flex-col gap-6">
-                <div className="flex-1 flex flex-col gap-2">
-                    {listCart.map((cartItem, index) => {
-                        return (
-                            <div
-                                key={index}
-                                className={cn(
-                                    index !== listCart.length - 1 &&
-                                        'border-b border-black/5 pb-2'
-                                )}
-                            >
-                                <CartItem
+                <div>
+                    {!!listCart.length && (
+                        <Button
+                            onClick={() => dispatch(clearCart())}
+                            variant="ghost"
+                            className="!p-0 !bg-white w-fit h-fit ml-auto mb-2 !text-black/50 hover:!text-red-600 flex flex-row items-center gap-1"
+                        >
+                            <p className="text-sm">Xóa tất cả</p>
+                            <BiTrash />
+                        </Button>
+                    )}
+                    <div className="flex-1 flex flex-col gap-2">
+                        {listCart.map((cartItem, index) => {
+                            return (
+                                <div
                                     key={index}
-                                    index={index}
-                                    item={cartItem}
-                                />
-                            </div>
-                        );
-                    })}
+                                    className={cn(
+                                        index !== listCart.length - 1 &&
+                                            'border-b border-black/5 pb-2'
+                                    )}
+                                >
+                                    <CartItem
+                                        key={index}
+                                        index={index}
+                                        item={cartItem}
+                                    />
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         </Drawer>

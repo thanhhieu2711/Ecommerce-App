@@ -81,7 +81,7 @@ export const Drawer = ({
                         {children}
                     </div>
                     {footer && (
-                        <div className="w-full p-4 border-t border-black/5">
+                        <div className="w-full p-4 border-t border-black/5 mt-3">
                             {footer}
                         </div>
                     )}

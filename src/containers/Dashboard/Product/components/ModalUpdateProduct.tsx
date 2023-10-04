@@ -106,7 +106,7 @@ export const ModalUpdateProduct = ({
             );
             const response = await axios.patch(`/api/product/${product.id}`, {
                 ...formData,
-                images: !!listurl ? listurl : product.images,
+                images: !!listurl.length ? listurl : product.images,
                 discount: formData.discount / 100,
                 price: Number(formData.price),
                 color: selectedColors,
@@ -214,18 +214,7 @@ export const ModalUpdateProduct = ({
                 >
                     <Input size="large" />
                 </Form.Item>
-                <Form.Item
-                    name="color"
-                    label="Màu sắc"
-                    required
-                    className="flex-1"
-                    rules={[
-                        {
-                            required: selectedColors.length === 0,
-                            message: 'Vui lòng chọn màu sắc',
-                        },
-                    ]}
-                >
+                <Form.Item name="color" label="Màu sắc" className="flex-1">
                     {colorList.map((color) => (
                         <Tag.CheckableTag
                             key={color.id}
@@ -246,14 +235,7 @@ export const ModalUpdateProduct = ({
                 <Form.Item
                     name="capacity"
                     label="Dung lượng"
-                    required
                     className="flex-1"
-                    rules={[
-                        {
-                            required: selectedCapacities.length === 0,
-                            message: 'Vui lòng chọn dung lượng',
-                        },
-                    ]}
                 >
                     {capacityList.map((capacity) => (
                         <Tag.CheckableTag
@@ -401,7 +383,6 @@ export const ModalUpdateProduct = ({
                     rules={[
                         {
                             required: true,
-
                             validator: (_, value) => {
                                 if (!value || value?.fileList?.length === 0) {
                                     return Promise.reject(

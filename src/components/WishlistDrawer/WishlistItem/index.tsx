@@ -22,7 +22,7 @@ const WishlistItem = ({ item }: Props) => {
     const { color, capacity } = getInitialColorAndCapacity({ product: item });
 
     return (
-        <div className="cursor-pointer w-full flex flex-row  gap-2 items-center p-2 hover:bg-secondary-variant-3 rounded-lg">
+        <div className="cursor-pointer w-full flex flex-row gap-2 items-center p-2 hover:bg-secondary-variant-3 rounded-lg">
             <Link
                 href={`/product/${item.slug}-${item.id}`}
                 className="w-full flex flex-row items-center gap-2"
@@ -39,7 +39,9 @@ const WishlistItem = ({ item }: Props) => {
                     alt=""
                 />
                 <div className="flex flex-1 flex-col gap-1">
-                    <p className="text-sm font-medium ">{item.name}</p>
+                    <p className="text-sm font-medium line-clamp-2">
+                        {item.name}
+                    </p>
                     <div className="flex flex-row items-center gap-2">
                         <p className="font-bold text-red-600">
                             {formatCurrency(
@@ -64,7 +66,7 @@ const WishlistItem = ({ item }: Props) => {
                 </div>
             </Link>
             <div
-                className="bg-secondary-variant-1/50 p-2 rounded-full text-black/50 hover:text-black cursor-pointer ml-[2px]"
+                className="hover:bg-secondary-variant-1/50 p-2 border border-black/5 hover:!border-transparent rounded-full text-black/50 hover:text-black cursor-pointer ml-[2px]"
                 onClick={(e) => {
                     e.preventDefault();
                     dispatch(toggleAddToWishlist(item));

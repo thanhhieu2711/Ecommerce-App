@@ -20,8 +20,9 @@ import {
 } from '@/components/ProductDetail';
 import LoadingPage from '@/components/Common/LoadingPage';
 import { useAppDispatch } from '@/stores';
-import { addToCart, clearCart } from '@/stores/reducers/cart';
+import { addToCart } from '@/stores/reducers/cart';
 import ModalFeedback from '@/components/ProductDetail/ModalFeedback';
+import ModalSpecification from '@/components/ProductDetail/ModalSpecification';
 
 type Props = {
     pid: string;
@@ -34,6 +35,8 @@ const ProductDetailCtn = ({ pid }: Props) => {
     const [isExpanedDesc, setExpanedDesc] = useState<boolean>(false);
     const [isShowFeedback, setShowFeedback] = useState<boolean>(false);
     const [isShowPromotion, setShowPromotion] = useState<boolean>(false);
+    const [isExpanedSpecification, setExpanedSpecification] =
+        useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [selectedColor, setSelectedColor] = useState<TColorInfo>(
         {} as TColorInfo
@@ -202,7 +205,12 @@ const ProductDetailCtn = ({ pid }: Props) => {
                                             setExpanedDesc(true)
                                         }
                                     />
-                                    <Specification product={product} />
+                                    <Specification
+                                        product={product}
+                                        handleExpanedSpecification={() =>
+                                            setExpanedSpecification(true)
+                                        }
+                                    />
                                 </div>
                             </div>
                             {/* ĐÁNH GIÁ SẢN PHẨM */}
@@ -228,6 +236,11 @@ const ProductDetailCtn = ({ pid }: Props) => {
                     <ModalPromotion
                         isOpen={isShowPromotion}
                         handleShowAndClose={setShowPromotion}
+                    />
+                    <ModalSpecification
+                        isOpen={isExpanedSpecification}
+                        handleShowAndClose={setExpanedSpecification}
+                        specification={product.specifications}
                     />
                 </>
             ) : (

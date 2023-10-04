@@ -68,25 +68,25 @@ export const colorList: TColorInfo[] = [
         id: 2,
         name: 'Trắng',
         hexcode: '#ffffff',
-        extraPrice: 0.02,
+        extraPrice: 0.03,
     },
     {
         id: 3,
         name: 'Đỏ',
         hexcode: '#ad0000',
-        extraPrice: 0,
+        extraPrice: 0.2,
     },
     {
         id: 4,
         name: 'Vàng',
         hexcode: '#ffc125',
-        extraPrice: 0.02,
+        extraPrice: 0.03,
     },
     {
         id: 5,
         name: 'Xanh',
         hexcode: '#1b4d80',
-        extraPrice: 0.05,
+        extraPrice: 0.08,
     },
     {
         id: 6,
@@ -103,20 +103,32 @@ export const colorList: TColorInfo[] = [
     {
         id: 8,
         name: 'Xám',
-        hexcode: '#808080',
-        extraPrice: 0,
+        hexcode: '#b1b3b6',
+        extraPrice: 0.04,
     },
     {
         id: 9,
         name: 'Titan',
         hexcode: '#DDE1D6',
-        extraPrice: 0.06,
+        extraPrice: 0.1,
     },
     {
         id: 10,
         name: 'Hồng',
         hexcode: '#e9d3d4',
+        extraPrice: 0.06,
+    },
+    {
+        id: 11,
+        name: 'Cam',
+        hexcode: '#F05817',
         extraPrice: 0.05,
+    },
+    {
+        id: 12,
+        name: 'Bạc',
+        hexcode: '#e3e5e3',
+        extraPrice: 0.04,
     },
 ];
 
@@ -129,31 +141,41 @@ export const capacityList: TCapacityInfo[] = [
     {
         id: 1,
         name: '16GB',
-        extraPrice: 0.02,
+        extraPrice: 0.04,
     },
     {
         id: 2,
         name: '32GB',
-        extraPrice: 0.04,
+        extraPrice: 0.08,
     },
     {
         id: 3,
         name: '64GB',
-        extraPrice: 0.06,
+        extraPrice: 0.11,
     },
     {
         id: 4,
         name: '128GB',
-        extraPrice: 0.08,
+        extraPrice: 0.11,
     },
     {
         id: 5,
         name: '256GB',
-        extraPrice: 0.11,
+        extraPrice: 0.15,
     },
     {
         id: 6,
         name: '512GB',
-        extraPrice: 0.15,
+        extraPrice: 0.2,
+    },
+    {
+        id: 7,
+        name: '1TB',
+        extraPrice: 0.35,
+    },
+    {
+        id: 8,
+        name: '2TB',
+        extraPrice: 0.5,
     },
 ];

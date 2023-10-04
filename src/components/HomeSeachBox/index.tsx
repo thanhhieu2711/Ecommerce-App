@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
 import Input from 'antd/es/input/Input';
 import useDebounce from '@/hooks/useDebounce';
@@ -15,7 +15,8 @@ import { openHomeSearchBoxModal } from '@/stores/reducers/modal';
 import { debounce } from 'lodash';
 type Props = {};
 const HomeSeachBox = (props: Props) => {
-    const [searchValue, setSearchValue] = useDebounce('', 200);
+    const [searchValue, setSearchValue] = useState<string>('');
+    const [searchParams, setSearchParams] = useDebounce<string>('', 200);
     const [searchResults, setSearchResults] = useState<TProductInfo[]>([]);
     const [trendingProducts, setTrendingProduct] = useState<TProductInfo[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
@@ -28,7 +29,7 @@ const HomeSeachBox = (props: Props) => {
         try {
             const { data } = await axios.get('/api/product', {
                 params: {
-                    name: searchValue,
+                    name: searchParams,
                 },
             });
             data.isSuccess && setSearchResults(data.data);
@@ -51,8 +52,12 @@ const HomeSeachBox = (props: Props) => {
     };
 
     useEffect(() => {
-        searchValue.trim() !== '' && getProducts();
-    }, [searchValue]);
+        if (searchParams.trim() !== '') {
+            getProducts();
+        } else {
+            setSearchResults([]);
+        }
+    }, [searchParams]);
 
     useEffect(() => {
         getTrendingProducts();
@@ -72,13 +77,17 @@ const HomeSeachBox = (props: Props) => {
                         <BiSearch className=" icon-base ml-px" />
                     )
                 }
+                value={searchValue}
                 placeholder="Bạn cần tìm gì nào ?"
                 className={cn(
                     'border-none bg-secondary rounded-full ring-0 text-sm z-[20] hover:cursor-pointer ',
                     isOpenHomeSearchBoxModal && '!bg-white '
                 )}
                 aria-placeholder="text-black/20"
-                onChange={(e) => setSearchValue(e.target.value)}
+                onChange={(e) => {
+                    setSearchValue(e.target.value);
+                    setSearchParams(e.target.value);
+                }}
                 onFocus={() => dispatch(openHomeSearchBoxModal(true))}
                 styles={{
                     input: {
@@ -111,7 +120,7 @@ const HomeSeachBox = (props: Props) => {
                         <InitialView trendingProducts={trendingProducts} />
                     ) : (
                         <SearchResultView
-                            handleSearch={setSearchValue}
+                            setSearchValue={setSearchValue}
                             searchResults={searchResults}
                         />
                     )}
