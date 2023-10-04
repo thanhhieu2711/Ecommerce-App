@@ -151,12 +151,12 @@ export const capacityList: TCapacityInfo[] = [
     {
         id: 3,
         name: '64GB',
-        extraPrice: 0.11,
+        extraPrice: 0.1,
     },
     {
         id: 4,
         name: '128GB',
-        extraPrice: 0.11,
+        extraPrice: 0.12,
     },
     {
         id: 5,
