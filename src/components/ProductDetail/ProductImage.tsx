@@ -1,7 +1,12 @@
+/* eslint-disable @next/next/no-img-element */
 import { TProductInfo } from '@/types/general';
 import cn from 'classnames';
-import { FaRegHeart } from 'react-icons/fa6';
+import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 import Image from 'next/image';
+import { useWishlist } from '@/hooks/store';
+import { useAppDispatch } from '@/stores';
+import { toggleAddToWishlist } from '@/stores/reducers/wishlist';
+import { Tooltip } from 'antd';
 
 type Props = {
     product: TProductInfo;
@@ -14,6 +19,8 @@ export const ProductImage = ({
     activeImage,
     handleChangeActiveImage,
 }: Props) => {
+    const dispatch = useAppDispatch();
+    const { checkExist } = useWishlist();
     return (
         <div className="col-span-4 md:col-span-2 ">
             <div className="flex flex-col gap-2 h-full  ">
@@ -24,8 +31,19 @@ export const ProductImage = ({
                         alt="product-img"
                         loading="lazy"
                     />
-                    <div className="absolute top-3 right-3 cursor-pointer">
-                        <FaRegHeart className="!w-5 !h-5 hover:text-red-600" />
+                    <div
+                        className="absolute top-3 right-3 cursor-pointer"
+                        onClick={() => dispatch(toggleAddToWishlist(product))}
+                    >
+                        {checkExist(product.id) ? (
+                            <Tooltip title="Bỏ thích">
+                                <FaHeart className="icon-base !text-red-600 hover:opacity-70" />
+                            </Tooltip>
+                        ) : (
+                            <Tooltip title="Yêu thích">
+                                <FaRegHeart className="icon-base text-red-600 hover:opacity-70" />
+                            </Tooltip>
+                        )}
                     </div>
                 </div>
                 <div className="flex flex-row gap-2  sm:mb-3 sm:gap-3 h-full w-full">

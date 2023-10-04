@@ -5,8 +5,8 @@ export const Toast = () => {
         <Toaster
             position="top-center"
             reverseOrder={false}
-            gutter={8}
             toastOptions={toastConfig}
+            gutter={10}
         />
     );
 };

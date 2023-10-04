@@ -2,7 +2,6 @@
 import { TCapacityInfo, TColorInfo, TProductInfo } from '@/types/general';
 import axios from 'axios';
 import { useEffect, useMemo, useState } from 'react';
-import cn from 'classnames';
 import Container from '@/components/Layout/Container';
 import { priceCalculator } from '@/utils/helper';
 import { BiCartAdd } from 'react-icons/bi';
@@ -22,7 +21,6 @@ import {
 import LoadingPage from '@/components/Common/LoadingPage';
 import { useAppDispatch } from '@/stores';
 import { addToCart, clearCart } from '@/stores/reducers/cart';
-import toast from 'react-hot-toast';
 import ModalFeedback from '@/components/ProductDetail/ModalFeedback';
 
 type Props = {
@@ -120,7 +118,8 @@ const ProductDetailCtn = ({ pid }: Props) => {
         price: priceCalculator({
             value: product.price * quantity,
             extraPrice:
-                selectedColor?.extraPrice + selectedCapacity?.extraPrice,
+                (selectedColor?.extraPrice || 0) +
+                (selectedCapacity?.extraPrice || 0),
             discount: product.discount,
         }),
     };
@@ -168,18 +167,12 @@ const ProductDetailCtn = ({ pid }: Props) => {
                                     {/* THÊM VÀO GIỎ HANG */}
                                     <div className="flex flex-row items-center gap-3">
                                         <Button
-                                            className="sm:basis-1/3 flex flex-row items-center  justify-center gap-2 text-lg text-secondary-variant-2
-                             hover:border-opacity-50
-                             border-secondary-variant-2
-                             "
+                                            className="sm:basis-1/3 flex flex-row items-center justify-center gap-2 text-lg text-secondary-variant-2 hover:border-opacity-50 border-secondary-variant-2"
                                             size="md"
                                             variant="outline"
                                             onClick={() => {
                                                 dispatch(
                                                     addToCart(checkoutInfo)
-                                                );
-                                                toast.success(
-                                                    'Đã thêm vào giỏ hàng !'
                                                 );
                                                 // dispatch(clearCart(true));
                                             }}

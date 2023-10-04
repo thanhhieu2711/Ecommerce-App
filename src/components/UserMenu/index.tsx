@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useRef, useState } from 'react';
 import cn from 'classnames';
 import { useAppDispatch } from '@/stores';
@@ -48,7 +49,7 @@ const UserMenu = ({ isContrast }: Props) => {
             title: 'Giỏ hàng',
             link: '',
             icon: <BiShoppingBag className="sm:hidden icon-base !w-5 !h-5" />,
-            className: 'sm:hidden',
+            className: 'sm:hidden rounded-t-lg',
             action: () => dispatch(openCartDrawer(true)),
         },
         {
@@ -70,6 +71,7 @@ const UserMenu = ({ isContrast }: Props) => {
             id: 4,
             title: 'Đăng ký',
             link: '',
+            className: 'rounded-b-lg',
             icon: <BiRegistered className="icon-base !w-5 !h-5" />,
             action: () => dispatch(openRegisterModal(true)),
         },
@@ -117,8 +119,8 @@ const UserMenu = ({ isContrast }: Props) => {
             link: '',
             icon: <BiLogOut className=" !w-5 !h-5" />,
             action: () => {
-                signOut();
                 toast.success('Bạn đã đăng xuất !');
+                signOut();
             },
         },
     ];
@@ -156,19 +158,15 @@ const UserMenu = ({ isContrast }: Props) => {
                     href={''}
                     key={option.id}
                     onClick={(e) => {
+                        e.preventDefault();
                         setOpenMenu(false);
                         option.action && option.action();
                     }}
                 >
                     <div
                         className={cn(
-                            'px-3 py-3 flex flex-row items-center gap-2 hover:bg-neutral-100 cursor-pointer',
-                            option?.className,
-                            {
-                                'rounded-t-lg': index === 0,
-                                'rounded-b-lg border-t border-black/5':
-                                    index === USER_OPTIONS.length - 1,
-                            }
+                            'px-3 py-3 flex flex-row items-center gap-2 hover:bg-secondary cursor-pointer',
+                            option.className
                         )}
                     >
                         {option.icon}
@@ -188,7 +186,7 @@ const UserMenu = ({ isContrast }: Props) => {
                 >
                     <div
                         className={cn(
-                            'px-3 py-3 flex flex-row items-center gap-2 hover:bg-neutral-100 cursor-pointer',
+                            'px-3 py-3 flex flex-row items-center gap-2 hover:bg-secondary cursor-pointer',
                             item?.className,
                             {
                                 'rounded-t-lg': index === 0,
@@ -208,12 +206,13 @@ const UserMenu = ({ isContrast }: Props) => {
                 href={''}
                 key={item.id}
                 onClick={(e) => {
+                    e.preventDefault();
                     item.action && item.action();
                 }}
             >
                 <div
                     className={cn(
-                        'px-3 py-3 flex flex-row items-center gap-2 hover:bg-neutral-100 cursor-pointer',
+                        'px-3 py-3 flex flex-row items-center gap-2 hover:bg-secondary cursor-pointer',
                         item?.className,
                         {
                             'rounded-t-lg': index === 0,
@@ -234,20 +233,19 @@ const UserMenu = ({ isContrast }: Props) => {
     });
 
     return (
-        <div className="relative" ref={menuRef}>
-            <Button
-                variant="ghost"
-                className={cn('!p-0 !m-0 flex !bg-transparent')}
-                size="sm"
-                onClick={() => setOpenMenu(!openMenu)}
-            >
-                <BiUserCircle className={cn('icon-base text-black')} />
-            </Button>
+        <div
+            className="relative p-2 bg-secondary rounded-full cursor-pointer"
+            ref={menuRef}
+            onClick={() => setOpenMenu(!openMenu)}
+        >
+            <BiUserCircle
+                className={cn('icon-base text-black  hover:text-primary')}
+            />
 
             <div
                 className={cn(
-                    'hidden w-[200px] rounded-lg bg-white shadow-card top-9 right-0 opacity-0 transition-all duration-200 ease-out',
-                    openMenu && '!block absolute !opacity-100'
+                    'hidden w-[200px] rounded-lg bg-white shadow-card-flight top-12 right-0 ',
+                    openMenu && '!block absolute '
                 )}
             >
                 {_renderMenuOption()}

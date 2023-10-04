@@ -160,14 +160,13 @@ export const ModalCreateProduct = ({
                 <Form.Item
                     name="color"
                     label="Màu sắc"
-                    required
                     className="flex-1"
-                    rules={[
-                        {
-                            required: selectedColors.length === 0,
-                            message: 'Vui lòng chọn màu sắc',
-                        },
-                    ]}
+                    // rules={[
+                    //     {
+                    //         required: selectedColors.length === 0,
+                    //         message: 'Vui lòng chọn màu sắc',
+                    //     },
+                    // ]}
                 >
                     {colorList.map((color) => (
                         <Tag.CheckableTag
@@ -189,14 +188,13 @@ export const ModalCreateProduct = ({
                 <Form.Item
                     name="capacity"
                     label="Dung lượng"
-                    required
                     className="flex-1"
-                    rules={[
-                        {
-                            required: selectedCapacities.length === 0,
-                            message: 'Vui lòng chọn dung lượng',
-                        },
-                    ]}
+                    // rules={[
+                    //     {
+                    //         required: selectedCapacities.length === 0,
+                    //         message: 'Vui lòng chọn dung lượng',
+                    //     },
+                    // ]}
                 >
                     {capacityList.map((capacity) => (
                         <Tag.CheckableTag

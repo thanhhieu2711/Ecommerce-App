@@ -1,6 +1,7 @@
 import { TCartItem } from '@/types/general';
 import { priceCalculator } from '@/utils/helper';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import toast from 'react-hot-toast';
 
 interface CartState {
     listCart: TCartItem[];
@@ -20,9 +21,10 @@ const cartSlice = createSlice({
             const index = state.listCart.findIndex(
                 (cartItem) =>
                     cartItem.product.id === product.id &&
-                    cartItem.color.id === color.id &&
-                    cartItem.capacity.id === capacity.id
+                    cartItem.color?.id === color?.id &&
+                    cartItem.capacity?.id === capacity?.id
             );
+
             const item = state.listCart[index];
 
             if (index === -1) {
@@ -36,6 +38,7 @@ const cartSlice = createSlice({
                     price: _price,
                 };
             }
+            toast.success('Đã thêm vào giỏ hàng !');
         },
         removeFromCart(
             state: CartState,
@@ -45,6 +48,7 @@ const cartSlice = createSlice({
             state.listCart = state.listCart.filter(
                 (_, _index) => _index !== index
             );
+            toast.success('Đã xóa khỏi giỏ hàng !');
         },
         increaseQuantity(
             state: CartState,
@@ -59,7 +63,9 @@ const cartSlice = createSlice({
                 priceCalculator({
                     value: item.product.price,
                     extraPrice:
-                        item.color.extraPrice + item.capacity.extraPrice,
+                        item.color?.extraPrice ||
+                        0 + item.capacity?.extraPrice ||
+                        0,
                     discount: item.product.discount,
                 }) * item.quantity;
         },
@@ -75,8 +81,9 @@ const cartSlice = createSlice({
                 priceCalculator({
                     value: item.product.price,
                     extraPrice:
-                        item.color.extraPrice + item.capacity.extraPrice,
-                    discount: item.product.discount,
+                        item.color?.extraPrice ||
+                        0 + item.capacity?.extraPrice ||
+                        0,
                 }) * item.quantity;
 
             if (item.quantity === 0) {

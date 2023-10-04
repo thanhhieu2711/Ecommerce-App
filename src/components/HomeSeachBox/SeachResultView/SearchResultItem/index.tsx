@@ -1,21 +1,33 @@
 import React from 'react';
 import Image from 'next/image';
-import { formatCurrency } from '@/utils/helper';
+import {
+    formatCurrency,
+    getInitialColorAndCapacity,
+    priceCalculator,
+} from '@/utils/helper';
 import { TProductInfo } from '@/types/general';
 import Link from 'next/link';
+import { useAppDispatch } from '@/stores';
+import { openHomeSearchBoxModal } from '@/stores/reducers/modal';
+import { useRouter } from 'next/navigation';
 type Props = {
     product: TProductInfo;
 };
 
 const SearchResultItem = ({ product }: Props) => {
+    const { color, capacity } = getInitialColorAndCapacity({ product });
+    const dispatch = useAppDispatch();
     return (
         <Link
-            href={''}
-            className="flex flex-row items-center gap-2 hover:bg-secondary-variant-1 p-2 rounded-md"
+            href={`/product/${product.slug}-${product.id}`}
+            className="flex flex-row items-center gap-2 hover:bg-secondary-variant-3 p-2 rounded-md"
+            onClick={() => {
+                dispatch(openHomeSearchBoxModal(false));
+            }}
         >
             <Image
-                width={50}
-                height={50}
+                width={60}
+                height={60}
                 src={product.images[0]}
                 alt="pdt-img"
             />
@@ -23,11 +35,20 @@ const SearchResultItem = ({ product }: Props) => {
                 <p className=" font-bold line-clamp-2">{product.name}</p>
                 <span className="font-bold text-red-600">
                     {formatCurrency(
-                        product.price - product.price * product.discount
+                        priceCalculator({
+                            value: product.price,
+                            extraPrice: color.extraPrice + capacity.extraPrice,
+                            discount: product.discount,
+                        })
                     )}
                 </span>{' '}
                 <span className="text-xs text-black/50 line-through">
-                    {formatCurrency(product.price)}
+                    {formatCurrency(
+                        priceCalculator({
+                            value: product.price,
+                            extraPrice: color.extraPrice + capacity.extraPrice,
+                        })
+                    )}
                 </span>
             </div>
         </Link>

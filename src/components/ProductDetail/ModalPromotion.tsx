@@ -21,7 +21,7 @@ export const ModalPromotion = ({ isOpen, handleShowAndClose }: Props) => {
                 </div>
             }
             onClose={() => handleShowAndClose(false)}
-            contentContainerClassname="!p-4"
+            contentContainerClassname="!py-4"
         >
             <div className="flex flex-col gap-2 ">
                 <div className="flex flex-col gap-2">

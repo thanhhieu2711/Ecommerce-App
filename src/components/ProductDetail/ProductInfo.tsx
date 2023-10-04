@@ -60,70 +60,74 @@ export const ProductInfo = ({
             {/* GIÁ BÁN */}
             <div className="flex flex-row items-center gap-4 flex-wrap">
                 <p className="text-sm">Giá niêm yết : </p>
-                <p className="text-2xl font-bold text-primary">
-                    {formatCurrency(
-                        priceCalculator({
-                            value: product.price,
-                            discount: product.discount,
-                            extraPrice:
-                                selectedColor?.extraPrice +
-                                selectedCapacity?.extraPrice,
-                        })
-                    )}
-                </p>
-                <div className="flex flex-row items-center gap-1">
-                    <p className="text-sm line-through text-black/50">
+                <div className="flex flex-row items-center gap-2">
+                    <p className="text-2xl font-bold text-primary">
                         {formatCurrency(
                             priceCalculator({
                                 value: product.price,
+                                discount: product.discount,
                                 extraPrice:
-                                    selectedColor?.extraPrice +
-                                    selectedCapacity?.extraPrice,
+                                    (selectedColor?.extraPrice || 0) +
+                                    (selectedCapacity?.extraPrice || 0),
                             })
                         )}
                     </p>
-                    <p className="text-sm text-primary">{`(-${
-                        product.discount * 100
-                    }%)`}</p>
+                    <div className="flex flex-row items-center gap-1">
+                        <p className="text-md line-through text-black/50">
+                            {formatCurrency(
+                                priceCalculator({
+                                    value: product.price,
+                                    extraPrice:
+                                        (selectedColor?.extraPrice || 0) +
+                                        (selectedCapacity?.extraPrice || 0),
+                                })
+                            )}
+                        </p>
+                        <p className="text-sm text-primary">{`(-${
+                            product.discount * 100
+                        }%)`}</p>
+                    </div>
                 </div>
             </div>
             {/* MÀU SẮC */}
-            <div className="flex flex-row items-center gap-4 flex-wrap">
-                <p className="text-sm">Màu sắc :</p>
-                <div className="flex flex-row items-center gap-2">
-                    {productColors.map((color, index) => {
-                        return (
-                            <div
-                                key={color.id}
-                                className={cn(
-                                    'p-[2px] flex flex-row items-center justify-center border-2 border-transparent rounded-full',
-                                    selectedColor?.id === color?.id &&
-                                        '!border-primary'
-                                )}
-                            >
-                                <Tooltip
-                                    title={color.name}
+            {!!product.color.length && (
+                <div className="flex flex-row items-center gap-4 flex-wrap">
+                    <p className="text-sm">Màu sắc :</p>
+                    <div className="flex flex-row items-center gap-2">
+                        {productColors.map((color, index) => {
+                            return (
+                                <div
                                     key={color.id}
-                                    className="mx-auto"
+                                    className={cn(
+                                        'p-[2px] flex flex-row items-center justify-center border border-transparent rounded-full',
+                                        selectedColor?.id === color?.id &&
+                                            '!border-primary'
+                                    )}
                                 >
-                                    <Tag.CheckableTag
-                                        checked
-                                        onChange={() =>
-                                            handleSelectColor(color)
-                                        }
-                                        style={{
-                                            backgroundColor: color.hexcode,
-                                        }}
-                                        className={`w-7 h-7 rounded-full border border-black/10 `}
-                                    ></Tag.CheckableTag>
-                                </Tooltip>
-                            </div>
-                        );
-                    })}
+                                    <Tooltip
+                                        title={color.name}
+                                        key={color.id}
+                                        className="mx-auto"
+                                    >
+                                        <Tag.CheckableTag
+                                            checked
+                                            onChange={() =>
+                                                handleSelectColor(color)
+                                            }
+                                            style={{
+                                                backgroundColor: color.hexcode,
+                                            }}
+                                            className={`w-7 h-7 rounded-full border border-black/10 `}
+                                        ></Tag.CheckableTag>
+                                    </Tooltip>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
-            </div>
+            )}
             {/* DUNG LƯỢNG */}
-            {product.capacity && (
+            {!!product.capacity.length && (
                 <div className="flex flex-row items-center gap-4 flex-wrap">
                     <p className="text-sm">Dung lượng :</p>
                     <div className="flex flex-row items-center gap-3 flex-wrap">
@@ -137,7 +141,7 @@ export const ProductInfo = ({
                                     className={cn(
                                         'text-sm rounded-lg px-3 py-1 border  border-black/20 cursor-pointer',
                                         selectedCapacity?.id === capacity.id &&
-                                            '!border-primary border-2'
+                                            '!border-primary '
                                     )}
                                 >
                                     {capacity.name}

@@ -8,12 +8,11 @@ import axios from 'axios';
 import InitialView from './InititalView';
 import SearchResultView from './SeachResultView';
 import { Spinner } from '../Common';
-
 import 'react-loading-skeleton/dist/skeleton.css';
 import useModal from '@/hooks/store/useModal';
 import { useAppDispatch } from '@/stores';
 import { openHomeSearchBoxModal } from '@/stores/reducers/modal';
-
+import { debounce } from 'lodash';
 type Props = {};
 const HomeSeachBox = (props: Props) => {
     const [searchValue, setSearchValue] = useDebounce('', 200);
@@ -60,7 +59,7 @@ const HomeSeachBox = (props: Props) => {
     }, []);
 
     return (
-        <div className=" sm:w-[350px] z-10 shadow-sm rounded-full">
+        <div className="w-full sm:w-[350px] z-10 shadow-sm rounded-full">
             <Input
                 onClick={(e) => e.stopPropagation()}
                 suffix={
@@ -105,13 +104,16 @@ const HomeSeachBox = (props: Props) => {
                     className={cn(
                         'hidden',
                         isOpenHomeSearchBoxModal &&
-                            '!block absolute top-20 inset-x-6 sm:left-auto sm:right-[17.5%] sm:w-fit max-w-[500px] h-full max-h-[500px] bg-white rounded-lg shadow-md'
+                            '!block absolute top-20 inset-x-6 sm:left-auto sm:right-[20%] sm:w-fit max-w-[500px] h-full max-h-[500px] bg-white rounded-lg shadow-md'
                     )}
                 >
                     {searchResults.length <= 0 || searchValue.trim() === '' ? (
                         <InitialView trendingProducts={trendingProducts} />
                     ) : (
-                        <SearchResultView searchResults={searchResults} />
+                        <SearchResultView
+                            handleSearch={setSearchValue}
+                            searchResults={searchResults}
+                        />
                     )}
                 </div>
             </div>

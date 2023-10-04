@@ -1,6 +1,8 @@
 import { firebaseStorage } from '@/services/firebase/firebaseDB';
 import { UploadFile } from 'antd';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { capacityList, colorList } from '@/utils/constants/general';
+import { TCapacityInfo, TColorInfo, TProductInfo } from '@/types/general';
 
 export const formatCurrency = (value: number) => {
     const formatValue = new Intl.NumberFormat('vi-VN', {
@@ -90,4 +92,28 @@ export const handleUploadImagesToFirebase = async (
             rej(listImageUrl);
         }
     });
+};
+
+export const getInitialColorAndCapacity = ({
+    product,
+}: {
+    product: TProductInfo;
+}) => {
+    const color = colorList
+        .filter((color) => {
+            return product.color.find((_color) => _color === color.name);
+        })
+        .sort((a, b) => a.extraPrice - b.extraPrice)[0];
+    const capacity = capacityList
+        .filter((capacity) => {
+            return product.capacity.find(
+                (_capacity) => _capacity === capacity.name
+            );
+        })
+        .sort((a, b) => a.extraPrice - b.extraPrice)[0];
+
+    return {
+        color: color || ({} as TColorInfo),
+        capacity: capacity || ({} as TCapacityInfo),
+    };
 };

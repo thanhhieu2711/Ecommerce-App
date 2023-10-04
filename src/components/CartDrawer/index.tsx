@@ -24,20 +24,19 @@ const CartDrawer = (props: Props) => {
             headerClassname="bg-primary text-white"
             closeIconClassname="text-white rounded-full hover:bg-white hover:text-primary "
             header={
-                <div className="flex flex-row items-center gap-2 ">
+                <div className="flex flex-row items-center gap-2">
                     <BiShoppingBag className="icon-base" />
                     <div>
-                        <span className="font-semibold text-lg sm:text-xl">
+                        <span className="font-semibold text-lg ">
                             Giỏ hàng của bạn
                         </span>
-                        {/* <span className="text-md text-black/50"> (6)</span> */}
                     </div>
                 </div>
             }
             footer={
                 !!listCart.length && (
                     <div className="w-full max-h-[40px] flex flex-row items-center gap-4">
-                        <div className="basis-1/3 flex flex-col p-2">
+                        <div className="basis-1/3 flex flex-col py-2">
                             <p className="text-sm font-medium text-black/80 ">
                                 Tổng tiền
                             </p>
@@ -63,6 +62,7 @@ const CartDrawer = (props: Props) => {
                     {listCart.map((cartItem, index) => {
                         return (
                             <div
+                                key={index}
                                 className={cn(
                                     index !== listCart.length - 1 &&
                                         'border-b border-black/5 pb-2'
