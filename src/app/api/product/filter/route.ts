@@ -7,24 +7,26 @@ export async function GET(req: NextRequest) {
 
         const pageLimit = Number(_req.get('pageLimit')) || 10;
 
+        const name = _req.get('name');
+
         const categoryId = _req.get('category');
 
         const brandId = _req.get('brand');
 
-        const priceRange = _req.get('priceRange');
+        // const priceRange = _req.get('priceRange');
 
-        const pageNumber = Number(_req.get('page'));
+        const pageNumber = Number(_req.get('page')) || 1;
 
         const filterResult = await prisma.product.findMany({
-            skip:
-                pageNumber < 2
-                    ? 0
-                    : pageLimit * pageNumber -
-                      (pageNumber * pageLimit) / pageNumber,
+            skip: pageNumber * pageLimit - pageLimit,
             take: pageLimit,
             where: {
                 categoryId: categoryId ?? undefined,
                 brandId: brandId ?? undefined,
+                name: {
+                    contains: name || '',
+                    mode: 'insensitive',
+                },
             },
 
             orderBy: {

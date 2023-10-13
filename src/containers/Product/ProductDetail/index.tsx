@@ -170,7 +170,7 @@ const ProductDetailCtn = ({ pid }: Props) => {
                                     {/* THÊM VÀO GIỎ HANG */}
                                     <div className="flex flex-row items-center gap-3">
                                         <Button
-                                            className="sm:basis-1/3 flex flex-row items-center justify-center gap-2 text-lg text-secondary-variant-2 hover:border-opacity-50 border-secondary-variant-2"
+                                            className="sm:basis-2/5 flex flex-row items-center justify-center gap-2 text-lg text-secondary-variant-2 hover:border-opacity-50 border-secondary-variant-2"
                                             size="md"
                                             variant="outline"
                                             onClick={() => {

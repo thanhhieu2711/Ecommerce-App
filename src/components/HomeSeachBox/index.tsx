@@ -27,7 +27,7 @@ const HomeSeachBox = (props: Props) => {
     const getProducts = async () => {
         setLoading(true);
         try {
-            const { data } = await axios.get('/api/product', {
+            const { data } = await axios.get('/api/product/filter', {
                 params: {
                     name: searchParams,
                 },
@@ -105,7 +105,7 @@ const HomeSeachBox = (props: Props) => {
                 className={cn(
                     ' transition-all duration-300 ease-out px-4',
                     isOpenHomeSearchBoxModal &&
-                        'fixed inset-0 ring-0 bg-black/20'
+                        'fixed inset-0 ring-0 bg-black/50'
                 )}
             >
                 <div

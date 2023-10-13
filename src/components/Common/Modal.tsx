@@ -72,7 +72,7 @@ export const Modal = ({
                     )}
                     <div
                         className={cn(
-                            'max-h-[500px] p-6 overflow-y-auto no-scrollbar',
+                            'max-h-[400px] md:max-h-[500px] p-6 overflow-y-auto no-scrollbar',
                             contentContainerClassname
                         )}
                     >

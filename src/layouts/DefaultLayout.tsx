@@ -13,7 +13,6 @@ type Props = {
 };
 
 export default function DefaultLayout({ children }: Props) {
-    // const { scrollY } = useWindowScrollPositions();
     const pathName = usePathname();
     const isAdminPage = pathName.includes('dashboard');
 
@@ -23,7 +22,7 @@ export default function DefaultLayout({ children }: Props) {
                 <main className={cn('max-w-full')}>{children}</main>
             ) : (
                 <>
-                    <Header isContrast={true} />
+                    <Header />
                     <main className={cn('max-w-full pt-20')}>{children}</main>
                     <RegisterModal />
                     <LoginModal />

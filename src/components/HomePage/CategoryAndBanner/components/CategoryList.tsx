@@ -3,36 +3,26 @@ import axios from 'axios';
 import { TCategoryInfo } from '@/types/general';
 import Link from 'next/link';
 import Image from 'next/image';
-
-// import { HiOutlineDevicePhoneMobile } from 'react-icons/hi2';
-// import { PiLaptop } from 'react-icons/pi';
-// import { TfiTablet } from 'react-icons/tfi';
-// import { BsSmartwatch } from 'react-icons/bs';
-// import { SlScreenDesktop } from 'react-icons/sl';
-// import { FaComputer } from 'react-icons/fa6';
-// import { BsKeyboard } from 'react-icons/bs';
-// import { PiTelevisionSimple, PiHeadphonesBold } from 'react-icons/pi';
 import { BiCategory } from 'react-icons/bi';
+import useSWRImmutable from 'swr/immutable';
 
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+//Skeleton
+import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 // Swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
-type Props = {};
-
 const CategoryList = () => {
-    const [categories, setCategories] = useState<TCategoryInfo[]>([]);
-    const getCategories = async () => {
-        const { data } = await axios.get('/api/categories');
-        data.isSuccess && setCategories(data.data);
+    const getCategories = async (url: string) => {
+        const { data } = await axios.get(url);
+        return data.data;
     };
-
-    useEffect(() => {
-        getCategories();
-    }, []);
+    const { data: categories }: { data: TCategoryInfo[] } = useSWRImmutable(
+        '/api/categories',
+        getCategories
+    );
 
     return (
         <div className="col-span-4 rounded-lg border border-black/5 shadow-card bg-white">
@@ -55,8 +45,8 @@ const CategoryList = () => {
                             padding: '8px 16px',
                         }}
                     >
-                        {!!categories.length ? (
-                            categories.map((category) => (
+                        {!!categories?.length ? (
+                            categories?.map((category) => (
                                 <SwiperSlide
                                     key={category.id}
                                     className="hover:bg-secondary-variant-3 rounded-lg"

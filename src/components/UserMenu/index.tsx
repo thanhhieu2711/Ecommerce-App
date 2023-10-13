@@ -17,7 +17,6 @@ import {
     BiSolidDashboard,
 } from 'react-icons/bi';
 import useClickOutside from '@/hooks/useClickOutside';
-import { Button } from '../Common';
 import Link from 'next/link';
 import { openCartDrawer, openWishlistDrawer } from '@/stores/reducers/drawer';
 import { ERole } from '@/types/user';

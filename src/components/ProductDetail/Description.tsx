@@ -10,7 +10,7 @@ type Props = {
 export const Description = ({ product, handleExpanedDesc }: Props) => {
     const isMobile = useMediaQuery({ query: '(max-width: 490px)' });
     return (
-        <div className="col-span-5 md:col-span-3">
+        <div className="col-span-5 md:col-span-3 h-fit">
             <div className="w-full h-full flex flex-col gap-4 relative">
                 <p className="text-2xl font-semibold">Mô tả chi tiết</p>
                 <div

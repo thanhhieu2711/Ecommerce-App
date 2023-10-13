@@ -46,28 +46,12 @@ export async function GET(req: NextRequest, res: NextResponse) {
     try {
         const _req = req.nextUrl.searchParams;
 
-        const pageLimit = Number(_req.get('pageLimit')) || 10;
+        const pageLimit = Number(_req.get('pageLimit'));
 
-        const searchPage = Number(_req.get('page')) || 1;
-
-        const searchByName = _req.get('name');
-
-        const totalPage = Math.ceil(
-            (await prisma.product.findMany()).length / pageLimit
-        );
+        const pageNumber = Number(_req.get('page')) || 1;
 
         const allProducts = await prisma.product.findMany({
-            skip: searchPage * pageLimit - pageLimit,
-            take: pageLimit,
-            where: {
-                name: {
-                    contains: searchByName?.replace(
-                        /[-\/\\^$*+?.()|[\]{}]/g,
-                        '\\$&'
-                    ),
-                    mode: 'insensitive',
-                },
-            },
+            skip: pageNumber * pageLimit - pageLimit,
             orderBy: {
                 createdAt: 'desc',
             },
@@ -79,11 +63,11 @@ export async function GET(req: NextRequest, res: NextResponse) {
             isSuccess: true,
             data: allProducts,
             pagination: {
-                pageNumber: searchPage,
+                pageNumber: pageNumber,
                 totalRecord: allProducts.length,
-                totalPage: searchByName
+                totalPage: pageLimit
                     ? Math.ceil(searchCount / pageLimit)
-                    : totalPage,
+                    : searchCount,
                 pageLimit: pageLimit,
             },
         });

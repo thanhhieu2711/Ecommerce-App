@@ -33,7 +33,7 @@ export const Drawer = ({
             className={cn(
                 'bg-transparent z-[150] h-full',
                 isOpen &&
-                    'fixed transition-all duration-500 ease-out inset-0 !bg-black/20 '
+                    'fixed transition-all duration-500 ease-out inset-0 !bg-black/50 '
             )}
             onClick={() => onClose()}
         >

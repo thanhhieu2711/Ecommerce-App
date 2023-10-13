@@ -45,7 +45,7 @@ const InitialView = ({ trendingProducts }: Props) => {
                 </div>
             </div>
             <div className="border-b border-black/5"></div>
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col gap-2">
                 <div className="flex flex-row items-center justify-between">
                     <div className="flex flex-row items-center gap-1  w-full">
                         <p className="font-medium">Xu hướng sử tìm kiếm</p>
@@ -60,7 +60,7 @@ const InitialView = ({ trendingProducts }: Props) => {
                                   direction="ltr"
                                   enableAnimation={true}
                                   height={50}
-                                  width={212}
+                                  className="!col-span-1 w-full xs:!w-[220px]"
                               />
                           ))
                         : trendingProducts.map((product) => {

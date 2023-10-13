@@ -12,11 +12,7 @@ import WishlistDrawer from '../WishlistDrawer';
 import { useCart, useDrawer, useWishlist } from '@/hooks/store';
 import { useWindowScrollPositions } from '@/hooks/useWindowScrollPosition';
 
-type Props = {
-    isContrast: boolean;
-};
-
-export default function Header({ isContrast }: Props) {
+export default function Header() {
     const dispatch = useAppDispatch();
     const { listCart } = useCart();
     const { wishList } = useWishlist();
@@ -78,7 +74,7 @@ export default function Header({ isContrast }: Props) {
                                     </div>
                                 )}
                             </Link>
-                            <UserMenu isContrast={isContrast} />
+                            <UserMenu />
                             <div>
                                 <CartDrawer />
                                 <WishlistDrawer />

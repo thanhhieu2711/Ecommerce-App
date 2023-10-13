@@ -60,7 +60,7 @@ export const ProductInfo = ({
             {/* GIÁ BÁN */}
             <div className="flex flex-row items-center gap-4 flex-wrap">
                 <p className="text-sm">Giá niêm yết : </p>
-                <div className="flex flex-row items-center gap-2">
+                <div className="flex flex-row items-center gap-2 flex-wrap">
                     <p className="text-2xl font-bold text-primary">
                         {formatCurrency(
                             priceCalculator({
