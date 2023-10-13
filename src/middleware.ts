@@ -6,15 +6,14 @@ export async function middleware(req: NextRequest) {
         req,
         secret: process.env.NEXTAUTH_JWT_SECRET,
     });
-    if (!token) {
-        return;
-    }
 
-    if (currentPath.includes('dashboard') && token.role !== 'ADMIN') {
+    if (
+        currentPath.includes('dashboard') &&
+        (token?.role !== 'ADMIN' || !token)
+    ) {
         return NextResponse.redirect(
             process.env.NEXTAUTH_URL || 'http://localhost:3000/'
         );
-    } else {
-        return;
     }
+    return;
 }

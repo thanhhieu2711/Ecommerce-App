@@ -103,9 +103,9 @@ const HomeSeachBox = (props: Props) => {
                     dispatch(openHomeSearchBoxModal(false));
                 }}
                 className={cn(
-                    ' transition-all duration-300 ease-out px-4',
+                    ' transition-all duration-[250ms] ease-out px-4 opacity-0',
                     isOpenHomeSearchBoxModal &&
-                        'fixed inset-0 ring-0 bg-black/50'
+                        'fixed inset-0 ring-0 bg-black/50 !opacity-100'
                 )}
             >
                 <div
