@@ -13,12 +13,13 @@ import useModal from '@/hooks/store/useModal';
 import { useAppDispatch } from '@/stores';
 import { openHomeSearchBoxModal } from '@/stores/reducers/modal';
 import { debounce } from 'lodash';
+import useSWRImmutable from 'swr/immutable';
 type Props = {};
 const HomeSeachBox = (props: Props) => {
     const [searchValue, setSearchValue] = useState<string>('');
     const [searchParams, setSearchParams] = useDebounce<string>('', 200);
     const [searchResults, setSearchResults] = useState<TProductInfo[]>([]);
-    const [trendingProducts, setTrendingProduct] = useState<TProductInfo[]>([]);
+    // const [trendingProducts, setTrendingProduct] = useState<TProductInfo[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
     const dispatch = useAppDispatch();
@@ -40,16 +41,17 @@ const HomeSeachBox = (props: Props) => {
         }
     };
 
-    const getTrendingProducts = async () => {
+    const getTrendingProducts = async (url: string) => {
         try {
-            const { data } = await axios.get('/api/product/trending');
-            if (data.isSucess) {
-                setTrendingProduct(data.data);
-            }
+            const { data } = await axios.get(url);
+            return data.data;
         } catch (error) {
             console.log(error);
         }
     };
+
+    const { data: trendingProducts }: { data: TProductInfo[] } =
+        useSWRImmutable('/api/product/trending', getTrendingProducts);
 
     useEffect(() => {
         if (searchParams.trim() !== '') {
@@ -58,10 +60,6 @@ const HomeSeachBox = (props: Props) => {
             setSearchResults([]);
         }
     }, [searchParams]);
-
-    useEffect(() => {
-        getTrendingProducts();
-    }, []);
 
     return (
         <div className="w-full sm:w-[350px] z-10 shadow-sm rounded-full">
@@ -113,10 +111,10 @@ const HomeSeachBox = (props: Props) => {
                     className={cn(
                         'hidden',
                         isOpenHomeSearchBoxModal &&
-                            '!block absolute top-20 inset-x-6 sm:left-auto sm:right-[20%] sm:w-fit max-w-[500px] h-full max-h-[500px] bg-white rounded-lg shadow-md'
+                            '!block absolute top-20 inset-x-4 sm:left-auto sm:right-[20%] xl:right-[20%] sm:w-fit max-w-[500px] h-full max-h-[500px] bg-white rounded-lg shadow-md'
                     )}
                 >
-                    {searchResults.length <= 0 || searchValue.trim() === '' ? (
+                    {!searchResults.length || searchValue.trim() === '' ? (
                         <InitialView trendingProducts={trendingProducts} />
                     ) : (
                         <SearchResultView

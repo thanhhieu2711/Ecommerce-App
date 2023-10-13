@@ -27,7 +27,7 @@ export const ProductImage = ({
                 <div className="flex-1 flex flex-row items-center justify-center rounded-lg border border-black/10 md:max-h-[450px] relative">
                     <img
                         src={activeImage}
-                        className="object-contain w-full h-[95%] rounded-lg"
+                        className="object-contain w-full h-[50%] md:h-[95%] rounded-lg"
                         alt="product-img"
                         loading="lazy"
                     />

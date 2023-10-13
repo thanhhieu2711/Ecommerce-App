@@ -36,7 +36,7 @@ const RegisterForm = (props: Props) => {
     return (
         <Form
             form={form}
-            name="basic"
+            name="register"
             className="w-full flex flex-col"
             layout="vertical"
             scrollToFirstError

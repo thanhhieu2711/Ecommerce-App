@@ -60,7 +60,7 @@ export const Modal = ({
                             headerClassname
                         )}
                     >
-                        <p>{header}</p>
+                        <div>{header}</div>
                         {showCloseIcon && (
                             <button className=" p-0 bg-white" onClick={onClose}>
                                 <AiOutlineClose className="text-black w-5 h-5 " />

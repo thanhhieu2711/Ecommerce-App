@@ -23,7 +23,7 @@ const TrendingProductItem = ({ product }: Props) => {
                 height={40}
                 loading="lazy"
             />
-            <div key={product.id} className="line-clamp-1">
+            <div key={product.id} className="line-clamp-2 text-sm">
                 {product.name}
             </div>
         </Link>

@@ -39,6 +39,7 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({
             isSuccess: true,
             data: filterResult,
+            message: !!filterResult.length ? null : 'Không tìm thấy sản phẩm!',
             pagination: {
                 pageNumber: pageNumber || 1,
                 totalRecord: filterResult.length,

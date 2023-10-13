@@ -1,6 +1,8 @@
 import { TProductInfo } from '@/types/general';
 import React from 'react';
 import SearchResultItem from './SearchResultItem';
+import { useAppDispatch } from '@/stores';
+import { addToSearchHistory } from '@/stores/reducers/search-history';
 
 type Props = {
     searchResults: TProductInfo[];
@@ -9,6 +11,7 @@ type Props = {
 };
 
 const SearchResultView = ({ searchResults, setSearchValue }: Props) => {
+    const dispatch = useAppDispatch();
     return (
         <div className="flex flex-col w-full sm:!w-[400px] h-full ">
             <p className="text-sm p-2 bg-[#f3f3f3] rounded-t-lg text-black/50">
@@ -17,7 +20,19 @@ const SearchResultView = ({ searchResults, setSearchValue }: Props) => {
             </p>
             <div className="flex-1 flex flex-col gap-3 p-2 overflow-y-auto">
                 {searchResults.map((product) => (
-                    <div key={product.id} onClick={() => setSearchValue('')}>
+                    <div
+                        key={product.id}
+                        onClick={() => {
+                            setSearchValue('');
+                            dispatch(
+                                addToSearchHistory({
+                                    searchText: product.name,
+                                    date: Date.now(),
+                                    endPoint: `${product.slug}-${product.id}`,
+                                })
+                            );
+                        }}
+                    >
                         <SearchResultItem product={product} />
                     </div>
                 ))}

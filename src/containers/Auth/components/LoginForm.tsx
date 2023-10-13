@@ -38,7 +38,7 @@ const LoginForm = (props: Props) => {
     return (
         <Form
             form={form}
-            name="basic"
+            name="login"
             className="w-full flex flex-col"
             layout="vertical"
             scrollToFirstError
