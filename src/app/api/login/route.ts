@@ -1,7 +1,6 @@
 import prisma from '@/services/prisma/prismaDB';
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
-import { TUserInfo } from '@/types/user';
 
 export async function POST(request: Request) {
     try {

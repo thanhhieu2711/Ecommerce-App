@@ -1,12 +1,9 @@
-import { useWindowScrollPositions } from '@/hooks/useWindowScrollPosition';
 import Header from '@/components/Layout/Header';
 import Footer from '@/components/Layout/Footer';
 import cn from 'classnames';
 import { usePathname } from 'next/navigation';
 import RegisterModal from '@/containers/Auth/RegisterModal';
 import LoginModal from '@/containers/Auth/LoginModal';
-import CartDrawer from '@/components/CartDrawer';
-import WishlistDrawer from '@/components/WishlistDrawer';
 
 type Props = {
     children: React.ReactNode;

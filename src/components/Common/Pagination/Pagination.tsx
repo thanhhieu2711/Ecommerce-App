@@ -1,8 +1,6 @@
 import cn from 'classnames';
 import { Button } from '../Button';
-// import usePagination from '@/hooks/apps/usePagination';
 import { ReactNode } from 'react';
-// import { ArrowLeftSLineIcon, ArrowRightSLineIcon } from '@/components/Icons';
 import { BiArrowToLeft, BiArrowToRight } from 'react-icons/bi';
 import PaginationItem from './PaginationItem';
 import usePagination from '@/hooks/app/usePagination';
@@ -42,8 +40,6 @@ const Pagination = ({
         isDisabledNextBtn,
         isDisabledPrevBtn,
         onCurrentPageChange,
-        // onNext,
-        // onPrev,
     } = usePagination({
         totalPage,
         currentPage,
@@ -56,7 +52,7 @@ const Pagination = ({
                 className={cn(
                     'h-10 w-10 hover:bg-primary/20 hover:!border-transparent',
                     isDisabledPrevBtn && '!border !border-black/20',
-                    nextButtonProps?.className
+                    prevButtonProps?.className
                 )}
                 theme="white"
                 variant="outline"
@@ -64,8 +60,8 @@ const Pagination = ({
                     onPrevButton();
                 }}
             >
-                {nextButtonProps?.content ? (
-                    nextButtonProps.content
+                {prevButtonProps?.content ? (
+                    prevButtonProps.content
                 ) : (
                     <BiArrowToLeft
                         className={cn(

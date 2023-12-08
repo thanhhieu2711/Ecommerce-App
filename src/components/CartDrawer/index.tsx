@@ -7,7 +7,7 @@ import { BiShoppingBag, BiTrash } from 'react-icons/bi';
 import { Button } from '../Common';
 import useCart from '@/hooks/store/useCart';
 import CartItem from './CartItem';
-import { formatCurrency } from '@/utils/helper';
+import { formatCurrency, getDiscountPrice } from '@/utils/helper';
 import { clearCart } from '@/stores/reducers/cart';
 type Props = {};
 
@@ -16,12 +16,14 @@ const CartDrawer = (props: Props) => {
     const { isOpenCartDrawer } = useDrawer();
     const { listCart, cartTotal } = useCart();
 
+    console.log(getDiscountPrice(listCart));
+
     return (
         <Drawer
             isOpen={isOpenCartDrawer}
             onClose={() => dispatch(openCartDrawer(false))}
             headerClassname="bg-primary text-white"
-            closeIconClassname="text-white rounded-full hover:bg-white hover:text-primary "
+            closeIconClassname="text-white rounded-full hover:bg-white hover:text-primary"
             header={
                 <div className="flex flex-row items-center gap-2">
                     <BiShoppingBag className="icon-base" />

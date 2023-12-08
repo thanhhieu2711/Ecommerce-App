@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import Image from 'next/image';
 import Counter from '@/components/Common/Counter';
 import { BiTrash } from 'react-icons/bi';
@@ -10,7 +9,6 @@ import {
     increaseQuantity,
     removeFromCart,
 } from '@/stores/reducers/cart';
-import toast from 'react-hot-toast';
 
 type Props = {
     item: TCartItem;

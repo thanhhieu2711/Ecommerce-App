@@ -2,12 +2,7 @@ import prisma from '@/services/prisma/prismaDB';
 import { NextResponse } from 'next/server';
 import { NextApiRequest } from 'next';
 import { calculateRating } from '@/utils/helper';
-
-type TParams = {
-    params: {
-        id: string;
-    };
-};
+import { TParams } from '@/types/general';
 
 export async function GET(req: NextApiRequest, { params }: TParams) {
     try {
@@ -32,17 +27,20 @@ export async function GET(req: NextApiRequest, { params }: TParams) {
         });
 
         if (!!product) {
-            return NextResponse.json({
-                isSuccess: true,
-                data: {
-                    ...product,
-                    ratting: Math.ceil(
-                        calculateRating(
-                            product.feedback.map((feed) => feed.ratting)
-                        )
-                    ),
+            return NextResponse.json(
+                {
+                    isSuccess: true,
+                    data: {
+                        ...product,
+                        ratting: Math.ceil(
+                            calculateRating(
+                                product.feedback.map((feed) => feed.ratting)
+                            )
+                        ),
+                    },
                 },
-            });
+                { status: 200 }
+            );
         } else {
             return NextResponse.json({
                 isSuccess: false,
@@ -80,10 +78,15 @@ export async function PATCH(request: Request, { params }: TParams) {
                 },
                 data: { ...requestData },
             });
-            return NextResponse.json({
-                isSuccess: true,
-                message: 'Chỉnh sửa sản phẩm thành công!',
-            });
+            return NextResponse.json(
+                {
+                    isSuccess: true,
+                    message: 'Chỉnh sửa sản phẩm thành công!',
+                },
+                {
+                    status: 200,
+                }
+            );
         } else {
             return NextResponse.json({
                 isSuccess: false,
@@ -102,7 +105,7 @@ export async function PATCH(request: Request, { params }: TParams) {
     }
 }
 
-export async function DELETE(req: NextApiRequest, { params }: TParams) {
+export async function DELETE(req: Request, { params }: TParams) {
     const { id } = params;
     try {
         const product = await prisma.product.findUnique({

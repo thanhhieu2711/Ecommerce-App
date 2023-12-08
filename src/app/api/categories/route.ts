@@ -44,11 +44,14 @@ export async function GET() {
     try {
         const allCategories = await prisma.category.findMany();
 
-        return NextResponse.json({
-            isSuccess: true,
-            message: 'Lấy danh sách danh mục thành công!',
-            data: allCategories,
-        });
+        return NextResponse.json(
+            {
+                isSuccess: true,
+                message: 'Lấy danh sách danh mục thành công!',
+                data: allCategories,
+            },
+            { status: 200 }
+        );
     } catch (error) {
         console.log(error);
         return NextResponse.json(

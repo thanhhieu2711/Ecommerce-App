@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import cn from 'classnames';
 import { AiOutlineClose } from 'react-icons/ai';
 import { Button } from './Button';
@@ -47,7 +47,7 @@ export const Modal = ({
         >
             <div
                 className={cn(
-                    'hidden w-full max-w-[700px] shadow-lg rounded-lg bg-white  ',
+                    'hidden w-full max-w-[700px] shadow-lg rounded-lg bg-white',
                     isOpen && '!block',
                     containerClassname
                 )}
@@ -70,7 +70,7 @@ export const Modal = ({
                 )}
                 <div
                     className={cn(
-                        'max-h-[400px] md:max-h-[500px] p-6 overflow-y-auto no-scrollbar',
+                        'max-h-[400px] md:max-h-[500px] p-6 overflow-y-auto',
                         contentContainerClassname
                     )}
                 >

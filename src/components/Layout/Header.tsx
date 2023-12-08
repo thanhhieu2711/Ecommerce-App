@@ -14,7 +14,7 @@ import { useWindowScrollPositions } from '@/hooks/useWindowScrollPosition';
 
 export default function Header() {
     const dispatch = useAppDispatch();
-    const { listCart } = useCart();
+    const { listCart, cartQuantity } = useCart();
     const { wishList } = useWishlist();
     const { isOpenCartDrawer, isOpenWishlistDrawer } = useDrawer();
     const { scrollY } = useWindowScrollPositions();
@@ -67,10 +67,10 @@ export default function Header() {
                                     dispatch(openCartDrawer(true));
                                 }}
                             >
-                                <BiCart className={cn('icon-base ')} />
+                                <BiCart className={cn('icon-base')} />
                                 {!!listCart.length && (
                                     <div className="absolute w-5 h-5 flex flex-row items-center justify-center bg-red-600 rounded-full top-3 -translate-y-full -right-2 text-xs text-white">
-                                        {listCart.length}
+                                        {cartQuantity}
                                     </div>
                                 )}
                             </Link>

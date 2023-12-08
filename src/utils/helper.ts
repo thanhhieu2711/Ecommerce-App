@@ -2,7 +2,12 @@ import { firebaseStorage } from '@/services/firebase/firebaseDB';
 import { UploadFile } from 'antd';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { capacityList, colorList } from '@/utils/constants/general';
-import { TCapacityInfo, TColorInfo, TProductInfo } from '@/types/general';
+import {
+    TCapacityInfo,
+    TCartItem,
+    TColorInfo,
+    TProductInfo,
+} from '@/types/general';
 
 export const formatCurrency = (value: number) => {
     const formatValue = new Intl.NumberFormat('vi-VN', {
@@ -50,7 +55,7 @@ export function formatDate(date: Date) {
     const hours = dateObject.getUTCHours().toString().padStart(2, '0');
     const minutes = dateObject.getUTCMinutes().toString().padStart(2, '0');
     const day = dateObject.getUTCDate().toString().padStart(2, '0');
-    const month = (dateObject.getUTCMonth() + 1).toString().padStart(2, '0'); // Tháng tính từ 0 -> 11
+    const month = (dateObject.getUTCMonth() + 1).toString().padStart(2, '0'); // Tháng tính từ 0 -> 11 nên phải + thêm 1
     const year = dateObject.getUTCFullYear().toString();
 
     const formattedDate = `${hours}:${minutes} ${day}-${month}-${year}`;
@@ -89,7 +94,8 @@ export const handleUploadImagesToFirebase = async (
             }
             res(listImageUrl);
         } catch (error) {
-            rej(listImageUrl);
+            console.log(error);
+            rej(error);
         }
     });
 };
@@ -116,4 +122,24 @@ export const getInitialColorAndCapacity = ({
         color: color || ({} as TColorInfo),
         capacity: capacity || ({} as TCapacityInfo),
     };
+};
+
+export const getDiscountPrice = (listCart: TCartItem[]): number => {
+    const result = listCart.reduce((total, cartItem) => {
+        const { product, capacity, color, quantity } = cartItem;
+        return (total +=
+            (priceCalculator({
+                value: product.price,
+                extraPrice:
+                    (capacity?.extraPrice || 0) + (color?.extraPrice || 0),
+            }) -
+                priceCalculator({
+                    value: product.price,
+                    extraPrice:
+                        (capacity?.extraPrice || 0) + (color?.extraPrice || 0),
+                    discount: product.discount,
+                })) *
+            quantity);
+    }, 0);
+    return result;
 };

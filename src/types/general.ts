@@ -46,4 +46,8 @@ export type TCartItem = {
     price: number;
 };
 
+export type TParams = {
+    params: { id: string };
+};
+
 export type TBannerType = 'main' | 'sub';

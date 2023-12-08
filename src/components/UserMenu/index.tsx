@@ -238,12 +238,12 @@ const UserMenu = ({ isContrast }: Props) => {
             onClick={() => setOpenMenu(!openMenu)}
         >
             <BiUserCircle
-                className={cn('icon-base text-black  hover:text-primary')}
+                className={cn('icon-base text-black hover:text-primary')}
             />
 
             <div
                 className={cn(
-                    'hidden w-[200px] rounded-lg bg-white shadow-card-flight top-12 right-0 ',
+                    'hidden w-[200px] rounded-lg bg-white shadow-card-flight top-12 right-0',
                     openMenu && '!block absolute '
                 )}
             >

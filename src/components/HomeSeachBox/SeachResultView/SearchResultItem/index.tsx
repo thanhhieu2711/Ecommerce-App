@@ -19,7 +19,7 @@ const SearchResultItem = ({ product }: Props) => {
     const dispatch = useAppDispatch();
     return (
         <Link
-            href={`/product/${product.slug}-${product.id}`}
+            href={`/products/${product.slug}-${product.id}`}
             className="flex flex-row items-center gap-2 hover:bg-secondary-variant-3 p-2 rounded-md"
             onClick={() => {
                 dispatch(openHomeSearchBoxModal(false));

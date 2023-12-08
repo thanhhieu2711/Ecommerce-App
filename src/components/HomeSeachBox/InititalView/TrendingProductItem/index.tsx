@@ -12,7 +12,7 @@ const TrendingProductItem = ({ product }: Props) => {
     const dispatch = useAppDispatch();
     return (
         <Link
-            href={`/product/${product.slug}-${product.id}`}
+            href={`/products/${product.slug}-${product.id}`}
             className="flex flex-row items-center gap-2 hover:bg-[#f3f3f3] px-1 rounded-md"
             onClick={() => dispatch(openHomeSearchBoxModal(false))}
         >

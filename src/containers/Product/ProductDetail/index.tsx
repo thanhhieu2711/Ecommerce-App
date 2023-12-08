@@ -177,7 +177,6 @@ const ProductDetailCtn = ({ pid }: Props) => {
                                                 dispatch(
                                                     addToCart(checkoutInfo)
                                                 );
-                                                // dispatch(clearCart(true));
                                             }}
                                         >
                                             <BiCartAdd className="icon-base" />
