@@ -3,7 +3,6 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import CredentialsProviders from 'next-auth/providers/credentials';
 import prisma from '@/services/prisma/prismaDB';
 import bcrypt from 'bcrypt';
-import { JWT } from 'next-auth/jwt';
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),

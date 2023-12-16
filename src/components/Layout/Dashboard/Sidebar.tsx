@@ -23,19 +23,19 @@ const SIDEBAR_LINK: TSidebarLink[] = [
     {
         id: 2,
         name: 'Sản phẩm',
-        link: '/dashboard/product',
+        link: '/dashboard/products',
         icon: <RiProductHuntLine className="w-6 h-6" />,
     },
     {
         id: 4,
         name: 'Danh mục',
-        link: '/dashboard/category',
+        link: '/dashboard/categories',
         icon: <BiCategory className="w-6 h-6" />,
     },
     {
         id: 5,
         name: 'Thương hiệu',
-        link: '/dashboard/brand',
+        link: '/dashboard/brands',
         icon: <TbBrandBlogger className="w-6 h-6" />,
     },
     {

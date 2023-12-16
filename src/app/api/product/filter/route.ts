@@ -34,15 +34,19 @@ export async function GET(req: NextRequest) {
             },
         });
 
-        const totalPage = Math.ceil(filterResult.length / pageLimit);
+        const searchCount = (await prisma.product.findMany()).length;
+
+        const totalPage = name
+            ? Math.ceil(filterResult.length / pageLimit)
+            : Math.ceil(searchCount / pageLimit);
 
         return NextResponse.json({
             isSuccess: true,
             data: filterResult,
             message: !!filterResult.length ? null : 'Không tìm thấy sản phẩm!',
             pagination: {
-                pageNumber: pageNumber || 1,
-                totalRecord: filterResult.length,
+                pageNumber: pageNumber,
+                totalRecord: name ? filterResult.length : searchCount,
                 totalPage: totalPage,
                 pageLimit: pageLimit,
             },

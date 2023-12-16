@@ -50,7 +50,7 @@ export const ProductDashboard = () => {
     async function getProducts() {
         setLoading(true);
         try {
-            const { data } = await axios.get('/api/product', {
+            const { data } = await axios.get('/api/product/filter', {
                 params: {
                     page: currentPage,
                     name: searchValue,
@@ -122,7 +122,10 @@ export const ProductDashboard = () => {
                 <div className=" flex justify-between items-center sm:flex-row p-4  ">
                     <div className="w-fit md:w-60 ">
                         <Input
-                            onChange={(e) => setSearchValue(e.target.value)}
+                            onChange={(e) => {
+                                setCurrentPage(1);
+                                setSearchValue(e.target.value);
+                            }}
                             placeholder="Nhập tên sản phẩm"
                             prefix={
                                 <BiSearch className="w-5 h-5 text-black/60" />
@@ -157,7 +160,7 @@ export const ProductDashboard = () => {
                             {/* <LoadingSpinner /> */}
                             loading...
                         </div>
-                    ) : (
+                    ) : !!listProduct.length ? (
                         <div className="px-4 ">
                             <table className="w-full h-full " align="center">
                                 <thead className="text-center">
@@ -275,10 +278,12 @@ export const ProductDashboard = () => {
                                 </tbody>
                             </table>
                         </div>
+                    ) : (
+                        <p>Không tìm thấy sản phẩm nào !!</p>
                     )}
 
                     <div className="py-4 flex flex-row justify-center">
-                        {!!pagination.totalPage && (
+                        {!!pagination.totalPage && !loading && (
                             <Pagination
                                 currentPage={currentPage}
                                 totalPage={pagination.totalPage}
