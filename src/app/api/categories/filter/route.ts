@@ -5,24 +5,19 @@ export async function GET(req: NextRequest) {
     try {
         const _req = req.nextUrl.searchParams;
 
-        const pageLimit = Number(_req.get('pageLimit')) || 10;
+        const pageLimit = Number(_req.get('pageLimit')) || 4;
 
         const name = _req.get('name');
 
         const categoryId = _req.get('category');
 
-        const brandId = _req.get('brand');
-
-        // const priceRange = _req.get('priceRange');
-
         const pageNumber = Number(_req.get('page')) || 1;
 
-        const filterResult = await prisma.product.findMany({
+        const filterResult = await prisma.category.findMany({
             skip: pageNumber * pageLimit - pageLimit,
             take: pageLimit,
             where: {
-                categoryId: categoryId ?? undefined,
-                brandId: brandId ?? undefined,
+                id: categoryId ?? undefined,
                 name: {
                     contains: name || '',
                     mode: 'insensitive',
@@ -34,7 +29,7 @@ export async function GET(req: NextRequest) {
             },
         });
 
-        const searchCount = (await prisma.product.findMany()).length;
+        const searchCount = (await prisma.category.findMany()).length;
 
         const totalPage = name
             ? Math.ceil(filterResult.length / pageLimit)

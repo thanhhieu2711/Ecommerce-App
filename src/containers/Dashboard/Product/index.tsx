@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { BiSearch, BiEdit, BiTrash } from 'react-icons/bi';
 import { useCallback, useEffect, useState } from 'react';
 import ModalCreateProduct from './components/ModalCreateProduct';
-import { Button, Spinner } from '@/components/Common';
+import { Button } from '@/components/Common';
 import axios from 'axios';
 import {
     TBrandInfo,
@@ -26,7 +26,6 @@ const DEFAULT_PAGINATION: TPagination = {
     totalPage: 0,
     totalRecord: 0,
 };
-import slugify from 'slugify';
 
 export const ProductDashboard = () => {
     const [listProduct, setListProduct] = useState<TProductInfo[]>([]);

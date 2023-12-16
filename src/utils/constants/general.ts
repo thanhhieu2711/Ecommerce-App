@@ -1,4 +1,9 @@
-import { TBannerType, TCapacityInfo, TColorInfo } from '@/types/general';
+import {
+    TBannerType,
+    TCapacityInfo,
+    TColorInfo,
+    TPagination,
+} from '@/types/general';
 
 export const bannerList: {
     id: number;
@@ -179,3 +184,12 @@ export const capacityList: TCapacityInfo[] = [
         extraPrice: 0.5,
     },
 ];
+
+export const DEFAULT_PAGINATION: TPagination = {
+    pagaLimit: 8,
+    pageNumber: 1,
+    totalPage: 0,
+    totalRecord: 0,
+};
+
+export const DEFAULT_PAGELIMIT = 10;
