@@ -67,7 +67,7 @@ const CartItem = ({ item, index }: Props) => {
                         onChange={() => {}}
                         minValue={0}
                         isDisableInput={true}
-                        buttonClassname="!w-5 !h-5 bg-secondary-variant-1/50 !rounded-full !text-black/50"
+                        buttonClassname="!w-6 !h-6 bg-secondary-variant-1/50 !rounded-full !text-black/50"
                         inputClassname="!max-h-6 !w-8 !m-0 !p-0 border-none text-sm font-medium !bg-opacity-0"
                         className="!gap-px"
                     />

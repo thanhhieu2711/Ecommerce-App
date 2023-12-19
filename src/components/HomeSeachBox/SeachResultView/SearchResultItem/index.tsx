@@ -9,7 +9,6 @@ import { TProductInfo } from '@/types/general';
 import Link from 'next/link';
 import { useAppDispatch } from '@/stores';
 import { openHomeSearchBoxModal } from '@/stores/reducers/modal';
-import { useRouter } from 'next/navigation';
 type Props = {
     product: TProductInfo;
 };

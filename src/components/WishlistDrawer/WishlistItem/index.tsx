@@ -24,7 +24,7 @@ const WishlistItem = ({ item }: Props) => {
     return (
         <div className="cursor-pointer w-full flex flex-row gap-2 items-center p-2 hover:bg-secondary-variant-3 rounded-lg">
             <Link
-                href={`/product/${item.slug}-${item.id}`}
+                href={`/products/${item.slug}-${item.id}`}
                 className="w-full flex flex-row items-center gap-2"
                 onClick={() => {
                     dispatch(openWishlistDrawer(false));

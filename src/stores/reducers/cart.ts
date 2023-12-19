@@ -91,6 +91,7 @@ const cartSlice = createSlice({
                 state.listCart = state.listCart.filter(
                     (_item) => _item.quantity !== 0
                 );
+                console.log(index);
             }
         },
 

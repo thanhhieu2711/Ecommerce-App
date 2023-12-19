@@ -1,3 +1,4 @@
+import cn from 'classnames';
 import { TProductInfo } from '@/types/general';
 import { Progress, Rate } from 'antd';
 import { BiCommentCheck } from 'react-icons/bi';
@@ -39,7 +40,11 @@ export const Feedback = ({
                                     className=" text-common-warning"
                                 />
                                 <p
-                                    className="text-center text-md text-secondary-variant-2 mt-1 cursor-pointer"
+                                    className={cn(
+                                        'text-center text-md text-secondary-variant-2 mt-1',
+                                        !!product.feedback.length &&
+                                            'cursor-pointer'
+                                    )}
                                     onClick={() => handleShowModalFeedback()}
                                 >
                                     {!!product.feedback.length

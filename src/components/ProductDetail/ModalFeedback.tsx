@@ -43,7 +43,8 @@ const ModalFeedback = ({ product, handleShowAndClose, isOpen }: Props) => {
                                     alt=""
                                 />
                                 <p className="text-lg font-medium">
-                                    {feedback.user.name || 'Vô danh'}
+                                    {feedback.user.name ||
+                                        `user${feedback.userId}`}
                                 </p>
                             </div>
                             <div className="flex flex-row items-center gap-1 text-xs">

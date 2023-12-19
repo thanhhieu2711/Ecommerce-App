@@ -9,14 +9,14 @@ import useCart from '@/hooks/store/useCart';
 import CartItem from './CartItem';
 import { formatCurrency, getDiscountPrice } from '@/utils/helper';
 import { clearCart } from '@/stores/reducers/cart';
+import { useRouter } from 'next/navigation';
 type Props = {};
 
 const CartDrawer = (props: Props) => {
     const dispatch = useAppDispatch();
     const { isOpenCartDrawer } = useDrawer();
     const { listCart, cartTotal } = useCart();
-
-    console.log(getDiscountPrice(listCart));
+    const router = useRouter();
 
     return (
         <Drawer
@@ -50,7 +50,10 @@ const CartDrawer = (props: Props) => {
                             size="sm"
                             theme="white"
                             variant="outline"
-                            onClick={() => {}}
+                            onClick={() => {
+                                dispatch(openCartDrawer(false));
+                                router.push('/checkout');
+                            }}
                         >
                             <p className="text-md font-medium">Thanh toán</p>
                         </Button>

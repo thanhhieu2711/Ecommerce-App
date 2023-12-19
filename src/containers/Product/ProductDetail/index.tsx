@@ -131,11 +131,9 @@ const ProductDetailCtn = ({ pid }: Props) => {
         getProductDetail();
     }, [pid]);
 
-    return loading ? (
-        <LoadingPage />
-    ) : (
+    return (
         <div className="h-full w-full min-h-[75vh] bg-secondary py-[25px]">
-            {!!product.id ? (
+            {product.id && !loading ? (
                 <>
                     <Container>
                         <div className=" grid grid-cols-4 md:row-auto gap-6 bg-white p-4 rounded-lg shadow-card">
@@ -243,7 +241,7 @@ const ProductDetailCtn = ({ pid }: Props) => {
                     />
                 </>
             ) : (
-                <>Không tìm thấy sản phẩm</>
+                !product.id && !loading && <>Không tìm thấy sản phẩm</>
             )}
         </div>
     );
