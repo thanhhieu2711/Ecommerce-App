@@ -47,7 +47,7 @@ const Counter = ({
             <Input
                 disabled={isDisableInput}
                 className={cn(
-                    'w-11 text-center hover:!border-primary focus:!border-primary hover:!ring-primary focus:!ring-primary',
+                    'w-11 text-center hover:!border-secondary-variant-2 focus:!border-secondary-variant-2 hover:!ring-secondary-variant-2 focus:!ring-secondary-variant-2',
                     inputClassname,
                     isDisableInput && ' !bg-white !text-black !cursor-default'
                 )}

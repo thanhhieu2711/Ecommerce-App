@@ -37,7 +37,6 @@ const cartSlice = createSlice({
                     price: _price,
                 };
             }
-            toast.success('Đã thêm vào giỏ hàng !');
         },
         removeFromCart(
             state: CartState,

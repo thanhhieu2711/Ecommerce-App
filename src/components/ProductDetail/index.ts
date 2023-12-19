@@ -8,3 +8,4 @@ export * from './ProductInfo';
 export * from './ModalDescription';
 export * from './ModalFeedback';
 export * from './ModalPromotion';
+export * from './Warranty';

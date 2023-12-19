@@ -99,9 +99,9 @@ export const ProductInfo = ({
                                 <div
                                     key={color.id}
                                     className={cn(
-                                        'p-[2px] flex flex-row items-center justify-center border border-transparent rounded-full',
+                                        'p-[2px] flex flex-row items-center justify-center border-[1.5px] border-transparent rounded-full',
                                         selectedColor?.id === color?.id &&
-                                            '!border-primary'
+                                            '!border-secondary-variant-2'
                                     )}
                                 >
                                     <Tooltip
@@ -139,9 +139,9 @@ export const ProductInfo = ({
                                     }
                                     key={capacity.id}
                                     className={cn(
-                                        'text-sm rounded-lg px-3 py-1 border  border-black/20 cursor-pointer',
+                                        'text-sm rounded-lg px-3 py-1 border-[1.5px]  border-black/20 cursor-pointer',
                                         selectedCapacity?.id === capacity.id &&
-                                            '!border-primary '
+                                            '!border-secondary-variant-2'
                                     )}
                                 >
                                     {capacity.name}
@@ -155,6 +155,7 @@ export const ProductInfo = ({
             <div className="flex flex-row items-center gap-4 flex-wrap">
                 <p className="text-sm">Số lượng :</p>
                 <Counter
+                    buttonClassname="bg-secondary-variant-2"
                     onChange={handleChangeQuantity}
                     handleDecrease={() => handleChangeQuantity(quantity - 1)}
                     handleIncrease={() => handleChangeQuantity(quantity + 1)}

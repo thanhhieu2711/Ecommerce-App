@@ -17,12 +17,15 @@ import {
     ModalDescription,
     Feedback,
     ModalPromotion,
+    Warranty,
 } from '@/components/ProductDetail';
-import LoadingPage from '@/components/Common/LoadingPage';
 import { useAppDispatch } from '@/stores';
 import { addToCart } from '@/stores/reducers/cart';
 import ModalFeedback from '@/components/ProductDetail/ModalFeedback';
 import ModalSpecification from '@/components/ProductDetail/ModalSpecification';
+import { useRouter } from 'next/navigation';
+import { useCart } from '@/hooks/store';
+import toast from 'react-hot-toast';
 
 type Props = {
     pid: string;
@@ -30,6 +33,8 @@ type Props = {
 
 const ProductDetailCtn = ({ pid }: Props) => {
     const dispatch = useAppDispatch();
+    const router = useRouter();
+    const { listCart } = useCart();
     const [product, setProduct] = useState<TProductInfo>({} as TProductInfo);
     const [activeImage, setActiveImage] = useState<string>('');
     const [isExpanedDesc, setExpanedDesc] = useState<boolean>(false);
@@ -127,6 +132,17 @@ const ProductDetailCtn = ({ pid }: Props) => {
         }),
     };
 
+    const handlePrecheckAddToCart = () => {
+        const index = listCart.findIndex(
+            (item) => item.product.id === product.id
+        );
+
+        if (index !== 1) {
+            dispatch(addToCart(checkoutInfo));
+        }
+        router.push('/checkout');
+    };
+
     useEffect(() => {
         getProductDetail();
     }, [pid]);
@@ -137,14 +153,18 @@ const ProductDetailCtn = ({ pid }: Props) => {
                 <>
                     <Container>
                         <div className=" grid grid-cols-4 md:row-auto gap-6 bg-white p-4 rounded-lg shadow-card">
-                            {/* ẢNH SẢN PHẨM */}
-                            {product.images && (
-                                <ProductImage
-                                    activeImage={activeImage}
-                                    handleChangeActiveImage={setActiveImage}
-                                    product={product}
-                                />
-                            )}
+                            <div className="col-span-4 md:col-span-2 flex flex-col">
+                                {/* ẢNH SẢN PHẨM */}
+                                {product.images && (
+                                    <ProductImage
+                                        activeImage={activeImage}
+                                        handleChangeActiveImage={setActiveImage}
+                                        product={product}
+                                    />
+                                )}
+                                <Warranty />
+                            </div>
+
                             <div className="col-span-4 md:col-span-2">
                                 <div className="w-full h-full flex flex-col gap-5">
                                     <ProductInfo
@@ -172,6 +192,9 @@ const ProductDetailCtn = ({ pid }: Props) => {
                                             size="md"
                                             variant="outline"
                                             onClick={() => {
+                                                toast.success(
+                                                    'Đã thêm vào giỏ hàng !'
+                                                );
                                                 dispatch(
                                                     addToCart(checkoutInfo)
                                                 );
@@ -185,7 +208,9 @@ const ProductDetailCtn = ({ pid }: Props) => {
                                         <Button
                                             className="flex-1 text-lg text-white hover:bg-opacity-80"
                                             size="md"
-                                            onClick={() => {}}
+                                            onClick={() =>
+                                                handlePrecheckAddToCart()
+                                            }
                                         >
                                             <p>Mua ngay</p>
                                         </Button>
