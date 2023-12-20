@@ -41,6 +41,7 @@ const ModalFeedback = ({ product, handleShowAndClose, isOpen }: Props) => {
                                     width={35}
                                     height={35}
                                     alt=""
+                                    loading="lazy"
                                 />
                                 <p className="text-lg font-medium">
                                     {feedback.user.name ||

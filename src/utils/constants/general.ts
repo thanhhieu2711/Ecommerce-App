@@ -3,6 +3,7 @@ import {
     TCapacityInfo,
     TColorInfo,
     TPagination,
+    TShippingService,
 } from '@/types/general';
 
 export const bannerList: {
@@ -182,6 +183,24 @@ export const capacityList: TCapacityInfo[] = [
         id: 8,
         name: '2TB',
         extraPrice: 0.5,
+    },
+];
+
+export const shippingServices: TShippingService[] = [
+    {
+        id: 1,
+        name: 'Tiêu chuẩn (3 ngày), GHN / GHTK',
+        fee: 0,
+    },
+    {
+        id: 2,
+        name: 'Nhanh (1 ngày), GHN / GHTK',
+        fee: 35000,
+    },
+    {
+        id: 3,
+        name: 'Hỏa Tốc , GHN / GHTK',
+        fee: 70000,
     },
 ];
 

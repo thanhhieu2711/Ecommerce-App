@@ -51,3 +51,5 @@ export type TParams = {
 };
 
 export type TBannerType = 'main' | 'sub';
+
+export type TShippingService = { id: number; name: string; fee: number };

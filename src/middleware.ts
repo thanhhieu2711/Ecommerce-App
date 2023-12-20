@@ -15,5 +15,12 @@ export async function middleware(req: NextRequest) {
             process.env.NEXTAUTH_URL || 'http://localhost:3000/'
         );
     }
-    return;
+
+    if (currentPath.includes('checkout') && token === null) {
+        return NextResponse.redirect(
+            process.env.NEXTAUTH_URL || 'http://localhost:3000/'
+        );
+    }
+
+    return NextResponse.next();
 }

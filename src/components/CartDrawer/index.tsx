@@ -7,9 +7,13 @@ import { BiShoppingBag, BiTrash } from 'react-icons/bi';
 import { Button } from '../Common';
 import useCart from '@/hooks/store/useCart';
 import CartItem from './CartItem';
-import { formatCurrency, getDiscountPrice } from '@/utils/helper';
+import { formatCurrency } from '@/utils/helper';
 import { clearCart } from '@/stores/reducers/cart';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import toast from 'react-hot-toast';
+import { openLoginModal } from '@/stores/reducers/modal';
+import { EmptyCart } from '../Checkout';
 type Props = {};
 
 const CartDrawer = (props: Props) => {
@@ -17,7 +21,7 @@ const CartDrawer = (props: Props) => {
     const { isOpenCartDrawer } = useDrawer();
     const { listCart, cartTotal } = useCart();
     const router = useRouter();
-
+    const { data } = useSession();
     return (
         <Drawer
             isOpen={isOpenCartDrawer}
@@ -52,7 +56,10 @@ const CartDrawer = (props: Props) => {
                             variant="outline"
                             onClick={() => {
                                 dispatch(openCartDrawer(false));
-                                router.push('/checkout');
+                                if (!data?.user) {
+                                    return dispatch(openLoginModal(true));
+                                }
+                                return router.push('/checkout');
                             }}
                         >
                             <p className="text-md font-medium">Thanh toán</p>
@@ -62,8 +69,8 @@ const CartDrawer = (props: Props) => {
             }
         >
             <div className="w-full h-full flex flex-col gap-6">
-                <div>
-                    {!!listCart.length && (
+                {!!listCart.length ? (
+                    <div>
                         <Button
                             onClick={() => dispatch(clearCart())}
                             variant="ghost"
@@ -72,27 +79,31 @@ const CartDrawer = (props: Props) => {
                             <p className="text-sm">Xóa tất cả</p>
                             <BiTrash />
                         </Button>
-                    )}
-                    <div className="flex-1 flex flex-col gap-2">
-                        {listCart.map((cartItem, index) => {
-                            return (
-                                <div
-                                    key={index}
-                                    className={cn(
-                                        index !== listCart.length - 1 &&
-                                            'border-b border-black/5 pb-2'
-                                    )}
-                                >
-                                    <CartItem
+                        <div className="flex-1 flex flex-col gap-2">
+                            {listCart.map((cartItem, index) => {
+                                return (
+                                    <div
                                         key={index}
-                                        index={index}
-                                        item={cartItem}
-                                    />
-                                </div>
-                            );
-                        })}
+                                        className={cn(
+                                            index !== listCart.length - 1 &&
+                                                'border-b border-black/5 pb-2'
+                                        )}
+                                    >
+                                        <CartItem
+                                            key={index}
+                                            index={index}
+                                            item={cartItem}
+                                        />
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
+                ) : (
+                    <div className="flex-1 flex flex-col items-center justify-center">
+                        <EmptyCart onlyImage />
+                    </div>
+                )}
             </div>
         </Drawer>
     );

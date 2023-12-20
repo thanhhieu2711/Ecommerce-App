@@ -39,7 +39,10 @@ const Counter = ({
                         ' !border-secondary-variant-1 !text-secondary-variant-1 !bg-transparent'
                 )}
                 variant="outline"
-                onClick={handleDecrease}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    handleDecrease();
+                }}
                 disabled={isDisableDecrease}
             >
                 -
@@ -67,7 +70,10 @@ const Counter = ({
                     buttonClassname
                 )}
                 variant="outline"
-                onClick={handleIncrease}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    handleIncrease();
+                }}
                 disabled={isDisableIncrease}
             >
                 +

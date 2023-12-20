@@ -6,7 +6,7 @@ type Props = {};
 const NotFoundProduct = (props: Props) => {
     return (
         <div className="w-full h-full grid place-items-center">
-            <Image alt="" src={'/assets/'} />
+            <Image alt="" src={'/assets/'} loading="lazy" />
         </div>
     );
 };

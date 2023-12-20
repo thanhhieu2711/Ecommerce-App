@@ -124,6 +124,7 @@ export const CategoryDashboard = (props: Props) => {
                                                             width={50}
                                                             height={50}
                                                             objectFit="contain"
+                                                            loading="lazy"
                                                         />
                                                     </div>
                                                 </td>

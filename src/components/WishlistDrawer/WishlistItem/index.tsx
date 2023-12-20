@@ -37,6 +37,7 @@ const WishlistItem = ({ item }: Props) => {
                     objectFit="cover"
                     objectPosition="center"
                     alt=""
+                    loading="lazy"
                 />
                 <div className="flex flex-1 flex-col gap-1">
                     <p className="text-sm font-medium line-clamp-2">

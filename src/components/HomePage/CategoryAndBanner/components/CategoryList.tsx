@@ -63,6 +63,7 @@ const CategoryList = () => {
                                             width={45}
                                             height={45}
                                             src={category.thumbnail}
+                                            loading="lazy"
                                         />
 
                                         <p className="text-sm font-semibold ">

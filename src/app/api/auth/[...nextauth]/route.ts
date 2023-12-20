@@ -57,8 +57,9 @@ export const authOptions: NextAuthOptions = {
             if (user) {
                 token.id = user.id;
                 return {
-                    token: token.id,
                     ...user,
+                    token: token.id,
+                    password: null,
                 };
             }
             return token;
@@ -77,9 +78,11 @@ export const authOptions: NextAuthOptions = {
         secret: process.env.NEXTAUTH_JWT_SECRET,
         maxAge: 7 * 24 * 60 * 60,
     },
+
     debug: process.env.NODE_ENV === 'development',
 
     secret: process.env.NEXTAUTH_SECRET,
+
     pages: {
         signIn: '/',
     },

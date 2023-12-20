@@ -29,6 +29,7 @@ const SearchResultItem = ({ product }: Props) => {
                 height={60}
                 src={product.images[0]}
                 alt="pdt-img"
+                loading="lazy"
             />
             <div className="text-sm">
                 <p className=" font-bold line-clamp-2">{product.name}</p>
