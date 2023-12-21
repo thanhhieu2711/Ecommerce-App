@@ -11,6 +11,7 @@ import {
 } from '@/utils/helper';
 import Image from 'next/image';
 import Link from 'next/link';
+import { BiTrash } from 'react-icons/bi';
 import { FaHeartCrack } from 'react-icons/fa6';
 
 type Props = {
@@ -73,7 +74,7 @@ const WishlistItem = ({ item }: Props) => {
                     dispatch(toggleAddToWishlist(item));
                 }}
             >
-                <FaHeartCrack className="!w-4 !h-4 xs:!w-4 xs:!h-4 text-red-600" />
+                <BiTrash className="!w-4 !h-4 xs:!w-4 xs:!h-4 text-black/50 hover:text-red-500" />
             </div>
         </div>
     );

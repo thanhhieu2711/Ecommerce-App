@@ -20,9 +20,7 @@ export const OrderDetail = ({
     discountTotal,
 }: Props) => {
     useCart();
-
     // const router = useRouter();
-
     const [service, setService] = useState<Omit<TShippingService, 'id'>>(
         shippingServices[0]
     );
@@ -55,15 +53,16 @@ export const OrderDetail = ({
                         Phí vận chuyển:
                     </p>
                     <p className="">
-                        {!!listCart.length && service.fee
+                        {!!listCart.length && !!service
                             ? formatCurrency(service.fee)
                             : formatCurrency(0)}
                     </p>
                 </div>
                 <div className="flex items-center justify-between">
                     <p className="text-black/50 text-sm font-semibold">VAT:</p>
-                    <p className="">{formatCurrency(0)}</p>
+                    <p>{formatCurrency(0)}</p>
                 </div>
+
                 {!!listCart.length && (
                     <div className="flex flex-col gap-4">
                         <p className="text-black/50 text-sm font-semibold">
@@ -89,19 +88,32 @@ export const OrderDetail = ({
                         />
                     </div>
                 )}
+                <div className="flex items-center justify-between mt-1">
+                    <p className="text-black/50 text-sm font-semibold">
+                        Phương thức thanh toán:
+                    </p>
+                    <p className="text-secondary-variant-2 font-semibold">
+                        {' '}
+                        COD
+                    </p>
+                </div>
             </div>
             <div className=" border-[0.5px] m-3 border-black/10" />
             <div className="flex flex-col gap-6 p-3">
                 <div className="flex items-center justify-between">
                     <p className="text-md font-semibold">Tổng tiền :</p>
                     <p className="text-2xl font-semibold">
-                        {!!listCart.length && service.fee
+                        {!!listCart.length && !!service
                             ? formatCurrency(cartTotal + service.fee)
                             : formatCurrency(0)}
                     </p>
                 </div>
                 {!!listCart.length && (
-                    <Button size="sm" className="text-white" onClick={() => {}}>
+                    <Button
+                        size="sm"
+                        className="text-white font-semibold"
+                        onClick={() => {}}
+                    >
                         Thanh Toán
                     </Button>
                 )}

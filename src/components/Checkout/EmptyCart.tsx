@@ -23,7 +23,7 @@ export const EmptyCart = ({ onlyImage = false }: Props) => {
                     Giỏ hàng của bạn đang trống
                 </p>{' '}
                 <p className="text-black text-sm text-black/50">
-                    Hãy thêm sản phẩm vào giỏ để thanh toán nhé ^^
+                    Hãy thêm sản phẩm bạn thích vào giỏ hàng nhé ^^
                 </p>
             </div>
             {/* {!onlyImage && (

@@ -9,7 +9,8 @@ import {
     increaseQuantity,
     removeFromCart,
 } from '@/stores/reducers/cart';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { openCartDrawer } from '@/stores/reducers/drawer';
 
 type Props = {
     item: TCartItem;
@@ -18,47 +19,56 @@ type Props = {
 
 const CartItem = ({ item, index }: Props) => {
     const dispatch = useAppDispatch();
+    const router = useRouter();
 
     return (
-        <Link href={`/products/${item.product.slug}-${item.product.id}`}>
-            <div className="w-full flex flex-row  gap-2 items-center p-2 hover:bg-secondary-variant-3 rounded-lg">
-                {/* <div className=" border border-black/5 rounded-lg"> */}
-                <Image
-                    src={item.product.images[0]}
-                    width={70}
-                    height={70}
-                    objectFit="cover"
-                    objectPosition="center"
-                    loading="lazy"
-                    alt="error-image"
-                />
-                {/* </div> */}
-                <div className="flex flex-1 flex-col gap-1">
-                    <div className=" flex flex-row justify-between items-center">
-                        <p className="text-sm font-medium line-clamp-2">
-                            {item.product.name}
-                        </p>
-                        <div
-                            className="hover:bg-secondary-variant-1/50 border border-black/10 hover:!border-transparent w-fit h-fit p-2 rounded-full text-black/50 hover:text-red-600 cursor-pointer ml-[2px]"
-                            onClick={() => {
-                                dispatch(removeFromCart({ index: index }));
-                            }}
-                        >
-                            <BiTrash className="!w-3 !h-3 xs:!w-4 xs:!h-4" />
-                        </div>
+        <div
+            className="w-full flex flex-row  gap-2 items-center p-2 hover:bg-secondary-variant-3 rounded-lg cursor-pointer"
+            onClick={() => {
+                dispatch(openCartDrawer(false));
+                router.push(
+                    `/products/${item.product.slug}-${item.product.id}`
+                );
+            }}
+        >
+            {/* <div className=" border border-black/5 rounded-lg"> */}
+            <Image
+                src={item.product.images[0]}
+                width={70}
+                height={70}
+                objectFit="cover"
+                objectPosition="center"
+                loading="lazy"
+                alt="error-image"
+            />
+            {/* </div> */}
+            <div className="flex flex-1 flex-col gap-1">
+                <div className=" flex flex-row justify-between items-center">
+                    <p className="text-sm font-medium line-clamp-2">
+                        {item.product.name}
+                    </p>
+                    <div
+                        className="hover:bg-secondary-variant-1/50 border border-black/10 hover:!border-transparent w-fit h-fit p-2 rounded-full text-black/50 hover:text-red-600 cursor-pointer ml-[2px]"
+                        onClick={() => {
+                            dispatch(removeFromCart({ index: index }));
+                        }}
+                    >
+                        <BiTrash className="!w-3 !h-3 xs:!w-4 xs:!h-4" />
                     </div>
-                    <div className="flex flex-row items-center gap-2 text-xs text-black/50 flex-wrap">
-                        {item.color?.name && (
-                            <span>{`Màu sắc : ${item.color.name}`}</span>
-                        )}
-                        {item.capacity && (
-                            <>
-                                <span className="text-[10px]">|</span>
-                                <span>{`Dung lượng : ${item.capacity.name}`}</span>
-                            </>
-                        )}
-                    </div>
-                    <div className="flex flex-row justify-between items-center mt-2">
+                </div>
+                <div className="flex flex-row items-center gap-2 text-xs text-black/50 flex-wrap">
+                    {item.color?.name && (
+                        <span>{`Màu sắc : ${item.color.name}`}</span>
+                    )}
+                    {item.capacity && (
+                        <>
+                            <span className="text-[10px]">|</span>
+                            <span>{`Dung lượng : ${item.capacity.name}`}</span>
+                        </>
+                    )}
+                </div>
+                <div className="flex flex-row justify-between items-center mt-2">
+                    <div onClick={(e) => e.stopPropagation()}>
                         <Counter
                             defaultValue={item.quantity}
                             handleDecrease={() =>
@@ -74,13 +84,13 @@ const CartItem = ({ item, index }: Props) => {
                             inputClassname="!max-h-6 !w-8 !m-0 !p-0 border-none text-sm font-medium !bg-opacity-0"
                             className="!gap-px"
                         />
-                        <p className="text-sm font-bold text-secondary-variant-2 ">
-                            {formatCurrency(item.price)}
-                        </p>
                     </div>
+                    <p className="text-sm font-bold text-secondary-variant-2 ">
+                        {formatCurrency(item.price)}
+                    </p>
                 </div>
             </div>
-        </Link>
+        </div>
     );
 };
 

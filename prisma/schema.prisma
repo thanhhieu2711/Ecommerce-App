@@ -110,17 +110,23 @@ model Feedback {
 
 model Order {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
-  user User @relation(fields: [userId], references: [id])
-  orderItem OrderDetail[]
-  deliveryAddress String
+  customerId String @db.ObjectId
+  user User @relation(fields: [customerId], references: [id])
+  orderItems OrderDetail[]
+  nameReceiver String
+  phoneReceiver String
+  deliveryAddressReceiver String
+  note String
   paymentMethod PAYMENT_METHOD @default(COD)
   status ORDER_STATUS @default(INPROGRESS)
+  shippingServiceName String
+  shippingFee Int
+  discountTotal Int
   subTotal Int
   total Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  @@unique([id,userId])     
+  @@unique([id,customerId])     
 }
 
 

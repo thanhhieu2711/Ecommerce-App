@@ -26,7 +26,7 @@ const wishlistSlice = createSlice({
                 state.wishList = state.wishList.filter(
                     (item) => item.id !== action.payload.id
                 );
-                toast.success('Đã xóa khỏi yêu thích !');
+                toast.success('Đã xóa yêu thích !');
             }
         },
         clearWishlist(state: WishlistState) {

@@ -62,7 +62,7 @@ const CartDrawer = (props: Props) => {
                                 return router.push('/checkout');
                             }}
                         >
-                            <p className="text-md font-medium">Thanh toán</p>
+                            <p className="text-md font-medium">Mua Ngay</p>
                         </Button>
                     </div>
                 )

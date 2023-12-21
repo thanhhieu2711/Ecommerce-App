@@ -64,6 +64,7 @@ const Counter = ({
                 onBlur={() => (defaultValue === minValue ? onChange(1) : null)}
                 maxLength={2}
             />
+
             <Button
                 className={cn(
                     'w-8 h-8 text-white flex flex-row items-center justify-center bg-primary border-none hover:bg-opacity-70',
