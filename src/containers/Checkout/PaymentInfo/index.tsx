@@ -1,20 +1,26 @@
 'use client';
 import { CheckoutItem } from '@/components/Checkout';
 import { Button } from '@/components/Common';
+import LoadingPage from '@/components/Common/LoadingPage';
 import Container from '@/components/Layout/Container';
 import { CustomerInfoForm, ReceiverInfoForm } from '@/components/PaymentInfo';
+import { useCart } from '@/hooks/store';
+import usePaymentInfo from '@/hooks/store/usePaymentInfo';
+import { formatCurrency } from '@/utils/helper';
 import { Form } from 'antd';
-import { useSession } from 'next-auth/react';
-import Image from 'next/image';
-import { useEffect } from 'react';
+import { useState } from 'react';
 
 type Props = {};
 
 const PaymentInfoCtn = (props: Props) => {
+    const [loading, setLoading] = useState<boolean>(false);
+    const { listCart, cartTotal } = useCart();
+    const { total } = usePaymentInfo();
     const [form] = Form.useForm();
 
     const handleSubmitForm = (formData: any) => {
-        console.log(formData);
+        try {
+        } catch (error) {}
     };
 
     return (
@@ -22,35 +28,18 @@ const PaymentInfoCtn = (props: Props) => {
             <Container>
                 <div className="w-full h-full flex items-center justify-center">
                     <div className="w-full flex flex-col max-w-[700px] gap-6 relative mt-6 ">
-                        <p className="text-lg font-semibold text-center">
+                        <p className="text-xl font-semibold text-center uppercase">
                             Thông Tin Mua Hàng
                         </p>
                         <div className="w-full flex flex-col gap-4 bg-white shadow-card rounded-lg p-4">
-                            <div className="flex flex-row items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                    <Image
-                                        src={
-                                            '/assets/images/fallback_user.jpeg'
-                                        }
-                                        loading="lazy"
-                                        alt="error-img"
-                                        width={70}
-                                        height={70}
-                                        objectFit="contain"
-                                    />
-                                    <div className="flex flex-col gap-1">
-                                        <p className="text-sm font-semibold">
-                                            iPhone 13 Pro{' '}
-                                        </p>
-                                        <div className="text-xs">
-                                            <p>Màu sắc : đen</p>
-                                            <p>Dung lượng : 128gb</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p>SL: 1</p>
-                                <p>10000000đ</p>
-                            </div>
+                            {listCart.map((item, index) => (
+                                <CheckoutItem
+                                    key={item.product.id}
+                                    index={index}
+                                    item={item}
+                                    showCounter={false}
+                                />
+                            ))}
                         </div>
                         <div className="flex flex-col gap-2">
                             <p>Thông Tin Khách Hàng</p>
@@ -64,13 +53,13 @@ const PaymentInfoCtn = (props: Props) => {
                             />
                         </div>
                         <div className="sticky bottom-0 w-full max-w-[700px] bg-white shadow-box-login p-4 rounded-lg flex flex-col gap-3">
-                            <div className="flex items-center justify-between font-semibold">
-                                <p>Tổng tiền cần thanh toán:</p>
-                                <p>10.000.000đ</p>
+                            <div className="flex text-md font-semibold items-center justify-between ">
+                                <p>Tổng tiền thanh toán:</p>
+                                <p>{formatCurrency(total)}</p>
                             </div>
                             <Button
                                 size="sm"
-                                className="text-white font-semibold w-full"
+                                className="text-white !text-md font-semibold w-full"
                                 onClick={() => form.submit()}
                             >
                                 Thanh toán
@@ -78,6 +67,7 @@ const PaymentInfoCtn = (props: Props) => {
                         </div>
                     </div>
                 </div>
+                {/* <LoadingPage overlayBackground /> */}
             </Container>
         </div>
     );

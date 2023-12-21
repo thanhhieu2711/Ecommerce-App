@@ -19,16 +19,21 @@ export const ReceiverInfoForm = ({ formRef, handleSubmit }: Props) => {
             >
                 <div className="w-full flex items-center gap-2">
                     <Form.Item
-                        className="flex-1"
                         name={'name'}
                         label="Họ và tên"
+                        className="flex-1"
                         required
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng nhập họ và tên',
+                            },
+                        ]}
                     >
                         <Input
+                            placeholder="NGUYEN VAN A"
                             size="large"
-                            value={'LÊ THANH HIẾU'}
                             className="w-full !text-black"
-                            disabled
                         />
                     </Form.Item>
                     <Form.Item
@@ -36,25 +41,47 @@ export const ReceiverInfoForm = ({ formRef, handleSubmit }: Props) => {
                         className="flex-1"
                         name={'phone'}
                         label="Số điện thoại"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng nhập số điện thoại',
+                            },
+                            {
+                                pattern: new RegExp(
+                                    /(0[3|5|7|8|9])+([0-9]{8})\b/
+                                ),
+                                message: 'Số điện thoại không hợp lệ',
+                            },
+                        ]}
                     >
                         <Input
+                            placeholder="(+84)"
                             size="large"
-                            value={'0393296011'}
                             className="w-full !text-black"
                         />
                     </Form.Item>
                 </div>
-                <Form.Item name={'address'} label="Địa chỉ" required>
+                <Form.Item
+                    name={'address'}
+                    label="Địa chỉ"
+                    required
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Vui lòng nhập địa chỉ',
+                        },
+                    ]}
+                >
                     <Input
+                        placeholder="Số nhà, tên tòa nhà, tên đường , khu vực "
                         size="large"
-                        value={'lethanhhieu2001@gmail.com'}
                         className="w-full !text-black"
                     />
                 </Form.Item>
                 <Form.Item name={'note'} label="Ghi chú">
                     <TextArea
+                        placeholder="Ghi chú khác (nếu có)"
                         size="large"
-                        value={'lethanhhieu2001@gmail.com'}
                         className="w-full !text-black"
                     />
                 </Form.Item>

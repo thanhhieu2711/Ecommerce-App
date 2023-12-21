@@ -15,7 +15,7 @@ const CheckoutCtn = (props: Props) => {
         <div className="h-full w-full bg-secondary py-[25px]">
             <Container>
                 <div className="flex flex-col gap-4 md:flex-row">
-                    <div className="flex-1 flex flex-col min-h-[70vh] bg-white shadow-md rounded-lg p-3 relative">
+                    <div className="flex-1 flex flex-col min-h-[495px] bg-white shadow-md rounded-lg p-3 relative">
                         <div className="w-full flex gap-2 items-center p-3">
                             <p className="font-medium text-xl">
                                 Giỏ hàng của bạn

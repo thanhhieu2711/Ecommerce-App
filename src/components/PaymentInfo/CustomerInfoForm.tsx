@@ -33,7 +33,6 @@ export const CustomerInfoForm = (props: Props) => {
                     >
                         <Input
                             size="large"
-                            value={'LÊ THANH HIẾU'}
                             className="w-full !text-black"
                             disabled
                         />
@@ -43,19 +42,11 @@ export const CustomerInfoForm = (props: Props) => {
                         name={'phone'}
                         label="Số điện thoại"
                     >
-                        <Input
-                            size="large"
-                            value={'0393296011'}
-                            className="w-full !text-black"
-                        />
+                        <Input size="large" className="w-full !text-black" />
                     </Form.Item>
                 </div>
                 <Form.Item name={'email'} label="Email">
-                    <Input
-                        size="large"
-                        value={'lethanhhieu2001@gmail.com'}
-                        className="w-full !text-black"
-                    />
+                    <Input size="large" className="w-full !text-black" />
                 </Form.Item>
                 <div className="flex items-center gap-2">
                     <Checkbox disabled={false} defaultChecked={true} />
