@@ -11,7 +11,6 @@ import { formatCurrency } from '@/utils/helper';
 import { clearCart } from '@/stores/reducers/cart';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import toast from 'react-hot-toast';
 import { openLoginModal } from '@/stores/reducers/modal';
 import { EmptyCart } from '../Checkout';
 type Props = {};
@@ -72,7 +71,9 @@ const CartDrawer = (props: Props) => {
                 {!!listCart.length ? (
                     <div>
                         <Button
-                            onClick={() => dispatch(clearCart())}
+                            onClick={() =>
+                                dispatch(clearCart({ isShowToast: true }))
+                            }
                             variant="ghost"
                             className="!p-0 !bg-white w-fit h-fit ml-auto mb-2 !text-black/50 hover:!text-red-600 flex flex-row items-center gap-1"
                         >

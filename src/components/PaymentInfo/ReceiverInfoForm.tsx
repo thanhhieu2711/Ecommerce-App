@@ -19,7 +19,7 @@ export const ReceiverInfoForm = ({ formRef, handleSubmit }: Props) => {
             >
                 <div className="w-full flex items-center gap-2">
                     <Form.Item
-                        name={'name'}
+                        name={'nameReceiver'}
                         label="Họ và tên"
                         className="flex-1"
                         required
@@ -39,7 +39,7 @@ export const ReceiverInfoForm = ({ formRef, handleSubmit }: Props) => {
                     <Form.Item
                         required
                         className="flex-1"
-                        name={'phone'}
+                        name={'phoneReceiver'}
                         label="Số điện thoại"
                         rules={[
                             {
@@ -62,7 +62,7 @@ export const ReceiverInfoForm = ({ formRef, handleSubmit }: Props) => {
                     </Form.Item>
                 </div>
                 <Form.Item
-                    name={'address'}
+                    name={'deliveryAddressReceiver'}
                     label="Địa chỉ"
                     required
                     rules={[

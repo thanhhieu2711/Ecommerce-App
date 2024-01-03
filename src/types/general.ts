@@ -1,4 +1,11 @@
-import { Brand, Category, Feedback, Product } from '@prisma/client';
+import {
+    Brand,
+    Category,
+    Feedback,
+    Order,
+    OrderDetail,
+    Product,
+} from '@prisma/client';
 import { TUserInfo } from './user';
 export type TSidebarLink = {
     id: number;
@@ -10,6 +17,10 @@ export type TSidebarLink = {
 export type TCategoryInfo = Category;
 
 export type TBrandInfo = Brand;
+
+export type TOrderInfo = Order;
+
+export type TOrderDetailInfo = OrderDetail;
 
 export type TProductInfo = Product & {
     feedback: TFeedback[];

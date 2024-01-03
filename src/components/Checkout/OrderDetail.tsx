@@ -3,7 +3,6 @@ import { TCartItem, TShippingService } from '@/types/general';
 import { shippingServices } from '@/utils/constants/general';
 import { formatCurrency } from '@/utils/helper';
 import { Select } from 'antd';
-import { useState } from 'react';
 import { Button } from '../Common';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/stores';

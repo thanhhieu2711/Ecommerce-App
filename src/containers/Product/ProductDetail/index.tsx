@@ -140,8 +140,7 @@ const ProductDetailCtn = ({ pid }: Props) => {
             const index = listCart.findIndex(
                 (item) => item.product.id === product.id
             );
-
-            if (index !== 1) {
+            if (index === -1) {
                 dispatch(addToCart(checkoutInfo));
             }
             return router.push('/checkout');

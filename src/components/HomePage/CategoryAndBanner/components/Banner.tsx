@@ -42,6 +42,7 @@ const Banner = (props: Props) => {
                                 src={banner.path}
                                 className="w-full h-full rounded-lg"
                                 alt=""
+                                loading="lazy"
                             />
                         </SwiperSlide>
                     ))}

@@ -7,7 +7,7 @@ interface CartState {
     listCart: TCartItem[];
 }
 
-const initialState = { listCart: [], isClearCart: false } as CartState;
+const initialState = { listCart: [] } as CartState;
 
 const cartSlice = createSlice({
     name: 'cart',
@@ -94,9 +94,12 @@ const cartSlice = createSlice({
             }
         },
 
-        clearCart(state: CartState) {
+        clearCart(
+            state: CartState,
+            action: PayloadAction<{ isShowToast?: boolean }>
+        ) {
             state.listCart = [];
-            toast.success('Đã xóa giỏ hàng !');
+            action.payload.isShowToast && toast.success('Đã xóa giỏ hàng !');
         },
     },
 });

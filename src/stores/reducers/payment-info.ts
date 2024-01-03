@@ -4,7 +4,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface PaymentInfoState {
     shippingService: Omit<TShippingService, 'id'>;
-    total?: number;
 }
 
 const initialState = {
@@ -19,12 +18,13 @@ const paymentInfoSlice = createSlice({
             state: PaymentInfoState,
             action: PayloadAction<PaymentInfoState>
         ) {
-            const { shippingService, total } = action.payload;
+            const { shippingService } = action.payload;
             state.shippingService = shippingService;
-            state.total = total;
         },
         clearPaymentInfo(state: PaymentInfoState) {
-            state = {} as PaymentInfoState;
+            state = {
+                shippingService: shippingServices[0],
+            };
         },
     },
 });

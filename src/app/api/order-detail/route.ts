@@ -17,7 +17,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json(
             {
-                isSucess: true,
+                isSuccess: true,
             },
             { status: 200 }
         );

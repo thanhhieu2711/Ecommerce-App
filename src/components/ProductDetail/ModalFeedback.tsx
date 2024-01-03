@@ -58,6 +58,7 @@ const ModalFeedback = ({ product, handleShowAndClose, isOpen }: Props) => {
                                 <Rate
                                     defaultValue={feedback.ratting}
                                     className="text-common-warning text-sm"
+                                    disabled
                                 />
                             </div>
                             <p>{feedback.content}</p>
