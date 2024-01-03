@@ -29,10 +29,6 @@ export const authOptions: NextAuthOptions = {
                     where: {
                         email: credentials.email,
                     },
-                    include: {
-                        orders: true,
-                        feedback: true,
-                    },
                 });
 
                 if (!user) {

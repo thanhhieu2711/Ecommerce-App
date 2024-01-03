@@ -1,6 +1,10 @@
 import { Spinner } from '@/components/Common';
 import { useAppDispatch } from '@/stores';
-import { openRegisterModal, swapAuthModal } from '@/stores/reducers/modal';
+import {
+    openLoginModal,
+    openRegisterModal,
+    swapAuthModal,
+} from '@/stores/reducers/modal';
 import { Button, Form, Input } from 'antd';
 import axios from 'axios';
 import { useState } from 'react';
@@ -12,6 +16,7 @@ const RegisterForm = (props: Props) => {
     const [loading, setLoading] = useState<boolean>(false);
     const dispatch = useAppDispatch();
     const [form] = Form.useForm();
+
     const handleSubmit = async (data: any) => {
         try {
             setLoading(true);
@@ -20,14 +25,14 @@ const RegisterForm = (props: Props) => {
                 if (response.data.isSuccess) {
                     toast.success(response.data.message);
                     form.resetFields();
-                    dispatch(openRegisterModal(false));
+                    dispatch(swapAuthModal());
                 } else {
                     toast.error(response.data.message);
                 }
             }
             setLoading(false);
         } catch (err) {
-            toast.error('Đăng ký thất bại , vui lòng thử lại');
+            console.log(err);
         } finally {
             setLoading(false);
         }
@@ -43,6 +48,19 @@ const RegisterForm = (props: Props) => {
             onFinish={handleSubmit}
             autoComplete="off"
         >
+            <Form.Item
+                name={'name'}
+                label="Họ tên"
+                rules={[
+                    {
+                        required: true,
+                        message: 'Vui lòng họ tên',
+                    },
+                ]}
+                className="mb-2"
+            >
+                <Input size="large" placeholder="NGUYEN VAN A" />
+            </Form.Item>
             <Form.Item
                 name={'email'}
                 label="Email"

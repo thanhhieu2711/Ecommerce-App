@@ -22,9 +22,7 @@ const paymentInfoSlice = createSlice({
             state.shippingService = shippingService;
         },
         clearPaymentInfo(state: PaymentInfoState) {
-            state = {
-                shippingService: shippingServices[0],
-            };
+            state.shippingService = shippingServices[0];
         },
     },
 });

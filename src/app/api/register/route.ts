@@ -9,15 +9,22 @@ export async function POST(request: Request) {
         if (!email && !password) {
             return;
         }
+        console.log({ name, email });
 
         const isExist = await prisma.user.findFirst({
             where: {
-                email,
-                phone,
+                OR: [
+                    {
+                        email,
+                    },
+                    {
+                        phone,
+                    },
+                ],
             },
         });
 
-        if (isExist?.id) {
+        if (isExist !== null) {
             return NextResponse.json(
                 {
                     isSuccess: false,
@@ -33,7 +40,7 @@ export async function POST(request: Request) {
             data: {
                 email,
                 password: hashPassword,
-                name: '',
+                name,
                 avatar: '',
                 phone,
             },
