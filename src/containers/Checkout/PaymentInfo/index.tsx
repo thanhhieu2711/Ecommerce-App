@@ -8,6 +8,7 @@ import { useCart } from '@/hooks/store';
 import usePaymentInfo from '@/hooks/store/usePaymentInfo';
 import { formatCurrency } from '@/utils/helper';
 import { Form } from 'antd';
+import Image from 'next/image';
 import { useState } from 'react';
 
 type Props = {};
@@ -20,6 +21,7 @@ const PaymentInfoCtn = (props: Props) => {
 
     const handleSubmitForm = (formData: any) => {
         try {
+            // console.log(formData);
         } catch (error) {}
     };
 
@@ -32,14 +34,26 @@ const PaymentInfoCtn = (props: Props) => {
                             Thông Tin Mua Hàng
                         </p>
                         <div className="w-full flex flex-col gap-4 bg-white shadow-card rounded-lg p-4">
-                            {listCart.map((item, index) => (
-                                <CheckoutItem
-                                    key={item.product.id}
-                                    index={index}
-                                    item={item}
-                                    showCounter={false}
-                                />
-                            ))}
+                            {!!listCart.length ? (
+                                listCart.map((item, index) => (
+                                    <CheckoutItem
+                                        key={item.product.id}
+                                        index={index}
+                                        item={item}
+                                        showCounter={false}
+                                    />
+                                ))
+                            ) : (
+                                <div className="flex items-center justify-center">
+                                    <Image
+                                        src={'/assets/images/cart-empty.webp'}
+                                        objectFit="cover"
+                                        width={200}
+                                        height={200}
+                                        alt="error-img"
+                                    />
+                                </div>
+                            )}
                         </div>
                         <div className="flex flex-col gap-2">
                             <p>Thông Tin Khách Hàng</p>

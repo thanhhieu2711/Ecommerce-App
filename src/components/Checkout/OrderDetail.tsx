@@ -1,5 +1,4 @@
 'use client';
-import { useCart } from '@/hooks/store';
 import { TCartItem, TShippingService } from '@/types/general';
 import { shippingServices } from '@/utils/constants/general';
 import { formatCurrency } from '@/utils/helper';
@@ -9,6 +8,9 @@ import { Button } from '../Common';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/stores';
 import { updatePaymentInfo } from '@/stores/reducers/payment-info';
+import { useSession } from 'next-auth/react';
+import { openLoginModal } from '@/stores/reducers/modal';
+import { usePaymentInfo } from '@/hooks/store';
 type Props = {
     listCart: TCartItem[];
     cartTotal: number;
@@ -22,11 +24,21 @@ export const OrderDetail = ({
     cartTotal,
     discountTotal,
 }: Props) => {
+    const { data } = useSession();
     const router = useRouter();
-    const [service, setService] = useState<Omit<TShippingService, 'id'>>(
-        shippingServices[0]
-    );
+    const { shippingService } = usePaymentInfo();
+
     const dispatch = useAppDispatch();
+
+    const handlePrecheckAddToCart = () => {
+        if (!!data) {
+            router.push('/checkout/payment-info');
+            return;
+        }
+
+        dispatch(openLoginModal(true));
+        return;
+    };
 
     return (
         <div className="basis-[30%] bg-white shadow-md rounded-lg h-fit p-3">
@@ -56,8 +68,8 @@ export const OrderDetail = ({
                         Phí vận chuyển:
                     </p>
                     <p className="">
-                        {!!listCart.length && !!service
-                            ? formatCurrency(service.fee)
+                        {!!listCart.length
+                            ? formatCurrency(shippingService.fee)
                             : formatCurrency(0)}
                     </p>
                 </div>
@@ -74,16 +86,20 @@ export const OrderDetail = ({
                             </p>
                             <Select
                                 defaultValue={{
-                                    label: service.name,
-                                    value: service.fee,
+                                    label: shippingService.name,
+                                    value: shippingService.fee,
                                 }}
                                 className="!w-full"
                                 labelInValue
                                 onChange={({ label, value }) => {
-                                    setService({
-                                        name: label,
-                                        fee: value,
-                                    });
+                                    dispatch(
+                                        updatePaymentInfo({
+                                            shippingService: {
+                                                name: label,
+                                                fee: value,
+                                            },
+                                        })
+                                    );
                                 }}
                                 options={shippingServices.map((service) => ({
                                     label: service.name,
@@ -108,8 +124,8 @@ export const OrderDetail = ({
                 <div className="flex items-center justify-between">
                     <p className="text-md font-semibold">Tổng tiền :</p>
                     <p className="text-lg font-semibold">
-                        {!!listCart.length && !!service
-                            ? formatCurrency(cartTotal + service?.fee)
+                        {!!listCart.length
+                            ? formatCurrency(cartTotal + shippingService.fee)
                             : formatCurrency(0)}
                     </p>
                 </div>
@@ -118,14 +134,7 @@ export const OrderDetail = ({
                         size="sm"
                         className="text-white font-semibold"
                         onClick={() => {
-                            console.log(cartTotal + service.fee);
-                            dispatch(
-                                updatePaymentInfo({
-                                    shippingService: service,
-                                    total: cartTotal + service.fee,
-                                })
-                            );
-                            router.push('/checkout/payment-info');
+                            handlePrecheckAddToCart();
                         }}
                     >
                         Thanh Toán

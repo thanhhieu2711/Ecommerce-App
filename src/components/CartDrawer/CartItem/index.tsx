@@ -49,7 +49,8 @@ const CartItem = ({ item, index }: Props) => {
                     </p>
                     <div
                         className="hover:bg-secondary-variant-1/50 border border-black/10 hover:!border-transparent w-fit h-fit p-2 rounded-full text-black/50 hover:text-red-600 cursor-pointer ml-[2px]"
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation();
                             dispatch(removeFromCart({ index: index }));
                         }}
                     >

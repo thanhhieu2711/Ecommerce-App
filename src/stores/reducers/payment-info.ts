@@ -1,12 +1,15 @@
 import { TShippingService } from '@/types/general';
+import { shippingServices } from '@/utils/constants/general';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface PaymentInfoState {
     shippingService: Omit<TShippingService, 'id'>;
-    total: number;
+    total?: number;
 }
 
-const initialState = {} as PaymentInfoState;
+const initialState = {
+    shippingService: shippingServices[0],
+} as PaymentInfoState;
 
 const paymentInfoSlice = createSlice({
     name: 'paymentInfo',

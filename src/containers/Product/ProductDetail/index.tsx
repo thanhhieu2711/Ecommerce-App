@@ -26,6 +26,8 @@ import ModalSpecification from '@/components/ProductDetail/ModalSpecification';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/hooks/store';
 import toast from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
+import { openLoginModal } from '@/stores/reducers/modal';
 
 type Props = {
     pid: string;
@@ -35,6 +37,7 @@ const ProductDetailCtn = ({ pid }: Props) => {
     const dispatch = useAppDispatch();
     const router = useRouter();
     const { listCart } = useCart();
+    const { data } = useSession();
     const [product, setProduct] = useState<TProductInfo>({} as TProductInfo);
     const [activeImage, setActiveImage] = useState<string>('');
     const [isExpanedDesc, setExpanedDesc] = useState<boolean>(false);
@@ -133,14 +136,17 @@ const ProductDetailCtn = ({ pid }: Props) => {
     };
 
     const handlePrecheckAddToCart = () => {
-        const index = listCart.findIndex(
-            (item) => item.product.id === product.id
-        );
+        if (!!data) {
+            const index = listCart.findIndex(
+                (item) => item.product.id === product.id
+            );
 
-        if (index !== 1) {
-            dispatch(addToCart(checkoutInfo));
+            if (index !== 1) {
+                dispatch(addToCart(checkoutInfo));
+            }
+            return router.push('/checkout');
         }
-        router.push('/checkout');
+        return dispatch(openLoginModal(true));
     };
 
     useEffect(() => {
