@@ -55,7 +55,7 @@ const config: Config = {
             },
 
             backgroundImage: {
-                fade: 'linear-gradient(180deg,hsla(0,0%,100%,0),hsla(0,0%,100%,.9) 50%,#fff 55%)',
+                fade: 'linear-gradient(to bottom,rgba(255 255 255/0),rgba(255 255 255/62.5),rgba(255 255 255/1))',
                 mask: 'linear-gradient(1turn,#fff 25.58%,hsla(0,0%,100%,0) 181.4%);',
             },
 

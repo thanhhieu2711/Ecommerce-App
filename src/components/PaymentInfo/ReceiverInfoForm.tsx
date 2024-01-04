@@ -33,7 +33,7 @@ export const ReceiverInfoForm = ({ formRef, handleSubmit }: Props) => {
                         <Input
                             placeholder="NGUYEN VAN A"
                             size="large"
-                            className="w-full !text-black"
+                            className="w-full !text-black uppercase"
                         />
                     </Form.Item>
                     <Form.Item
