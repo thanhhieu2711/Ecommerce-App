@@ -94,7 +94,9 @@ const PaymentInfoCtn = (props: Props) => {
                     form.setFieldValue('note', '');
                     setLoading(false);
                     toast.success(message);
-                    return router.push('/');
+                    return router.push(
+                        `/checkout/payment-result/${orderData.id}`
+                    );
                 }
             }
         } catch (error) {

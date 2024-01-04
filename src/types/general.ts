@@ -18,7 +18,13 @@ export type TCategoryInfo = Category;
 
 export type TBrandInfo = Brand;
 
-export type TOrderInfo = Order;
+export type TOrderInfo = Order & {
+    orderItems: Array<
+        OrderDetail & {
+            product: TProductInfo;
+        }
+    >;
+};
 
 export type TOrderDetailInfo = OrderDetail;
 

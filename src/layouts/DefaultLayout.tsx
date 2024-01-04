@@ -12,7 +12,7 @@ type Props = {
 export default function DefaultLayout({ children }: Props) {
     const pathName = usePathname();
     const isAdminPage = pathName.includes('dashboard');
-    const isPaymentInfoPage = pathName.includes('payment-info');
+    const isPaymentPageFlow = pathName.includes('payment');
     return (
         <div className="">
             {isAdminPage ? (
@@ -23,7 +23,7 @@ export default function DefaultLayout({ children }: Props) {
                     <main className={cn('max-w-full pt-20')}>{children}</main>
                     <RegisterModal />
                     <LoginModal />
-                    {!isPaymentInfoPage && <Footer />}
+                    {!isPaymentPageFlow && <Footer />}
                 </>
             )}
         </div>
