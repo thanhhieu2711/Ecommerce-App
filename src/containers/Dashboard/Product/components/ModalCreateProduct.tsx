@@ -61,7 +61,7 @@ export const ModalCreateProduct = ({
                 fileList,
                 'product'
             );
-            const response = await axios.post('/api/product', {
+            const response = await axios.post('/api/products', {
                 ...formData,
                 images: listurl,
                 discount: formData.discount / 100,

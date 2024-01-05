@@ -9,9 +9,9 @@ export async function GET(req: NextRequest) {
 
         const name = _req.get('name');
 
-        const categoryId = _req.get('category');
+        const categoryId = _req.get('categoryId');
 
-        const brandId = _req.get('brand');
+        const brandId = _req.get('brandId');
 
         // const priceRange = _req.get('priceRange');
 

@@ -75,6 +75,8 @@ const config: Config = {
                 'popover-search-flight': '0px 4px 40px 0px rgba(0, 0, 0, 0.10)',
                 'selection-flight-search':
                     '0px 0px 30px 0px rgba(0, 0, 0, 0.05)',
+                'product-card':
+                    '0 1px 2px 0 rgba(60,64,67,.1), 0 2px 6px 2px rgba(60,64,67,.15)',
                 toast: '0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05)',
             },
         },

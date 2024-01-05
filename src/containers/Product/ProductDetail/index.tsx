@@ -57,7 +57,7 @@ const ProductDetailCtn = ({ pid }: Props) => {
     const getProductDetail = async () => {
         setLoading(true);
         try {
-            const { data } = await axios.get(`/api/product/${pid}`);
+            const { data } = await axios.get(`/api/products/${pid}`);
             if (data.isSuccess) {
                 setLoading(false);
                 setProduct(data.data);

@@ -28,7 +28,7 @@ const HomeSeachBox = (props: Props) => {
     const getProducts = async () => {
         setLoading(true);
         try {
-            const { data } = await axios.get('/api/product/filter', {
+            const { data } = await axios.get('/api/products/filter', {
                 params: {
                     name: searchParams,
                 },
@@ -51,7 +51,7 @@ const HomeSeachBox = (props: Props) => {
     };
 
     const { data: trendingProducts }: { data: TProductInfo[] } =
-        useSWRImmutable('/api/product/trending', getTrendingProducts);
+        useSWRImmutable('/api/products/trending', getTrendingProducts);
 
     useEffect(() => {
         if (searchParams.trim() !== '') {

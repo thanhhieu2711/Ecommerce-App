@@ -14,16 +14,11 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
-const CategoryList = () => {
-    const getCategories = async (url: string) => {
-        const { data } = await axios.get(url);
-        return data.data;
-    };
-    const { data: categories }: { data: TCategoryInfo[] } = useSWRImmutable(
-        '/api/categories',
-        getCategories
-    );
+type Props = {
+    categories: TCategoryInfo[];
+};
 
+const CategoryList = ({ categories }: Props) => {
     return (
         <div className="col-span-4 rounded-lg border border-black/5 shadow-card bg-white">
             <div className="w-full h-full grid grid-cols-6">

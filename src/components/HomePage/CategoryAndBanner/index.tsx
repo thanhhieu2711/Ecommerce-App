@@ -1,13 +1,17 @@
 import CategoryList from './components/CategoryList';
 import Banner from './components/Banner';
-import Image from 'next/image';
 import { bannerList } from '@/utils/constants/general';
+import { TCategoryInfo } from '@/types/general';
 
-export const CategoryAndBanner = () => {
+type Props = {
+    categories: TCategoryInfo[];
+};
+
+export const CategoryAndBanner = ({ categories }: Props) => {
     return (
         <div className="w-full h-full flex flex-col gap-8">
             <div className="w-full grid grid-cols-4 gap-4 row-auto ">
-                <CategoryList />
+                <CategoryList categories={categories} />
                 <Banner />
             </div>
             <div className="hidden sm:flex flex-row items-center gap-4">
