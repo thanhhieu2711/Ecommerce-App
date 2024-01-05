@@ -11,16 +11,43 @@ export async function POST(request: Request) {
             });
         }
 
-        await prisma?.orderDetail.createMany({
+        const res = await prisma?.orderDetail.createMany({
             data: [..._req.orderDetails],
         });
 
-        return NextResponse.json(
-            {
-                isSuccess: true,
-            },
-            { status: 200 }
+        const productIds = _req.orderDetails?.map(
+            (item: any) => item.productId
         );
+
+        const updateBuyTurnOfProducts = await prisma?.product.updateMany({
+            where: {
+                id: {
+                    in: productIds,
+                },
+            },
+            data: {
+                buyTurn: {
+                    increment: 1,
+                },
+            },
+        });
+
+        if (!!res?.count && !!updateBuyTurnOfProducts?.count) {
+            return NextResponse.json(
+                {
+                    isSuccess: true,
+                },
+                { status: 200 }
+            );
+        } else {
+            return NextResponse.json(
+                {
+                    isSuccess: false,
+                    message: 'Invalid input',
+                },
+                { status: 200 }
+            );
+        }
     } catch (error) {
         console.log(error);
         return NextResponse.json(

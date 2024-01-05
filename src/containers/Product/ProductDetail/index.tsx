@@ -154,9 +154,9 @@ const ProductDetailCtn = ({ pid }: Props) => {
 
     return (
         <div className="h-full w-full min-h-[75vh] bg-secondary py-[25px]">
-            {product.id && !loading ? (
-                <>
-                    <Container>
+            <>
+                <Container>
+                    {product.id && !loading ? (
                         <div className=" grid grid-cols-4 md:row-auto gap-6 bg-white p-4 rounded-lg shadow-card">
                             <div className="col-span-4 md:col-span-2 flex flex-col">
                                 {/* ẢNH SẢN PHẨM */}
@@ -249,30 +249,35 @@ const ProductDetailCtn = ({ pid }: Props) => {
                                 ratingScaleList={ratingScaleList}
                             />
                         </div>
-                    </Container>
-                    <ModalDescription
-                        isOpen={isExpanedDesc}
-                        handleShowAnhClose={setExpanedDesc}
-                        product={product}
-                    />
-                    <ModalFeedback
-                        isOpen={isShowFeedback}
-                        handleShowAndClose={setShowFeedback}
-                        product={product}
-                    />
-                    <ModalPromotion
-                        isOpen={isShowPromotion}
-                        handleShowAndClose={setShowPromotion}
-                    />
-                    <ModalSpecification
-                        isOpen={isExpanedSpecification}
-                        handleShowAndClose={setExpanedSpecification}
-                        specification={product.specifications}
-                    />
-                </>
-            ) : (
-                !product.id && !loading && <>Không tìm thấy sản phẩm</>
-            )}
+                    ) : (
+                        !product.id &&
+                        !loading && (
+                            <div className="w-full min-h-[75vh] grid place-items-center">
+                                Không tìm thấy sản phẩm.
+                            </div>
+                        )
+                    )}
+                </Container>
+                <ModalDescription
+                    isOpen={isExpanedDesc}
+                    handleShowAnhClose={setExpanedDesc}
+                    product={product}
+                />
+                <ModalFeedback
+                    isOpen={isShowFeedback}
+                    handleShowAndClose={setShowFeedback}
+                    product={product}
+                />
+                <ModalPromotion
+                    isOpen={isShowPromotion}
+                    handleShowAndClose={setShowPromotion}
+                />
+                <ModalSpecification
+                    isOpen={isExpanedSpecification}
+                    handleShowAndClose={setExpanedSpecification}
+                    specification={product.specifications}
+                />
+            </>
         </div>
     );
 };

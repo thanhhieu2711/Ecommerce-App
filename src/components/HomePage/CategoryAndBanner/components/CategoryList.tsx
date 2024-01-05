@@ -91,26 +91,3 @@ const CategoryList = () => {
 };
 
 export default CategoryList;
-{
-    /* <div className="w-full h-full flex flex-col">
-                {categories.map((category) => {
-                    return (
-                        <Link
-                            key={category.id}
-                            href={`/category/${category.id}`}
-                            className="first:rounded-t-lg last:rounded-b-lg  flex-1 flex flex-row gap-4 items-center px-3 py-1 text-black/80 hover:text-white hover:bg-primary"
-                        >
-                            {_renderIcon(category.name)}
-                            <p className="text-sm font-semibold line-clamp-1">
-                                {category.name}
-                            </p>
-                        </Link>
-                    );
-                })}
-            </div> */
-}
-{
-    /*
- 
-/> */
-}

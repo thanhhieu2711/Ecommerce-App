@@ -12,7 +12,7 @@ export async function POST(req: Request) {
         }
 
         const response = await prisma?.order.create({
-            data: { ..._req },
+            data: { ..._req, nameReceiver: _req.nameReceiver.toUpperCase() },
             include: {
                 orderItems: true,
             },

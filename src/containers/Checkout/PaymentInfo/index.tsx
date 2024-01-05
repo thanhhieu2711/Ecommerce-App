@@ -100,6 +100,7 @@ const PaymentInfoCtn = (props: Props) => {
                 }
             }
         } catch (error) {
+            console.log(error);
         } finally {
             setLoading(false);
         }

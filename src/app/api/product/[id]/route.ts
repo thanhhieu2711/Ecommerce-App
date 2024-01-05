@@ -8,10 +8,15 @@ export async function GET(req: NextApiRequest, { params }: TParams) {
     try {
         const { id } = params;
 
-        const pid =
-            id.slice(id.lastIndexOf('-') + 1).length === 24
-                ? id.slice(id.lastIndexOf('-') + 1)
-                : '6513e7b397fd712345678910';
+        const pid = id.slice(id.lastIndexOf('-') + 1);
+
+        if (pid.length > 24 || pid.length < 24) {
+            return NextResponse.json({
+                isSuccess: false,
+                message: 'Không tìm thấy sản phẩm!',
+                data: undefined,
+            });
+        }
 
         const product = await prisma.product.findUnique({
             where: {
