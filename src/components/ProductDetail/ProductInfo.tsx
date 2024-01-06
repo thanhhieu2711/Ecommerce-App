@@ -31,7 +31,9 @@ export const ProductInfo = ({
         <>
             {/* TÊN / ĐÁNH GIÁ */}
             <div className="border-b border-black/5 pb-3">
-                <p className="text-2xl font-semibold">{product.name}</p>
+                <p className="text-xl sm:text-2xl font-semibold mb-2">
+                    {product.name}
+                </p>
                 <div className="flex flex-row items-center gap-2 flex-wrap ">
                     <Rate
                         className="text-sm text-common-warning"
@@ -61,7 +63,7 @@ export const ProductInfo = ({
             <div className="flex flex-row items-center gap-4 flex-wrap">
                 <p className="text-sm">Giá niêm yết : </p>
                 <div className="flex flex-row items-center gap-2 flex-wrap">
-                    <p className="text-2xl font-bold text-primary">
+                    <p className="text-xl sm:text-2xl font-bold text-primary">
                         {formatCurrency(
                             priceCalculator({
                                 value: product.price,

@@ -9,8 +9,8 @@ import {
     increaseQuantity,
     removeFromCart,
 } from '@/stores/reducers/cart';
-import { useRouter } from 'next/navigation';
 import { openCartDrawer } from '@/stores/reducers/drawer';
+import Link from 'next/link';
 
 type Props = {
     item: TCartItem;
@@ -19,17 +19,14 @@ type Props = {
 
 const CartItem = ({ item, index }: Props) => {
     const dispatch = useAppDispatch();
-    const router = useRouter();
 
     return (
-        <div
+        <Link
             className="w-full flex flex-row  gap-2 items-center p-2 hover:bg-secondary-variant-3 rounded-lg cursor-pointer"
             onClick={() => {
                 dispatch(openCartDrawer(false));
-                router.push(
-                    `/products/${item.product.slug}-${item.product.id}`
-                );
             }}
+            href={`/products/${item.product.slug}-${item.product.id}`}
         >
             {/* <div className=" border border-black/5 rounded-lg"> */}
             <Image
@@ -50,6 +47,7 @@ const CartItem = ({ item, index }: Props) => {
                     <div
                         className="hover:bg-secondary-variant-1/50 border border-black/10 hover:!border-transparent w-fit h-fit p-2 rounded-full text-black/50 hover:text-red-600 cursor-pointer ml-[2px]"
                         onClick={(e) => {
+                            e.preventDefault();
                             e.stopPropagation();
                             dispatch(removeFromCart({ index: index }));
                         }}
@@ -91,7 +89,7 @@ const CartItem = ({ item, index }: Props) => {
                     </p>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };
 

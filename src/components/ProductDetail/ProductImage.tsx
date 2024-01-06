@@ -24,12 +24,17 @@ export const ProductImage = ({
     return (
         <div className="flex flex-col gap-2 h-fit">
             <div className="flex-1 flex flex-row items-center justify-center rounded-lg border border-black/10 md:max-h-[450px] relative">
-                <img
-                    src={activeImage}
-                    className="object-contain w-full h-[50%] md:h-[95%] rounded-lg"
-                    alt="product-img"
-                    loading="lazy"
-                />
+                <div className="w-full aspect-w-6 aspect-h-5 xs:aspect-w-4 xs:aspect-h-3">
+                    <Image
+                        src={activeImage}
+                        alt="error-img"
+                        fill
+                        objectFit="contain"
+                        objectPosition="center/100%"
+                        loading="lazy"
+                        className="p-2"
+                    />
+                </div>
                 <div
                     className="absolute top-3 right-3 cursor-pointer"
                     onClick={() => dispatch(toggleAddToWishlist(product))}
@@ -45,19 +50,18 @@ export const ProductImage = ({
                     )}
                 </div>
             </div>
-            <div className="flex flex-row gap-2 sm:mb-3 sm:gap-3 !max-h-fit w-full">
+            <div className="flex flex-row gap-2 sm:mb-3 sm:gap-3 !max-h-fit w-full mb-2">
                 {product.images.map((image) => (
                     <div
                         key={image}
                         className={cn(
-                            'flex-1 h-fit cursor-pointer border border-black/10 rounded-lg ',
+                            `w-1/5 aspect-w-6 aspect-h-1 cursor-pointer border border-black/10 rounded-lg `,
                             image === activeImage && 'border-primary '
                         )}
                         onClick={() => handleChangeActiveImage(image)}
                     >
                         <Image
-                            width={100}
-                            height={100}
+                            fill
                             src={image}
                             loading="lazy"
                             objectPosition="center"

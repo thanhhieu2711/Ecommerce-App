@@ -59,7 +59,7 @@
 
 .swiper-button-prev:hover,
 .swiper-button-next:hover {
-    background: #f9813d;
+    background: #fe3564;
 }
 .swiper-button-prev:hover.swiper-button-prev::after,
 .swiper-button-next:hover.swiper-button-next::after {
@@ -77,15 +77,24 @@
     color: rgba(0, 0, 0, 1);
 }
 
+.swiper-button-disabled {
+    display: none !important;
+}
+
 @media only screen and (max-width: 600px) {
     .swiper-button-prev,
     .swiper-button-next {
-        width: 30px !important;
-        height: 30px !important;
+        width: 40px !important;
+        height: 40px !important;
     }
     .swiper-button-prev::after,
     .swiper-button-next::after {
         font-size: 8px !important;
         color: rgba(0, 0, 0, 1);
+    }
+    .swiper-pagination-bullet {
+        width: 15px !important;
+        height: 4px !important;
+        border-radius: 5px;
     }
 }

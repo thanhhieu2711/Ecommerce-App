@@ -28,6 +28,7 @@ export async function GET(req: NextApiRequest, { params }: TParams) {
                         user: true,
                     },
                 },
+                category: true,
             },
         });
 

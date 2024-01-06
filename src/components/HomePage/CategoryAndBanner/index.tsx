@@ -10,11 +10,11 @@ type Props = {
 export const CategoryAndBanner = ({ categories }: Props) => {
     return (
         <div className="w-full h-full flex flex-col gap-8">
-            <div className="w-full grid grid-cols-4 gap-4 row-auto ">
-                <CategoryList categories={categories} />
-                <Banner />
-            </div>
-            <div className="hidden sm:flex flex-row items-center gap-4">
+            {/* <div className="w-full grid grid-cols-4 gap-4 row-auto "> */}
+            {/* <CategoryList categories={categories} /> */}
+            <Banner />
+            {/* </div> */}
+            {/* <div className="hidden sm:flex flex-row items-center gap-4">
                 {bannerList
                     .filter((banner) => banner.type === 'sub')
                     .map((banner) => (
@@ -27,7 +27,7 @@ export const CategoryAndBanner = ({ categories }: Props) => {
                             />
                         </div>
                     ))}
-            </div>
+            </div> */}
         </div>
     );
 };

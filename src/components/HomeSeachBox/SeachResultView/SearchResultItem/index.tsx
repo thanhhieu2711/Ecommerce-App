@@ -15,6 +15,7 @@ type Props = {
 
 const SearchResultItem = ({ product }: Props) => {
     const { color, capacity } = getInitialColorAndCapacity({ product });
+
     const dispatch = useAppDispatch();
     return (
         <Link

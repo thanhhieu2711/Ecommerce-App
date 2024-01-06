@@ -1,4 +1,5 @@
 import prisma from '@/services/prisma/prismaDB';
+import { calculateRating } from '@/utils/helper';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
@@ -15,22 +16,30 @@ export async function GET(req: NextRequest) {
 
         // const priceRange = _req.get('priceRange');
 
+        const isHotSale = _req.get('hotsale');
+
         const pageNumber = Number(_req.get('page')) || 1;
 
         const filterResult = await prisma.product.findMany({
             skip: pageNumber * pageLimit - pageLimit,
             take: pageLimit,
             where: {
-                categoryId: categoryId ?? undefined,
-                brandId: brandId ?? undefined,
+                categoryId: !!categoryId ? categoryId : undefined,
+                brandId: !!brandId ? brandId : undefined,
                 name: {
                     contains: name || '',
                     mode: 'insensitive',
                 },
+                discount: {
+                    gt: isHotSale ? 0.15 : undefined,
+                },
             },
-
             orderBy: {
                 createdAt: 'desc',
+            },
+            include: {
+                feedback: true,
+                category: true,
             },
         });
 
@@ -42,7 +51,16 @@ export async function GET(req: NextRequest) {
 
         return NextResponse.json({
             isSuccess: true,
-            data: filterResult,
+            data: filterResult.map((item) => {
+                return {
+                    ...item,
+                    ratting: Math.ceil(
+                        calculateRating(
+                            item.feedback.map((feed) => feed.ratting)
+                        )
+                    ),
+                };
+            }),
             pagination: {
                 pageNumber: pageNumber,
                 totalRecord: name ? filterResult.length : searchCount,

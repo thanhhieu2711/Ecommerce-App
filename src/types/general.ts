@@ -30,6 +30,7 @@ export type TOrderDetailInfo = OrderDetail;
 
 export type TProductInfo = Product & {
     feedback: TFeedback[];
+    category: TCategoryInfo;
 };
 
 export type TFeedback = Feedback & {

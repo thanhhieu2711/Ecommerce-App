@@ -1,4 +1,4 @@
-import React from 'react';
+import cn from 'classnames';
 import ProductCard from '@/components/Product/ProductCard';
 import axios from 'axios';
 import useSWRImmutable from 'swr/immutable';
@@ -8,43 +8,60 @@ import { Button } from '../Common';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import './swiper.css';
 
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 type Props = {
     category: TCategoryInfo;
+    categoryNameModifier?: string;
+    className?: string;
+    isShowHeader?: boolean;
+    isHotSale?: boolean;
 };
 
-const ProductSection = ({ category }: Props) => {
+const ProductSection = ({
+    category,
+    categoryNameModifier,
+    isShowHeader = true,
+    className,
+    isHotSale,
+}: Props) => {
     const getProducts = async (url: string) => {
         const { data } = await axios.get(url);
         return data.data;
     };
-
     const { data: products }: { data: TProductInfo[] } = useSWRImmutable(
-        `/api/products/filter?categoryId=${category.id}`,
+        `/api/products/filter?categoryId=${category?.id || ''}&hotsale=${
+            isHotSale || ''
+        }`,
         getProducts
     );
 
+    console.log(
+        `/api/products/filter?categoryId=${category?.id || ''}&hotsale=${
+            isHotSale || ''
+        }`
+    );
     return (
-        <div className="w-full flex flex-col gap-2 sm:gap-4">
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                    <div className="border-l-[10px] h-9 border-primary" />
-                    <p className="font-semibold sm:text-xl text-black/80 uppercase">
-                        {category?.name}
-                    </p>
+        <div className={cn('w-full flex flex-col gap-2 sm:gap-4', className)}>
+            {isShowHeader && (
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <div className="border-l-[10px] h-9 border-primary" />
+                        <p className="font-semibold text-lg sm:text-xl text-black/80 uppercase">
+                            {categoryNameModifier || category.name}
+                        </p>
+                    </div>
+                    <Button
+                        variant="solid"
+                        size="sm"
+                        className="!rounded-full text-xs !text-black !bg-white !px-3 shadow-product-card"
+                    >
+                        Xem tất cả
+                    </Button>
                 </div>
-                <Button
-                    variant="solid"
-                    size="sm"
-                    className="!rounded-full text-xs !text-black !bg-white !px-3 shadow-product-card"
-                >
-                    Xem tất cả
-                </Button>
-            </div>
+            )}
             <div className="flex-1 h-full">
                 <Swiper
                     slidesPerView={2}
@@ -56,7 +73,7 @@ const ProductSection = ({ category }: Props) => {
                     }}
                     navigation={true}
                     modules={[Autoplay, Pagination, Navigation]}
-                    className="!p-1"
+                    // className="!p-1"
                     breakpoints={{
                         640: {
                             slidesPerView: 3,
@@ -68,6 +85,7 @@ const ProductSection = ({ category }: Props) => {
                             slidesPerView: 5,
                         },
                     }}
+                    className="!p-1"
                 >
                     {!!products?.length
                         ? products?.map((product) => {

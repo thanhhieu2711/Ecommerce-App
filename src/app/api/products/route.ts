@@ -1,4 +1,5 @@
 import prisma from '@/services/prisma/prismaDB';
+import { calculateRating } from '@/utils/helper';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
@@ -55,13 +56,26 @@ export async function GET(req: NextRequest, res: NextResponse) {
             orderBy: {
                 createdAt: 'desc',
             },
+            include: {
+                feedback: true,
+                category: true,
+            },
         });
 
         const searchCount = allProducts.length;
 
         return NextResponse.json({
             isSuccess: true,
-            data: allProducts,
+            data: allProducts.map((item) => {
+                return {
+                    ...item,
+                    ratting: Math.ceil(
+                        calculateRating(
+                            item.feedback.map((feed) => feed.ratting)
+                        )
+                    ),
+                };
+            }),
             pagination: {
                 pageNumber: pageNumber,
                 totalRecord: allProducts.length,

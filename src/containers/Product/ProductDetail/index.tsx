@@ -1,5 +1,10 @@
 'use client';
-import { TCapacityInfo, TColorInfo, TProductInfo } from '@/types/general';
+import {
+    TCapacityInfo,
+    TCategoryInfo,
+    TColorInfo,
+    TProductInfo,
+} from '@/types/general';
 import axios from 'axios';
 import { useEffect, useMemo, useState } from 'react';
 import Container from '@/components/Layout/Container';
@@ -28,6 +33,7 @@ import { useCart } from '@/hooks/store';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import { openLoginModal } from '@/stores/reducers/modal';
+import ProductSection from '@/components/Product/ProductSection';
 
 type Props = {
     pid: string;
@@ -39,6 +45,7 @@ const ProductDetailCtn = ({ pid }: Props) => {
     const { listCart } = useCart();
     const { data } = useSession();
     const [product, setProduct] = useState<TProductInfo>({} as TProductInfo);
+    const [relatedProducts, setRelatedProducts] = useState<TProductInfo[]>([]);
     const [activeImage, setActiveImage] = useState<string>('');
     const [isExpanedDesc, setExpanedDesc] = useState<boolean>(false);
     const [isShowFeedback, setShowFeedback] = useState<boolean>(false);
@@ -70,6 +77,18 @@ const ProductDetailCtn = ({ pid }: Props) => {
             console.log(error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const getRelatedProducts = async () => {
+        setLoading(true);
+        try {
+            const { data } = await axios.get(`/api/products/related/${pid}`);
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            // setLoading(false);
         }
     };
 
@@ -150,6 +169,7 @@ const ProductDetailCtn = ({ pid }: Props) => {
 
     useEffect(() => {
         getProductDetail();
+        getRelatedProducts();
     }, [pid]);
 
     return (
@@ -256,6 +276,26 @@ const ProductDetailCtn = ({ pid }: Props) => {
                                 Không tìm thấy sản phẩm.
                             </div>
                         )
+                    )}
+
+                    {product && !loading && (
+                        <div className="flex flex-col gap-4 my-10">
+                            <ProductSection
+                                category={product.category}
+                                categoryNameModifier="SẢN PHẨM LIÊN QUAN"
+                            />
+                            {['Tablet', 'Điện Thoại', 'Laptop'].includes(
+                                product.category?.name
+                            ) && (
+                                <ProductSection
+                                    category={{
+                                        ...product.category,
+                                        id: '65993bf6850a1a7d7e81e006',
+                                    }}
+                                    categoryNameModifier="PHỤ KIỆN ĐI KÈM"
+                                />
+                            )}
+                        </div>
                     )}
                 </Container>
                 <ModalDescription
