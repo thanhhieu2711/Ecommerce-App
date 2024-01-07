@@ -92,11 +92,10 @@ const PaymentInfoCtn = (props: Props) => {
                     form.setFieldValue('phoneReceiver', '');
                     form.setFieldValue('deliveryAddressReceiver', '');
                     form.setFieldValue('note', '');
+                    router.push(`/checkout/payment-result/${orderData.id}`);
                     setLoading(false);
                     toast.success(message);
-                    return router.push(
-                        `/checkout/payment-result/${orderData.id}`
-                    );
+                    return;
                 }
             }
         } catch (error) {

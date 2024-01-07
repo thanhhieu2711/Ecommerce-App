@@ -38,18 +38,13 @@ const ProductSection = ({
         getProducts
     );
 
-    console.log(
-        `/api/products/filter?categoryId=${category?.id || ''}&hotsale=${
-            isHotSale || ''
-        }`
-    );
     return (
         <div className={cn('w-full flex flex-col gap-2 sm:gap-4', className)}>
             {isShowHeader && (
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <div className="border-l-[10px] h-9 border-primary" />
-                        <p className="font-semibold text-lg sm:text-xl text-black/80 uppercase">
+                        {/* <div className="border-l-[10px] h-9 border-primary" /> */}
+                        <p className="font-semibold text-xl sm:text-2xl text-black/80 uppercase">
                             {categoryNameModifier || category.name}
                         </p>
                     </div>

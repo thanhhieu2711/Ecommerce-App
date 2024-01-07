@@ -16,8 +16,8 @@ const config: Config = {
             colors: () => ({
                 current: 'currentColor',
                 primary: {
-                    DEFAULT: '#fe3564',
-                    // DEFAULT: '#0CCBE0',
+                    DEFAULT: '#0364ee',
+                    'variant-1': '#fe3564',
                 },
                 secondary: {
                     DEFAULT: '#f6f9fc',

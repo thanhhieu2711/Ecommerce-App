@@ -14,7 +14,9 @@ export type TSidebarLink = {
     icon?: React.ReactNode;
 };
 
-export type TCategoryInfo = Category;
+export type TCategoryInfo = Category & {
+    product: TProductInfo[];
+};
 
 export type TBrandInfo = Brand;
 

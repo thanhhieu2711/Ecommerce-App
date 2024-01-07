@@ -26,7 +26,7 @@ const ProductCard = ({ product }: Props) => {
     return (
         <Link
             href={`/products/${product.slug}-${product.id}`}
-            className="w-full flex flex-col  gap-2 sm:gap-4 rounded-xl bg-white shadow-md p-2"
+            className="w-full flex flex-col  gap-2 sm:gap-4 rounded-xl bg-white shadow-product-card p-2"
             onClick={(e) => e.stopPropagation()}
         >
             <div className="aspect-w-3 aspect-h-2 sm:aspect-h-3">

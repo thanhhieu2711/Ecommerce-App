@@ -1,9 +1,9 @@
 import { TProductInfo } from '@/types/general';
 import { BiTrash, BiHistory, BiSolidHot } from 'react-icons/bi';
-import { Button, Spinner } from '@/components/Common';
+import { Button } from '@/components/Common';
 import Link from 'next/link';
 import TrendingProductItem from './TrendingProductItem';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import Skeleton from 'react-loading-skeleton';
 import useSearchHistory from '@/hooks/store/useSearchHistory';
 import { useAppDispatch } from '@/stores';
 import { openHomeSearchBoxModal } from '@/stores/reducers/modal';
@@ -41,7 +41,7 @@ const InitialView = ({ trendingProducts }: Props) => {
                         searchHistory?.map((item) => (
                             <Link
                                 key={item.date}
-                                href={`/product/${item.endPoint}`}
+                                href={`/products/${item.endPoint}`}
                                 className="hover:underline"
                                 onClick={() =>
                                     dispatch(openHomeSearchBoxModal(false))

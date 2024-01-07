@@ -9,7 +9,9 @@ export async function POST(request: Request) {
             where: {
                 name: _request.name,
             },
-            select: { name: true },
+            include: {
+                product: true,
+            },
         });
 
         if (!!category) {
@@ -42,7 +44,11 @@ export async function POST(request: Request) {
 
 export async function GET() {
     try {
-        const allCategories = await prisma.category.findMany();
+        const allCategories = await prisma.category.findMany({
+            include: {
+                product: true,
+            },
+        });
 
         return NextResponse.json(
             {

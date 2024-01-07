@@ -34,11 +34,16 @@ const PaymentResultCtn = ({ orderId }: Props) => {
         <div className="w-full h-full bg-secondary ">
             <Container>
                 <div className="w-full h-full min-h-[90vh] flex items-center justify-center py-6">
-                    {!loading && orderInfo?.id ? (
-                        <PaymentDetail orderInfo={orderInfo} />
-                    ) : (
-                        !loading &&
-                        !orderInfo?.id && <p>Không tìm thấy đơn hàng.</p>
+                    {!loading && (
+                        <>
+                            {orderInfo?.id ? (
+                                <PaymentDetail orderInfo={orderInfo} />
+                            ) : (
+                                !orderInfo?.id && (
+                                    <p>Không tìm thấy đơn hàng.</p>
+                                )
+                            )}
+                        </>
                     )}
                 </div>
             </Container>

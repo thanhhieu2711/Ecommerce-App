@@ -1,7 +1,6 @@
-import CategoryList from './components/CategoryList';
 import Banner from './components/Banner';
-import { bannerList } from '@/utils/constants/general';
 import { TCategoryInfo } from '@/types/general';
+import CategoryList from './components/CategoryList';
 
 type Props = {
     categories: TCategoryInfo[];

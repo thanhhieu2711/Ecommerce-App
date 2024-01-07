@@ -1,10 +1,5 @@
 'use client';
-import {
-    TCapacityInfo,
-    TCategoryInfo,
-    TColorInfo,
-    TProductInfo,
-} from '@/types/general';
+import { TCapacityInfo, TColorInfo, TProductInfo } from '@/types/general';
 import axios from 'axios';
 import { useEffect, useMemo, useState } from 'react';
 import Container from '@/components/Layout/Container';
@@ -34,6 +29,7 @@ import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import { openLoginModal } from '@/stores/reducers/modal';
 import ProductSection from '@/components/Product/ProductSection';
+import { set } from 'lodash';
 
 type Props = {
     pid: string;
@@ -66,12 +62,9 @@ const ProductDetailCtn = ({ pid }: Props) => {
         try {
             const { data } = await axios.get(`/api/products/${pid}`);
             if (data.isSuccess) {
-                setLoading(false);
                 setProduct(data.data);
                 !!data.data?.images?.length &&
                     setActiveImage(data.data?.images[0]);
-            } else {
-                setLoading(false);
             }
         } catch (error) {
             console.log(error);
@@ -81,14 +74,11 @@ const ProductDetailCtn = ({ pid }: Props) => {
     };
 
     const getRelatedProducts = async () => {
-        setLoading(true);
         try {
             const { data } = await axios.get(`/api/products/related/${pid}`);
             console.log(data);
         } catch (error) {
             console.log(error);
-        } finally {
-            // setLoading(false);
         }
     };
 
@@ -176,126 +166,147 @@ const ProductDetailCtn = ({ pid }: Props) => {
         <div className="h-full w-full min-h-[75vh] bg-secondary py-[25px]">
             <>
                 <Container>
-                    {product.id && !loading ? (
-                        <div className=" grid grid-cols-4 md:row-auto gap-6 bg-white p-4 rounded-lg shadow-card">
-                            <div className="col-span-4 md:col-span-2 flex flex-col">
-                                {/* ẢNH SẢN PHẨM */}
-                                {product.images && (
-                                    <ProductImage
-                                        activeImage={activeImage}
-                                        handleChangeActiveImage={setActiveImage}
-                                        product={product}
-                                    />
-                                )}
-                                <Warranty />
-                            </div>
-
-                            <div className="col-span-4 md:col-span-2">
-                                <div className="w-full h-full flex flex-col gap-5">
-                                    <ProductInfo
-                                        product={product}
-                                        quantity={quantity}
-                                        productColors={productColors}
-                                        productCapacities={productCapacities}
-                                        selectedColor={selectedColor}
-                                        selectedCapacity={selectedCapacity}
-                                        handleSelectColor={setSelectedColor}
-                                        handleSelectCapacity={
-                                            setSelectedCapacity
-                                        }
-                                        handleChangeQuantity={setQuantity}
-                                    />
-                                    <Promotion
-                                        handleShowPromotionModal={() =>
-                                            setShowPromotion(true)
-                                        }
-                                    />
-                                    {/* THÊM VÀO GIỎ HANG */}
-                                    <div className="flex flex-row items-center gap-3">
-                                        <Button
-                                            className="sm:basis-2/5 flex flex-row items-center justify-center gap-2 text-lg text-secondary-variant-2 hover:border-opacity-50 border-secondary-variant-2"
-                                            size="md"
-                                            variant="outline"
-                                            onClick={() => {
-                                                toast.success(
-                                                    'Đã thêm vào giỏ hàng !'
-                                                );
-                                                dispatch(
-                                                    addToCart(checkoutInfo)
-                                                );
-                                            }}
-                                        >
-                                            <BiCartAdd className="icon-base" />
-                                            <p className="hidden sm:block">
-                                                Thêm vào giỏ
-                                            </p>
-                                        </Button>
-                                        <Button
-                                            className="flex-1 text-lg text-white hover:bg-opacity-80"
-                                            size="md"
-                                            onClick={() =>
-                                                handlePrecheckAddToCart()
-                                            }
-                                        >
-                                            <p>Mua ngay</p>
-                                        </Button>
+                    {!loading && (
+                        <>
+                            {product.id ? (
+                                <div className=" grid grid-cols-4 md:row-auto gap-6 bg-white p-4 rounded-lg shadow-card">
+                                    <div className="col-span-4 md:col-span-2 flex flex-col">
+                                        {/* ẢNH SẢN PHẨM */}
+                                        {product.images && (
+                                            <ProductImage
+                                                activeImage={activeImage}
+                                                handleChangeActiveImage={
+                                                    setActiveImage
+                                                }
+                                                product={product}
+                                            />
+                                        )}
+                                        <Warranty />
                                     </div>
-                                </div>
-                            </div>
-                            <div className="h-px col-span-4 border-b border-black/10"></div>
-                            {/* MÔ TẢ / THÔNG SỐ */}
-                            <div className="col-span-4">
-                                <div className="grid grid-cols-5 gap-8 grid-flow-dense row-auto ">
-                                    <Description
-                                        product={product}
-                                        handleExpanedDesc={() =>
-                                            setExpanedDesc(true)
-                                        }
-                                    />
-                                    <Specification
-                                        product={product}
-                                        handleExpanedSpecification={() =>
-                                            setExpanedSpecification(true)
-                                        }
-                                    />
-                                </div>
-                            </div>
-                            {/* ĐÁNH GIÁ SẢN PHẨM */}
-                            <Feedback
-                                handleShowModalFeedback={() =>
-                                    setShowFeedback(!!product.feedback.length)
-                                }
-                                product={product}
-                                ratingScaleList={ratingScaleList}
-                            />
-                        </div>
-                    ) : (
-                        !product.id &&
-                        !loading && (
-                            <div className="w-full min-h-[75vh] grid place-items-center">
-                                Không tìm thấy sản phẩm.
-                            </div>
-                        )
-                    )}
 
-                    {product && !loading && (
-                        <div className="flex flex-col gap-4 my-10">
-                            <ProductSection
-                                category={product.category}
-                                categoryNameModifier="SẢN PHẨM LIÊN QUAN"
-                            />
-                            {['Tablet', 'Điện Thoại', 'Laptop'].includes(
-                                product.category?.name
-                            ) && (
-                                <ProductSection
-                                    category={{
-                                        ...product.category,
-                                        id: '65993bf6850a1a7d7e81e006',
-                                    }}
-                                    categoryNameModifier="PHỤ KIỆN ĐI KÈM"
-                                />
+                                    <div className="col-span-4 md:col-span-2">
+                                        <div className="w-full h-full flex flex-col gap-5">
+                                            <ProductInfo
+                                                product={product}
+                                                quantity={quantity}
+                                                productColors={productColors}
+                                                productCapacities={
+                                                    productCapacities
+                                                }
+                                                selectedColor={selectedColor}
+                                                selectedCapacity={
+                                                    selectedCapacity
+                                                }
+                                                handleSelectColor={
+                                                    setSelectedColor
+                                                }
+                                                handleSelectCapacity={
+                                                    setSelectedCapacity
+                                                }
+                                                handleChangeQuantity={
+                                                    setQuantity
+                                                }
+                                            />
+                                            <Promotion
+                                                handleShowPromotionModal={() =>
+                                                    setShowPromotion(true)
+                                                }
+                                            />
+                                            {/* THÊM VÀO GIỎ HANG */}
+                                            <div className="flex flex-row items-center gap-3">
+                                                <Button
+                                                    className="sm:basis-2/5 flex flex-row items-center justify-center gap-2 text-lg text-secondary-variant-2 hover:border-opacity-50 border-secondary-variant-2"
+                                                    size="md"
+                                                    variant="outline"
+                                                    onClick={() => {
+                                                        toast.success(
+                                                            'Đã thêm vào giỏ hàng !'
+                                                        );
+                                                        dispatch(
+                                                            addToCart(
+                                                                checkoutInfo
+                                                            )
+                                                        );
+                                                    }}
+                                                >
+                                                    <BiCartAdd className="icon-base" />
+                                                    <p className="hidden sm:block">
+                                                        Thêm vào giỏ
+                                                    </p>
+                                                </Button>
+                                                <Button
+                                                    className="flex-1 text-lg text-white hover:bg-opacity-80"
+                                                    size="md"
+                                                    onClick={() =>
+                                                        handlePrecheckAddToCart()
+                                                    }
+                                                >
+                                                    <p>Mua ngay</p>
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="h-px col-span-4 border-b border-black/10"></div>
+                                    {/* MÔ TẢ / THÔNG SỐ */}
+                                    <div className="col-span-4">
+                                        <div className="grid grid-cols-5 gap-8 grid-flow-dense row-auto ">
+                                            <Description
+                                                product={product}
+                                                handleExpanedDesc={() =>
+                                                    setExpanedDesc(true)
+                                                }
+                                            />
+                                            <Specification
+                                                product={product}
+                                                handleExpanedSpecification={() =>
+                                                    setExpanedSpecification(
+                                                        true
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                    {/* ĐÁNH GIÁ SẢN PHẨM */}
+                                    <Feedback
+                                        handleShowModalFeedback={() =>
+                                            setShowFeedback(
+                                                !!product.feedback.length
+                                            )
+                                        }
+                                        product={product}
+                                        ratingScaleList={ratingScaleList}
+                                    />
+                                </div>
+                            ) : (
+                                !product.id && (
+                                    <div className="w-full min-h-[75vh] grid place-items-center">
+                                        Không tìm thấy sản phẩm.
+                                    </div>
+                                )
                             )}
-                        </div>
+
+                            {product.id && (
+                                <div className="flex flex-col gap-4 my-10">
+                                    <ProductSection
+                                        category={product.category}
+                                        categoryNameModifier="SẢN PHẨM LIÊN QUAN"
+                                    />
+                                    {[
+                                        'Tablet',
+                                        'Điện Thoại',
+                                        'Laptop',
+                                    ].includes(product.category?.name) && (
+                                        <ProductSection
+                                            category={{
+                                                ...product.category,
+                                                id: '65993bf6850a1a7d7e81e006',
+                                            }}
+                                            categoryNameModifier="PHỤ KIỆN ĐI KÈM"
+                                        />
+                                    )}
+                                </div>
+                            )}
+                        </>
                     )}
                 </Container>
                 <ModalDescription
