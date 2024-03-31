@@ -1,14 +1,19 @@
 'use client';
-import CategoryAndBanner from '@/components/HomePage/CategoryAndBanner';
-import CategorySection from '@/components/HomePage/CategorySection';
-import HotProductSection from '@/components/HomePage/HotProductSection';
+import HotProductSection from '@/components/HomePage/HotSaleProductSection';
 import Container from '@/components/Layout/Container';
-import ProductSection from '@/components/Product/ProductSection';
+//import ProductSection from '@/components/Product/ProductSection';
 import { TCategoryInfo } from '@/types/general';
 import axios from 'axios';
-import Image from 'next/image';
-import { FaSignHanging } from 'react-icons/fa6';
+import dynamic from 'next/dynamic';
 import useSWRImmutable from 'swr/immutable';
+
+const CategoryAndBanner = dynamic(
+    () => import('@/components/HomePage/CategoryAndBanner')
+);
+
+const ProductSection = dynamic(
+    () => import('@/components/Product/ProductSection')
+);
 
 type Props = {};
 
@@ -23,12 +28,13 @@ export default function HomePageContainer(props: Props) {
     );
 
     return (
-        <div className="pt-4 pb-4 bg-secondary flex flex-col gap-10">
+        <div className="pt-4 pb-4 bg-secondary flex flex-col gap-10 ">
             <Container>
-                <div className="flex flex-col gap-8 sm:gap-12">
+                <div className="flex flex-col gap-8 sm:gap-12 relative">
                     <CategoryAndBanner categories={categories} />
-                    {categories && <CategorySection categories={categories} />}
+
                     <HotProductSection />
+
                     {!!categories?.length
                         ? categories
                               ?.slice(0, 5)

@@ -6,6 +6,8 @@ export async function GET(req: NextRequest) {
     try {
         const _req = req.nextUrl.searchParams;
 
+        console.log(req.nextUrl.searchParams);
+
         const pageLimit = Number(_req.get('pageLimit')) || 10;
 
         const name = _req.get('name');
@@ -14,15 +16,25 @@ export async function GET(req: NextRequest) {
 
         const brandId = _req.get('brandId');
 
-        // const priceRange = _req.get('priceRange');
+        const available = Boolean(_req.get('available'));
+
+        const ratting = Number(_req.get('ratting'));
+
+        const priceRange = Number(_req.get('priceRange'));
+
+        const sortAscByPrice = Boolean(_req.get('ascPrice'));
+
+        const sortDescByPrice = Boolean(_req.get('descPrice'));
+
+        const sortByCreatedAt = Boolean(_req.get('new'));
+
+        const sortByBuyTurn = _req.get('buyTurn');
 
         const isHotSale = _req.get('hotsale');
 
         const pageNumber = Number(_req.get('page')) || 1;
 
         const filterResult = await prisma.product.findMany({
-            skip: pageNumber * pageLimit - pageLimit,
-            take: pageLimit,
             where: {
                 categoryId: !!categoryId ? categoryId : undefined,
                 brandId: !!brandId ? brandId : undefined,
@@ -31,41 +43,63 @@ export async function GET(req: NextRequest) {
                     mode: 'insensitive',
                 },
                 discount: {
-                    gt: isHotSale ? 0.15 : undefined,
+                    gte: isHotSale ? 0.3 : undefined,
+                },
+                price: {
+                    gte: priceRange > 0 ? priceRange : undefined,
+                },
+                buyTurn: {
+                    gte: sortByBuyTurn ? 5 : undefined,
+                },
+                status: available ? 'AVAILABLE' : undefined,
+                ratting: {
+                    gte: ratting || undefined,
                 },
             },
-            orderBy: {
-                createdAt: 'desc',
-            },
+            orderBy: [
+                {
+                    price: sortDescByPrice
+                        ? 'desc'
+                        : sortAscByPrice
+                        ? 'asc'
+                        : undefined,
+                },
+                {
+                    createdAt: sortByCreatedAt ? 'asc' : 'desc',
+                },
+            ],
             include: {
                 feedback: true,
                 category: true,
             },
         });
 
-        const searchCount = (await prisma.product.findMany()).length;
-
-        const totalPage = name
-            ? Math.ceil(filterResult.length / pageLimit)
-            : Math.ceil(searchCount / pageLimit);
+        const totalPage = Math.ceil(filterResult.length / pageLimit);
 
         return NextResponse.json({
             isSuccess: true,
-            data: filterResult.map((item) => {
-                return {
-                    ...item,
-                    ratting: Math.ceil(
-                        calculateRating(
-                            item.feedback.map((feed) => feed.ratting)
-                        )
-                    ),
-                };
-            }),
+            data: [...filterResult]
+                .slice(
+                    pageNumber * pageLimit - pageLimit,
+                    pageNumber * pageLimit
+                )
+                .map((item) => {
+                    return {
+                        ...item,
+                        ratting: Math.ceil(
+                            calculateRating(
+                                item.feedback.map((feed) => feed.ratting)
+                            )
+                        ),
+                    };
+                }),
             pagination: {
                 pageNumber: pageNumber,
-                totalRecord: name ? filterResult.length : searchCount,
+                totalRecord: filterResult.length,
                 totalPage: totalPage,
                 pageLimit: pageLimit,
+                hasPrev: pageNumber > 1,
+                hasNext: pageNumber < totalPage,
             },
         });
     } catch (error) {

@@ -95,6 +95,7 @@ const config: Config = {
                 md: '1.25rem',
                 lg: '1.5625rem',
                 xl: '7.5rem',
+                '2xl': '7.5rem',
             },
 
             screens: {

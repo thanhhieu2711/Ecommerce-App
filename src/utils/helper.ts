@@ -107,12 +107,12 @@ export const getInitialColorAndCapacity = ({
 }) => {
     const color = colorList
         .filter((color) => {
-            return product.color.find((_color) => _color === color.name);
+            return product.color?.find((_color) => _color === color.name);
         })
         .sort((a, b) => a.extraPrice - b.extraPrice)[0];
     const capacity = capacityList
         .filter((capacity) => {
-            return product.capacity.find(
+            return product.capacity?.find(
                 (_capacity) => _capacity === capacity.name
             );
         })

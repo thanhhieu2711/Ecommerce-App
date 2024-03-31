@@ -52,10 +52,10 @@ const InitialView = ({ trendingProducts }: Props) => {
                         ))
                     ) : (
                         <>
-                            <p>- Chưa có lịch sử tìm kiếm nào !</p>
                             <p>* Gợi ý tìm kiếm : </p>
                             <p>- iPhone 15 Pro Max | Chính hãng VN/A</p>
                             <p>- Apple Watch Series 7 45mm | Chính hãng VN/A</p>
+                            <p>- Macbook Pro 16 Inch (16/512 SSD)</p>
                         </>
                     )}
                 </div>

@@ -4,6 +4,7 @@ import {
     TColorInfo,
     TPagination,
     TShippingService,
+    TSearchParam,
 } from '@/types/general';
 
 export const bannerList: {
@@ -210,5 +211,57 @@ export const DEFAULT_PAGINATION: TPagination = {
     totalPage: 0,
     totalRecord: 0,
 };
+
+export const SORT_OPTIONS: TSearchParam[] = [
+    {
+        title: 'Giá sản phẩm',
+        key: 'priceRange',
+        value: '',
+        icon: '',
+    },
+    {
+        title: 'Đánh giá',
+        key: 'ratting',
+        value: '',
+        icon: '',
+    },
+    {
+        title: 'Nhiều lượt mua',
+        key: 'buyTurn',
+        value: true,
+        icon: '',
+    },
+
+    {
+        title: 'Sẵn hàng',
+        key: 'available',
+        value: true,
+        icon: '',
+    },
+    {
+        title: 'Khuyến mãi hot',
+        key: 'hotsale',
+        value: true,
+        icon: '',
+    },
+    {
+        title: 'Mới nhất',
+        key: 'new',
+        value: true,
+        icon: '',
+    },
+    {
+        title: 'Giá cao - Thấp',
+        key: 'descPrice',
+        value: true,
+        icon: '',
+    },
+    {
+        title: 'Giá thấp - Cao',
+        key: 'ascPrice',
+        value: true,
+        icon: '',
+    },
+];
 
 export const DEFAULT_PAGELIMIT = 10;

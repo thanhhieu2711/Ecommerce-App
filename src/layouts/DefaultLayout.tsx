@@ -13,6 +13,8 @@ export default function DefaultLayout({ children }: Props) {
     const pathName = usePathname();
     const isAdminPage = pathName.includes('dashboard');
     const isPaymentPageFlow = pathName.includes('payment');
+    const isProductsPage =
+        pathName.includes('products') && pathName.endsWith('products');
     return (
         <div className="">
             {isAdminPage ? (
@@ -20,7 +22,9 @@ export default function DefaultLayout({ children }: Props) {
             ) : (
                 <>
                     <Header />
-                    <main className={cn('max-w-full pt-20')}>{children}</main>
+                    <main className={cn('max-w-full pt-14 xs:pt-20')}>
+                        {children}
+                    </main>
                     <RegisterModal />
                     <LoginModal />
                     {!isPaymentPageFlow && <Footer />}

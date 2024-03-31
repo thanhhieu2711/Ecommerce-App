@@ -1,5 +1,4 @@
 import cn from 'classnames';
-import ProductCard from '@/components/Product/ProductCard';
 import axios from 'axios';
 import useSWRImmutable from 'swr/immutable';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
@@ -11,6 +10,8 @@ import 'swiper/css';
 
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { useRouter } from 'next/navigation';
+import ProductCard from './ProductCard';
 
 type Props = {
     category: TCategoryInfo;
@@ -27,6 +28,8 @@ const ProductSection = ({
     className,
     isHotSale,
 }: Props) => {
+    const router = useRouter();
+
     const getProducts = async (url: string) => {
         const { data } = await axios.get(url);
         return data.data;
@@ -43,15 +46,19 @@ const ProductSection = ({
             {isShowHeader && (
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        {/* <div className="border-l-[10px] h-9 border-primary" /> */}
-                        <p className="font-semibold text-xl sm:text-2xl text-black/80 uppercase">
+                        <p className="font-semibold text-xl sm:text-2xl text-black/80 uppercase ">
                             {categoryNameModifier || category.name}
                         </p>
                     </div>
                     <Button
-                        variant="solid"
+                        variant="ghost"
                         size="sm"
-                        className="!rounded-full text-xs !text-black !bg-white !px-3 shadow-product-card"
+                        disabled={products?.length === 0}
+                        onClick={() => {
+                            router.push(
+                                `/products?categoryId=${products[0]?.categoryId}`
+                            );
+                        }}
                     >
                         Xem tất cả
                     </Button>
@@ -62,10 +69,13 @@ const ProductSection = ({
                     slidesPerView={2}
                     grabCursor
                     spaceBetween={12}
-                    autoplay={{
-                        delay: 2000,
-                        disableOnInteraction: false,
-                    }}
+                    autoplay={
+                        isHotSale && {
+                            delay: 2000,
+                            disableOnInteraction: false,
+                        }
+                    }
+                    speed={500}
                     navigation={true}
                     modules={[Autoplay, Pagination, Navigation]}
                     // className="!p-1"
@@ -78,6 +88,9 @@ const ProductSection = ({
                         },
                         1280: {
                             slidesPerView: 5,
+                        },
+                        1920: {
+                            slidesPerView: 6,
                         },
                     }}
                     className="!p-1"
@@ -94,11 +107,11 @@ const ProductSection = ({
                               <SwiperSlide key={i}>
                                   <Skeleton
                                       key={i}
-                                      width={225}
+                                      width={250}
                                       height={365}
                                       enableAnimation
                                       direction="ltr"
-                                      duration={10}
+                                      duration={2}
                                       className="!rounded-lg "
                                   />
                               </SwiperSlide>

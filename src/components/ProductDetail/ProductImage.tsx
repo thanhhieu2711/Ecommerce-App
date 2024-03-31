@@ -23,14 +23,14 @@ export const ProductImage = ({
     const { checkExist } = useWishlist();
     return (
         <div className="flex flex-col gap-2 h-fit">
-            <div className="flex-1 flex flex-row items-center justify-center rounded-lg border border-black/10 md:max-h-[450px] relative">
-                <div className="w-full aspect-w-6 aspect-h-5 xs:aspect-w-4 xs:aspect-h-3">
+            <div className="flex-1 flex flex-row items-center justify-center rounded-lg border border-black/10 md:max-h-[450px] xl:max-h-full relative">
+                <div className="w-full aspect-w-6 aspect-h-5 xs:aspect-w-3 xs:aspect-h-2">
                     <Image
                         src={activeImage}
                         alt="error-img"
                         fill
                         objectFit="contain"
-                        objectPosition="center/100%"
+                        objectPosition="center"
                         loading="lazy"
                         className="p-2"
                     />

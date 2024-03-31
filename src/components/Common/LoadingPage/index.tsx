@@ -8,7 +8,7 @@ const LoadingPage = ({ overlayBackground }: Props) => {
     return (
         <div
             className={cn(
-                'fixed inset-0 w-full h-full flex flex-row justify-center items-center bg-white z-[100]',
+                'fixed !overflow-hidden inset-0 flex flex-row justify-center items-center bg-white z-[100]',
                 overlayBackground && '!bg-black/20'
             )}
         >

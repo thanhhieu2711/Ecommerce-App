@@ -28,6 +28,7 @@ const Banner = (props: Props) => {
                     clickable: true,
                 }}
                 loop
+                speed={500}
                 navigation={true}
                 grabCursor
                 modules={[Autoplay, Pagination, Navigation]}
@@ -49,7 +50,7 @@ const Banner = (props: Props) => {
                                 loading="lazy"
                                 fill
                                 className="rounded-2xl"
-                                objectFit="center"
+                                objectFit="contain"
                                 objectPosition="center"
                             />
                         </SwiperSlide>

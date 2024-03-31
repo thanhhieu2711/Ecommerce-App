@@ -15,7 +15,7 @@ export const ModalDescription = ({
 }: Props) => {
     return (
         <Modal
-            containerClassname="md:!max-w-[800px]"
+            containerClassname="md:!max-w-[800px] xl:!max-w-[1000px]"
             onClose={() => handleShowAnhClose(false)}
             isOpen={isOpen}
             header={'Mô tả chi tiết'}

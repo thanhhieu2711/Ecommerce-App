@@ -14,6 +14,7 @@ import { useAppDispatch } from '@/stores';
 import { openHomeSearchBoxModal } from '@/stores/reducers/modal';
 import { debounce } from 'lodash';
 import useSWRImmutable from 'swr/immutable';
+import { aborted } from 'util';
 type Props = {};
 const HomeSeachBox = (props: Props) => {
     const [searchValue, setSearchValue] = useState<string>('');
@@ -58,6 +59,7 @@ const HomeSeachBox = (props: Props) => {
             getProducts();
         } else {
             setSearchResults([]);
+            setLoading(false);
         }
     }, [searchParams]);
 
@@ -111,7 +113,7 @@ const HomeSeachBox = (props: Props) => {
                     className={cn(
                         'hidden',
                         isOpenHomeSearchBoxModal &&
-                            '!block absolute top-20 inset-x-4 sm:left-auto sm:right-[20%] xl:right-[20%] sm:w-fit max-w-[500px] h-full max-h-[500px] bg-white rounded-lg shadow-md'
+                            '!block absolute top-20 inset-x-4 sm:left-auto sm:right-[20%] xl:right-[20.5%] sm:w-fit max-w-[500px] h-full max-h-[500px] bg-white rounded-lg shadow-md'
                     )}
                 >
                     {!searchResults.length || searchValue.trim() === '' ? (

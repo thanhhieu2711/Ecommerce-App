@@ -46,6 +46,11 @@ export type TPagination = {
     totalRecord: number;
 };
 
+export type TPaginationResponse = TPagination & {
+    hasPrev: boolean;
+    hasNext: boolean;
+};
+
 export type TColorInfo = {
     id: number;
     name: string;
@@ -68,6 +73,13 @@ export type TCartItem = {
 
 export type TParams = {
     params: { id: string };
+};
+
+export type TSearchParam = {
+    title?: string;
+    key: string;
+    value: string | number | boolean;
+    icon?: React.ReactNode;
 };
 
 export type TBannerType = 'main' | 'sub';

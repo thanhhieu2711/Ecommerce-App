@@ -29,7 +29,6 @@ import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import { openLoginModal } from '@/stores/reducers/modal';
 import ProductSection from '@/components/Product/ProductSection';
-import { set } from 'lodash';
 
 type Props = {
     pid: string;
@@ -83,11 +82,11 @@ const ProductDetailCtn = ({ pid }: Props) => {
     };
 
     const productColors = useMemo(() => {
-        const findListColor = colorList.filter((color) =>
+        const colors = colorList.filter((color) =>
             product?.color?.find((_color) => _color === color.name)
         );
-        setSelectedColor(findListColor[0]);
-        return findListColor;
+        setSelectedColor(colors[0]);
+        return colors;
     }, [product]);
 
     const productCapacities = useMemo(() => {
@@ -215,9 +214,13 @@ const ProductDetailCtn = ({ pid }: Props) => {
                                             {/* THÊM VÀO GIỎ HANG */}
                                             <div className="flex flex-row items-center gap-3">
                                                 <Button
-                                                    className="sm:basis-2/5 flex flex-row items-center justify-center gap-2 text-lg text-secondary-variant-2 hover:border-opacity-50 border-secondary-variant-2"
+                                                    className="sm:basis-2/5 flex flex-row items-center justify-center gap-2 text-lg text-secondary-variant-2 hover:border-opacity-70 hover:text-opacity-70 hover:border-secondary-variant-2 border-secondary-variant-2"
                                                     size="md"
                                                     variant="outline"
+                                                    disabled={
+                                                        product.status !==
+                                                        'AVAILABLE'
+                                                    }
                                                     onClick={() => {
                                                         toast.success(
                                                             'Đã thêm vào giỏ hàng !'
@@ -235,8 +238,12 @@ const ProductDetailCtn = ({ pid }: Props) => {
                                                     </p>
                                                 </Button>
                                                 <Button
-                                                    className="flex-1 text-lg text-white hover:bg-opacity-80"
+                                                    className="flex-1 text-lg text-white hover:!bg-primary  hover:opacity-70"
                                                     size="md"
+                                                    disabled={
+                                                        product.status !==
+                                                        'AVAILABLE'
+                                                    }
                                                     onClick={() =>
                                                         handlePrecheckAddToCart()
                                                     }
@@ -278,7 +285,8 @@ const ProductDetailCtn = ({ pid }: Props) => {
                                     />
                                 </div>
                             ) : (
-                                !product.id && (
+                                !product.id &&
+                                !loading && (
                                     <div className="w-full min-h-[75vh] grid place-items-center">
                                         Không tìm thấy sản phẩm.
                                     </div>

@@ -17,19 +17,22 @@ export default function Header() {
     const { listCart, cartQuantity } = useCart();
     const { wishList } = useWishlist();
     const { isOpenCartDrawer, isOpenWishlistDrawer } = useDrawer();
-    // const { scrollY } = useWindowScrollPositions();
+    const { scrollY } = useWindowScrollPositions();
     return (
         <header
             className={cn(
-                'max-w-full border-b border-black/5 bg-white fixed inset-x-0 top-0 transition-all duration-300 ease-out !min-h-[80px] z-30'
-                // scrollY > 5 && 'shadow-card-flight'
+                'max-w-full border-b border-black/5 bg-white fixed inset-x-0 top-0 transition-all duration-100 ease-out z-30',
+                scrollY > 0 && 'shadow-card-flight !bg-primary'
             )}
         >
             <Container>
-                <div className="flex flex-row items-center gap-2 sm:gap-0 sm:justify-between py-5 max-w-full ">
+                <div className="flex flex-row items-center gap-2 sm:gap-0 sm:justify-between py-2 xs:py-5 max-w-full ">
                     <Link
                         href={'/'}
-                        className={cn('font-bold text-3xl text-primary')}
+                        className={cn(
+                            'font-bold text-3xl text-primary',
+                            scrollY > 0 && 'text-white'
+                        )}
                     >
                         LOGO
                     </Link>
