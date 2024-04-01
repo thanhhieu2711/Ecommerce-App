@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
     try {
         const _req = req.nextUrl.searchParams;
 
-        console.log(req.nextUrl.searchParams);
+        // console.log(req.nextUrl.searchParams);
 
         const pageLimit = Number(_req.get('pageLimit')) || 10;
 

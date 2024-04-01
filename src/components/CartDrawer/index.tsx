@@ -59,7 +59,7 @@ const CartDrawer = (props: Props) => {
                                 if (!data?.user) {
                                     return dispatch(openLoginModal(true));
                                 }
-                                router.push('/checkout');
+                                return router.push('/checkout');
                             }}
                         >
                             <p className="text-md font-medium">Mua Ngay</p>

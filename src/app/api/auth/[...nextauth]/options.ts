@@ -54,7 +54,7 @@ const authOptions: AuthOptions = {
                 token.id = user.id;
                 return {
                     ...user,
-                    token: token.id,
+                    ...token,
                     password: null,
                 };
             }
@@ -81,6 +81,7 @@ const authOptions: AuthOptions = {
 
     pages: {
         signIn: '/',
+        signOut: '/',
     },
 };
 
