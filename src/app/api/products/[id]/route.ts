@@ -1,10 +1,9 @@
 import prisma from '@/services/prisma/prismaDB';
-import { NextResponse } from 'next/server';
-import { NextApiRequest } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import { calculateRating } from '@/utils/helper';
 import { TParams } from '@/types/general';
 
-export async function GET(req: NextApiRequest, { params }: TParams) {
+export async function GET(req: NextRequest, { params }: TParams) {
     try {
         const { id } = params;
 
