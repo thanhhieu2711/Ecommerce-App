@@ -1,3 +1,4 @@
+'use client';
 import cn from 'classnames';
 import Drawer from '../Common/Drawer';
 import useDrawer from '@/hooks/store/useDrawer';
@@ -58,7 +59,7 @@ const CartDrawer = (props: Props) => {
                                 if (!data?.user) {
                                     return dispatch(openLoginModal(true));
                                 }
-                                return router.push('/checkout');
+                                router.push('/checkout');
                             }}
                         >
                             <p className="text-md font-medium">Mua Ngay</p>

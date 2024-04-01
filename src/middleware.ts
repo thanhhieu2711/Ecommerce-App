@@ -1,5 +1,6 @@
 import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server';
+
 export async function middleware(req: NextRequest) {
     const currentPath = req.nextUrl.pathname;
     const token = await getToken({
@@ -11,15 +12,17 @@ export async function middleware(req: NextRequest) {
         currentPath.includes('dashboard') &&
         (token?.role !== 'ADMIN' || !token)
     ) {
-        return NextResponse.redirect(
-            process.env.NEXTAUTH_URL || 'http://localhost:3000/'
-        );
+        if (process.env.NODE_ENV === 'development') {
+            return NextResponse.redirect(process.env.NEXTAUTH_URL as string);
+        }
+        return NextResponse.redirect(process.env.NEXTAUTH_URL_PUBLIC as string);
     }
 
     if (currentPath.includes('checkout') && token === null) {
-        return NextResponse.redirect(
-            process.env.NEXTAUTH_URL || 'http://localhost:3000/'
-        );
+        if (process.env.NODE_ENV === 'development') {
+            return NextResponse.redirect(process.env.NEXTAUTH_URL as string);
+        }
+        return NextResponse.redirect(process.env.NEXTAUTH_URL_PUBLIC as string);
     }
 
     return NextResponse.next();

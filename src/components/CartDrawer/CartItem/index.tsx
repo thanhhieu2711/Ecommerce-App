@@ -28,7 +28,6 @@ const CartItem = ({ item, index }: Props) => {
             }}
             href={`/products/${item.product.slug}-${item.product.id}`}
         >
-            {/* <div className=" border border-black/5 rounded-lg"> */}
             <Image
                 src={item.product.images[0]}
                 width={70}
@@ -38,7 +37,6 @@ const CartItem = ({ item, index }: Props) => {
                 loading="lazy"
                 alt="error-image"
             />
-            {/* </div> */}
             <div className="flex flex-1 flex-col gap-1">
                 <div className=" flex flex-row justify-between items-center">
                     <p className="text-sm font-medium line-clamp-2">

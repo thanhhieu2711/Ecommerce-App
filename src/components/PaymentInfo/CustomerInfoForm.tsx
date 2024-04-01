@@ -52,7 +52,11 @@ export const CustomerInfoForm = (props: Props) => {
                     <Checkbox disabled={false} defaultChecked={true} />
                     <p>
                         Bạn có muốn nhận hóa đơn online và thông báo ưu đãi từ
-                        RAVENTECH bằng email này
+                        <span className="font-medium text-primary">
+                            {' '}
+                            Raven Store
+                        </span>{' '}
+                        bằng email này
                     </p>
                 </div>
             </Form>
