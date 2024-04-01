@@ -1,10 +1,10 @@
-import NextAuth, { NextAuthOptions } from 'next-auth';
+import NextAuth, { AuthOptions, NextAuthOptions } from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import CredentialsProviders from 'next-auth/providers/credentials';
 import prisma from '@/services/prisma/prismaDB';
 import bcrypt from 'bcrypt';
 
-export const authOptions: NextAuthOptions = {
+export const authOptions: AuthOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
         CredentialsProviders({
@@ -85,5 +85,7 @@ export const authOptions: NextAuthOptions = {
 };
 
 const handler = NextAuth(authOptions);
+
+export const dynamic = 'force-dynamic';
 
 export { handler as POST, handler as GET };
