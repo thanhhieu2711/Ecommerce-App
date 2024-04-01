@@ -12,16 +12,21 @@ export async function middleware(req: NextRequest) {
                 : '__Secure-next-auth.session-token',
     });
 
-    console.log(token);
-
     if (
         (token === null && currentPath.includes('checkout')) ||
         (token?.role !== 'ADMIN' && currentPath.includes('dashboard'))
     ) {
         if (process.env.NODE_ENV === 'development') {
-            return NextResponse.redirect('http://localhost:3000/', 302);
+            return NextResponse.redirect(
+                process.env.NEXTAUTH_URL || 'http://localhost:3000/',
+                302
+            );
         }
-        return NextResponse.redirect('https://raven-store.vercel.app/', 302);
+        return NextResponse.redirect(
+            process.env.NEXTAUTH_URL_PUBLIC ||
+                'https://raven-store.vercel.app/',
+            302
+        );
     }
 
     return NextResponse.next();
