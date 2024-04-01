@@ -6,26 +6,25 @@ export async function middleware(req: NextRequest) {
     const token = await getToken({
         req,
         secret: process.env.NEXTAUTH_JWT_SECRET,
+        cookieName:
+            process.env.NODE_ENV === 'development'
+                ? 'next-auth.session-token'
+                : '__Secure-next-auth.session-token',
     });
 
-    console.log(token);
-
-    // if (
-    //     currentPath.includes('dashboard') &&
-    //     (token?.role !== 'ADMIN' || !token)
-    // ) {
-    //     if (process.env.NODE_ENV === 'development') {
-    //         return NextResponse.redirect(process.env.NEXTAUTH_URL as string);
-    //     }
-    //     return NextResponse.redirect(process.env.NEXTAUTH_URL_PUBLIC as string);
-    // }
-
-    // if (currentPath.includes('checkout') && token === null) {
-    //     if (process.env.NODE_ENV === 'development') {
-    //         return NextResponse.redirect(process.env.NEXTAUTH_URL as string);
-    //     }
-    //     return NextResponse.redirect(process.env.NEXTAUTH_URL_PUBLIC as string);
-    // }
+    if (
+        (token === null && currentPath.includes('checkout')) ||
+        (token?.role !== 'ADMIN' && currentPath.includes('dashboard'))
+    ) {
+        if (process.env.NODE_ENV === 'development') {
+            return NextResponse.redirect(process.env.NEXTAUTH_URL as string);
+        }
+        return NextResponse.redirect(process.env.NEXTAUTH_URL_PUBLIC as string);
+    }
 
     return NextResponse.next();
 }
+
+// export const config = {
+//     matchter: ['/dashboard/:path*', '/checkout/:path*'],
+// };
