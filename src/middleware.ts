@@ -8,22 +8,24 @@ export async function middleware(req: NextRequest) {
         secret: process.env.NEXTAUTH_JWT_SECRET,
     });
 
-    if (
-        currentPath.includes('dashboard') &&
-        (token?.role !== 'ADMIN' || !token)
-    ) {
-        if (process.env.NODE_ENV === 'development') {
-            return NextResponse.redirect(process.env.NEXTAUTH_URL as string);
-        }
-        return NextResponse.redirect(process.env.NEXTAUTH_URL_PUBLIC as string);
-    }
+    console.log(token);
 
-    if (currentPath.includes('checkout') && token === null) {
-        if (process.env.NODE_ENV === 'development') {
-            return NextResponse.redirect(process.env.NEXTAUTH_URL as string);
-        }
-        return NextResponse.redirect(process.env.NEXTAUTH_URL_PUBLIC as string);
-    }
+    // if (
+    //     currentPath.includes('dashboard') &&
+    //     (token?.role !== 'ADMIN' || !token)
+    // ) {
+    //     if (process.env.NODE_ENV === 'development') {
+    //         return NextResponse.redirect(process.env.NEXTAUTH_URL as string);
+    //     }
+    //     return NextResponse.redirect(process.env.NEXTAUTH_URL_PUBLIC as string);
+    // }
+
+    // if (currentPath.includes('checkout') && token === null) {
+    //     if (process.env.NODE_ENV === 'development') {
+    //         return NextResponse.redirect(process.env.NEXTAUTH_URL as string);
+    //     }
+    //     return NextResponse.redirect(process.env.NEXTAUTH_URL_PUBLIC as string);
+    // }
 
     return NextResponse.next();
 }

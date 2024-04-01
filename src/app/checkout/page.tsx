@@ -1,7 +1,5 @@
 import CheckoutCtn from '@/containers/Checkout';
 
-function Checkout() {
+export default function Checkout() {
     return <CheckoutCtn />;
 }
-
-export default Checkout;
