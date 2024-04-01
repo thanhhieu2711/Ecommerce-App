@@ -96,7 +96,7 @@ const ProductSection = ({
                     className="!p-1"
                 >
                     {!!products?.length
-                        ? products?.map((product) => {
+                        ? products.map((product) => {
                               return (
                                   <SwiperSlide key={product.id}>
                                       <ProductCard product={product} />
@@ -104,16 +104,17 @@ const ProductSection = ({
                               );
                           })
                         : Array.from({ length: 10 }).map((_, i) => (
-                              <SwiperSlide key={i}>
-                                  <Skeleton
-                                      key={i}
-                                      width={250}
-                                      height={365}
-                                      enableAnimation
-                                      direction="ltr"
-                                      duration={2}
-                                      className="!rounded-lg "
-                                  />
+                              <SwiperSlide key={i} className="h-full w-full">
+                                  <div className="w-full">
+                                      <Skeleton
+                                          key={i}
+                                          height={365}
+                                          enableAnimation
+                                          direction="ltr"
+                                          duration={1.5}
+                                          className="!rounded-lg "
+                                      />
+                                  </div>
                               </SwiperSlide>
                           ))}
                 </Swiper>

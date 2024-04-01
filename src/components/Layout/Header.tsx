@@ -22,17 +22,14 @@ export default function Header() {
         <header
             className={cn(
                 'max-w-full border-b border-black/5 bg-white fixed inset-x-0 top-0 transition-all duration-100 ease-out z-30',
-                scrollY > 0 && 'shadow-card-flight !bg-primary'
+                scrollY > 0 && 'shadow-product-card'
             )}
         >
             <Container>
                 <div className="flex flex-row items-center gap-2 sm:gap-0 sm:justify-between py-2 xs:py-5 max-w-full ">
                     <Link
                         href={'/'}
-                        className={cn(
-                            'font-bold text-3xl text-primary',
-                            scrollY > 0 && 'text-white'
-                        )}
+                        className={cn('font-bold text-3xl text-primary')}
                     >
                         LOGO
                     </Link>

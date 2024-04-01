@@ -64,7 +64,7 @@ const HomeSeachBox = (props: Props) => {
     }, [searchParams]);
 
     return (
-        <div className="w-full sm:w-[350px] z-10 shadow-sm rounded-full">
+        <div className="w-full sm:w-[350px] z-10 shadow-sm rounded-full relative">
             <Input
                 onClick={(e) => e.stopPropagation()}
                 suffix={
@@ -113,7 +113,7 @@ const HomeSeachBox = (props: Props) => {
                     className={cn(
                         'hidden',
                         isOpenHomeSearchBoxModal &&
-                            '!block absolute top-20 inset-x-4 sm:left-auto sm:right-[20%] xl:right-[20.5%] sm:w-fit max-w-[500px] h-full max-h-[500px] bg-white rounded-lg shadow-md'
+                            '!block sticky ml-auto top-20 inset-x-4 sm:left-auto sm:right-[15.5%] md:right-[18%] xl:right-[20%] 2xl:right-[15%]  sm:w-fit max-w-[500px] h-full max-h-[500px] bg-white rounded-lg shadow-md'
                     )}
                 >
                     {!searchResults.length || searchValue.trim() === '' ? (

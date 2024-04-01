@@ -25,9 +25,9 @@ export default function DefaultLayout({ children }: Props) {
                     <main className={cn('max-w-full pt-14 xs:pt-20')}>
                         {children}
                     </main>
+                    {!isPaymentPageFlow && <Footer />}
                     <RegisterModal />
                     <LoginModal />
-                    {!isPaymentPageFlow && <Footer />}
                 </>
             )}
         </div>

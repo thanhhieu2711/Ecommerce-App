@@ -27,9 +27,11 @@ const CategoryCard = ({ category }: Props) => {
                     quality={50}
                 />
             </div>
-            <p className="text-center font-semibold">{category.name}</p>
+            <p className="text-center text-xs sm:text-sm font-medium">
+                {category.name}
+            </p>
             {!!category?.product?.length && (
-                <p className="text-center text-xs text-black/50 -mt-1">
+                <p className="text-center text-[10px] sm:text-xs text-black/50 -mt-1">
                     {`${category?.product?.length} sản phẩm`}
                 </p>
             )}
