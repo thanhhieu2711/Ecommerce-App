@@ -10,6 +10,15 @@ const nextConfig = {
             },
         ],
     },
+    async rewrites() {
+        return [
+            {
+                source: '/api/orders',
+                destination: `api/orders`,
+                basePath: process.env.NEXTAUTH_URL_PUBLIC,
+            },
+        ];
+    },
 };
 
 module.exports = nextConfig;
