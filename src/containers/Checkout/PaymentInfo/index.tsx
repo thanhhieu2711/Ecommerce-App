@@ -50,7 +50,7 @@ const PaymentInfoCtn = (props: Props) => {
 
             const createOrderReq = await axios.post(
                 '/api/orders',
-                createOrderData
+                JSON.stringify(createOrderData)
             );
 
             const {
@@ -104,11 +104,13 @@ const PaymentInfoCtn = (props: Props) => {
         }
     };
 
+    const test = async () => {
+        const { data } = await axios.get('/api/orders');
+        console.log(data);
+    };
+
     useEffect(() => {
-        async () => {
-            const { data } = await axios.get('/api/orders');
-            console.log(data);
-        };
+        test();
     }, []);
 
     return (

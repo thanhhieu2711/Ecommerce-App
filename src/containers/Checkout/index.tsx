@@ -60,7 +60,10 @@ const CheckoutCtn = (props: Props) => {
                                                 />
                                                 {index !==
                                                     listCart.length - 1 && (
-                                                    <div className="max-w-full h-px bg-black/10 mx-4" />
+                                                    <div
+                                                        key={item.product.id}
+                                                        className="max-w-full h-px bg-black/10 mx-4"
+                                                    />
                                                 )}
                                             </>
                                         );
