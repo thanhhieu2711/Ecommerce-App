@@ -8,7 +8,9 @@ export const usePaymentInfo = () => {
         (state) => state.paymentInfo.shippingService
     );
     const total = useAppSelector((state) =>
-        !!state.cart.listCart.length ? cartTotal + shippingService.fee : 0
+        !!state.cart.listCart.length
+            ? cartTotal + (shippingService?.fee || 0)
+            : 0
     );
 
     return {
