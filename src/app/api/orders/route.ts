@@ -5,10 +5,13 @@ export async function POST(req: NextRequest) {
         const requestData = await req.json();
 
         if (!requestData) {
-            return NextResponse.json({
-                isSuccess: false,
-                message: 'Thanh toán thất bại!',
-            });
+            return NextResponse.json(
+                {
+                    isSuccess: false,
+                    message: 'Thanh toán thất bại!',
+                },
+                { status: 400 }
+            );
         }
         const response = await prisma?.order.create({
             data: {

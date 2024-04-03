@@ -1,0 +1,18 @@
+{
+    "builds": [
+        {
+            "src": "api/*",
+            "use": "@vercel/node"
+        },
+        {
+            "src": "public/**/*",
+            "use": "@vercel/static"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/*",
+            "methods": ["GET", "POST", "DELETE"]
+        }
+    ]
+}
