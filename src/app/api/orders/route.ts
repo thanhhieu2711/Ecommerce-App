@@ -7,13 +7,10 @@ export async function POST(req: NextRequest) {
         console.log(requestData);
 
         if (!requestData) {
-            return NextResponse.json(
-                {
-                    isSuccess: false,
-                    message: 'Thanh toán thất bại!',
-                },
-                { status: 400 }
-            );
+            return NextResponse.json({
+                isSuccess: false,
+                message: 'Thanh toán thất bại!',
+            });
         }
         const response = await prisma?.order.create({
             data: {
@@ -23,22 +20,16 @@ export async function POST(req: NextRequest) {
         });
 
         if (response) {
-            return NextResponse.json(
-                {
-                    isSuccess: true,
-                    data: response,
-                    message: 'Thanh toán thành công!',
-                },
-                { status: 200 }
-            );
+            return NextResponse.json({
+                isSuccess: true,
+                data: response,
+                message: 'Thanh toán thành công!',
+            });
         } else {
-            return NextResponse.json(
-                {
-                    isSuccess: false,
-                    message: 'Thanh toán thất bại!',
-                },
-                { status: 400 }
-            );
+            return NextResponse.json({
+                isSuccess: false,
+                message: 'Thanh toán thất bại!',
+            });
         }
     } catch (error) {
         return NextResponse.json(
@@ -61,14 +52,12 @@ export async function GET(_: NextRequest, res: NextResponse) {
             },
         });
 
-        return NextResponse.json(
-            {
-                isSuccess: true,
-                data: response,
-            },
-            { status: 200 }
-        );
+        return NextResponse.json({
+            isSuccess: true,
+            data: response,
+        });
     } catch (error) {
+        console.log(error);
         return NextResponse.json(
             {
                 isSuccess: false,
