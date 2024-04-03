@@ -2,9 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
     try {
-        const _req = await req.json();
+        const requestData = await req.json();
 
-        if (!_req) {
+        console.log(requestData);
+
+        if (!requestData) {
             return NextResponse.json({
                 isSuccess: false,
                 message: 'Thanh toán thất bại!',
@@ -12,7 +14,10 @@ export async function POST(req: NextRequest) {
         }
 
         const response = await prisma?.order.create({
-            data: { ..._req, nameReceiver: _req.nameReceiver.toUpperCase() },
+            data: {
+                ...requestData,
+                nameReceiver: requestData.nameReceiver.toUpperCase(),
+            },
             include: {
                 orderItems: true,
             },
@@ -37,7 +42,6 @@ export async function POST(req: NextRequest) {
             { status: 200 }
         );
     } catch (error) {
-        console.log(error);
         return NextResponse.json(
             {
                 isSuccess: false,

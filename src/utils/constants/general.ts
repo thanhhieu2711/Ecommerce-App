@@ -187,7 +187,7 @@ export const capacityList: TCapacityInfo[] = [
     },
 ];
 
-export const shippingServices: TShippingService[] = [
+export const SHIPPING_SERVICES: TShippingService[] = [
     {
         id: 1,
         name: 'Tiêu chuẩn (3 ngày), GHN / GHTK',

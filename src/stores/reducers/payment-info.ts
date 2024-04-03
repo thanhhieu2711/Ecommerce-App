@@ -1,32 +1,33 @@
 import { TShippingService } from '@/types/general';
-import { shippingServices } from '@/utils/constants/general';
+import { SHIPPING_SERVICES } from '@/utils/constants/general';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface PaymentInfoState {
-    shippingService: Omit<TShippingService, 'id'>;
+    shippingService?: Omit<TShippingService, 'id'>;
 }
 
 const initialState = {
-    shippingService: shippingServices[0],
+    shippingService: SHIPPING_SERVICES[0],
 } as PaymentInfoState;
 
 const paymentInfoSlice = createSlice({
     name: 'paymentInfo',
     initialState,
     reducers: {
-        updatePaymentInfo(
+        updateShippingService(
             state: PaymentInfoState,
             action: PayloadAction<PaymentInfoState>
         ) {
             const { shippingService } = action.payload;
             state.shippingService = shippingService;
         },
-        clearPaymentInfo(state: PaymentInfoState) {
-            state.shippingService = shippingServices[0];
+        clearShippingService(state: PaymentInfoState) {
+            state.shippingService = undefined;
         },
     },
 });
 
-export const { updatePaymentInfo, clearPaymentInfo } = paymentInfoSlice.actions;
+export const { updateShippingService, clearShippingService } =
+    paymentInfoSlice.actions;
 
 export default paymentInfoSlice.reducer;

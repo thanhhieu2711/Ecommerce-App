@@ -16,7 +16,7 @@ import { useSession } from 'next-auth/react';
 import { TOrderDetailInfo, TOrderInfo } from '@/types/general';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/stores';
-import { clearPaymentInfo } from '@/stores/reducers/payment-info';
+import { clearShippingService } from '@/stores/reducers/payment-info';
 import { clearCart } from '@/stores/reducers/cart';
 
 type Props = {};
@@ -35,7 +35,6 @@ const PaymentInfoCtn = (props: Props) => {
             setLoading(true);
             if (listCart.length === 0 || data === null) {
                 toast.error('Thanh toán không thành công !');
-                setLoading(false);
                 return;
             }
             const createOrderData: TOrderInfo = {
@@ -43,10 +42,10 @@ const PaymentInfoCtn = (props: Props) => {
                 discountTotal: discountTotal,
                 subTotal: cartSubTotal,
                 total: total,
-                shippingServiceName: shippingService.name,
-                shippingFee: shippingService.fee,
-                ...receiverFormData,
+                shippingServiceName: shippingService?.name,
+                shippingFee: shippingService?.fee,
                 note: receiverFormData?.note || '',
+                ...receiverFormData,
             };
 
             const createOrderReq = await axios.post(
@@ -87,7 +86,7 @@ const PaymentInfoCtn = (props: Props) => {
 
                 if (_isSucess) {
                     dispatch(clearCart({ isShowToast: false }));
-                    dispatch(clearPaymentInfo());
+                    dispatch(clearShippingService());
                     form.setFieldValue('nameReceiver', '');
                     form.setFieldValue('phoneReceiver', '');
                     form.setFieldValue('deliveryAddressReceiver', '');

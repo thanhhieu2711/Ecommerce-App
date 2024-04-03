@@ -1,15 +1,16 @@
 'use client';
 import { TCartItem, TShippingService } from '@/types/general';
-import { shippingServices } from '@/utils/constants/general';
+import { SHIPPING_SERVICES } from '@/utils/constants/general';
 import { formatCurrency } from '@/utils/helper';
 import { Select } from 'antd';
 import { Button } from '../Common';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/stores';
-import { updatePaymentInfo } from '@/stores/reducers/payment-info';
+import { updateShippingService } from '@/stores/reducers/payment-info';
 import { useSession } from 'next-auth/react';
 import { openLoginModal } from '@/stores/reducers/modal';
 import { usePaymentInfo } from '@/hooks/store';
+import { useState } from 'react';
 type Props = {
     listCart: TCartItem[];
     cartTotal: number;
@@ -24,17 +25,30 @@ export const OrderDetail = ({
     discountTotal,
 }: Props) => {
     const { data } = useSession();
+
     const router = useRouter();
-    const { shippingService } = usePaymentInfo();
 
     const dispatch = useAppDispatch();
 
-    const handlePrecheckAddToCart = () => {
+    const { shippingService } = usePaymentInfo();
+
+    const [_shippingService, setShippingService] = useState<
+        Omit<TShippingService, 'id'>
+    >({
+        name: shippingService?.name || SHIPPING_SERVICES[0].name,
+        fee: shippingService?.fee || SHIPPING_SERVICES[0].fee,
+    });
+
+    const handlePreCheckOut = () => {
         if (!!data) {
+            dispatch(
+                updateShippingService({
+                    shippingService: _shippingService,
+                })
+            );
             router.push('/checkout/payment-info');
             return;
         }
-
         dispatch(openLoginModal(true));
         return;
     };
@@ -68,7 +82,7 @@ export const OrderDetail = ({
                     </p>
                     <p className="">
                         {!!listCart.length
-                            ? formatCurrency(shippingService.fee)
+                            ? formatCurrency(_shippingService.fee)
                             : formatCurrency(0)}
                     </p>
                 </div>
@@ -85,25 +99,22 @@ export const OrderDetail = ({
                             </p>
                             <Select
                                 defaultValue={{
-                                    label: shippingService.name,
-                                    value: shippingService.fee,
+                                    label: _shippingService.name,
+                                    value: _shippingService.fee,
                                 }}
                                 className="!w-full"
                                 labelInValue
                                 onChange={({ label, value }) => {
-                                    dispatch(
-                                        updatePaymentInfo({
-                                            shippingService: {
-                                                name: label,
-                                                fee: value,
-                                            },
-                                        })
-                                    );
+                                    setShippingService({
+                                        name: label,
+                                        fee: value,
+                                    });
                                 }}
-                                options={shippingServices.map((service) => ({
+                                options={SHIPPING_SERVICES.map((service) => ({
                                     label: service.name,
                                     value: service.fee,
                                 }))}
+                                key={1}
                             />
                         </div>
                         <div className="flex items-center justify-between mt-1">
@@ -124,7 +135,7 @@ export const OrderDetail = ({
                     <p className="text-md font-semibold">Tổng tiền :</p>
                     <p className="text-lg font-semibold">
                         {!!listCart.length
-                            ? formatCurrency(cartTotal + shippingService.fee)
+                            ? formatCurrency(cartTotal + _shippingService.fee)
                             : formatCurrency(0)}
                     </p>
                 </div>
@@ -133,7 +144,7 @@ export const OrderDetail = ({
                         size="sm"
                         className="text-white font-semibold"
                         onClick={() => {
-                            handlePrecheckAddToCart();
+                            handlePreCheckOut();
                         }}
                     >
                         Thanh Toán
