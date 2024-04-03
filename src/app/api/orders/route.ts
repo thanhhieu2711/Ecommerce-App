@@ -4,8 +4,6 @@ export async function POST(req: NextRequest) {
     try {
         const requestData = await req.json();
 
-        console.log(requestData);
-
         if (!requestData) {
             return NextResponse.json({
                 isSuccess: false,
