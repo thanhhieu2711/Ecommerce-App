@@ -17,7 +17,7 @@ const CheckoutCtn = (props: Props) => {
                     <div className="flex-1 flex flex-col h-fit sm:min-h-[495px] bg-white shadow-md rounded-lg p-3 relative">
                         {!!listCart.length && (
                             <>
-                                <div className="flex items-center gap-1 p-4 ">
+                                <div className="flex items-center flex-wrap gap-1 p-4 ">
                                     <p className="font-medium text-xl">
                                         Giỏ hàng của bạn
                                     </p>

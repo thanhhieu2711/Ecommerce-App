@@ -44,8 +44,8 @@ const PaymentInfoCtn = (props: Props) => {
                 total: total,
                 shippingServiceName: shippingService?.name,
                 shippingFee: shippingService?.fee,
-                note: receiverFormData?.note || '',
                 ...receiverFormData,
+                note: receiverFormData?.note || '',
             };
 
             const createOrderReq = await axios.post(
@@ -105,9 +105,9 @@ const PaymentInfoCtn = (props: Props) => {
     };
 
     return (
-        <div className="h-full w-full bg-secondary">
+        <div className="w-full h-[calc(100vh-80px)] bg-secondary ">
             <Container>
-                <div className="w-full h-full flex items-center justify-center">
+                <div className="w-full h-full flex items-center justify-center ">
                     <div className="w-full flex flex-col max-w-[700px] gap-6 relative mt-6 ">
                         <p className="text-xl font-semibold text-center uppercase">
                             Thông Tin Mua Hàng
@@ -145,7 +145,7 @@ const PaymentInfoCtn = (props: Props) => {
                                 handleSubmit={handleSubmitFormOrder}
                             />
                         </div>
-                        <div className="sticky bottom-0 w-full max-w-[700px] bg-white shadow-box-login p-4 rounded-lg flex flex-col gap-3">
+                        <div className="sticky bottom-2 w-full max-w-[700px] bg-white shadow-product-card p-4 rounded-lg flex flex-col gap-3">
                             <div className="flex text-md font-semibold items-center justify-between ">
                                 <p>Tổng tiền thanh toán:</p>
                                 <p>{formatCurrency(total)}</p>

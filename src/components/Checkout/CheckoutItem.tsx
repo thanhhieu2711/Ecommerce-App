@@ -32,7 +32,7 @@ export const CheckoutItem = ({
             <div
                 className={cn(
                     'w-full sm:w-2/5  h-fit flex items-center gap-4',
-                    !showCounter && 'w-3/5'
+                    !showCounter && 'sm:w-3/5'
                 )}
             >
                 <Image
@@ -43,7 +43,7 @@ export const CheckoutItem = ({
                     loading="lazy"
                     alt="product-img"
                 />
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-2">
                     <p className="text-sm font-medium">{item.product.name}</p>
                     <div className="flex items-center gap-1">
                         {item?.color?.name && (

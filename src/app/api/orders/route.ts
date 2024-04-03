@@ -10,7 +10,6 @@ export async function POST(req: NextRequest) {
                 message: 'Thanh toán thất bại!',
             });
         }
-
         const response = await prisma?.order.create({
             data: {
                 ...requestData,
@@ -21,7 +20,7 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        if (!!response) {
+        if (response) {
             return NextResponse.json(
                 {
                     isSuccess: true,
@@ -30,15 +29,15 @@ export async function POST(req: NextRequest) {
                 },
                 { status: 200 }
             );
+        } else {
+            return NextResponse.json(
+                {
+                    isSuccess: false,
+                    message: 'Thanh toán thất bại!',
+                },
+                { status: 400 }
+            );
         }
-        return NextResponse.json(
-            {
-                isSuccess: true,
-                data: response,
-                message: 'Thanh toán thất bại!',
-            },
-            { status: 200 }
-        );
     } catch (error) {
         return NextResponse.json(
             {
