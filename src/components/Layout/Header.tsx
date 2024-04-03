@@ -15,7 +15,7 @@ import { useWindowScrollPositions } from '@/hooks/useWindowScrollPosition';
 export default function Header() {
     const dispatch = useAppDispatch();
     const { listCart, cartQuantity } = useCart();
-    const { wishList } = useWishlist();
+    const { wishList, wishListQuantity } = useWishlist();
     const { isOpenCartDrawer, isOpenWishlistDrawer } = useDrawer();
     const { scrollY } = useWindowScrollPositions();
     return (
@@ -74,7 +74,10 @@ export default function Header() {
                                     </div>
                                 )}
                             </Link>
-                            <UserMenu />
+                            <UserMenu
+                                cartQuantity={cartQuantity}
+                                wishlistQuantity={wishListQuantity}
+                            />
                             <div>
                                 <CartDrawer />
                                 <WishlistDrawer />

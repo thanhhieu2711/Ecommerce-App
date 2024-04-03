@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '../Common';
 import { Input } from 'antd';
 import cn from 'classnames';
+import { BiMinus, BiPlus } from 'react-icons/bi';
 type Props = {
     defaultValue: number;
     handleIncrease: () => void;
@@ -33,19 +34,20 @@ const Counter = ({
         <div className={cn('flex flex-row items-center gap-2', className)}>
             <Button
                 className={cn(
-                    'w-8 h-8 text-white flex flex-row items-center justify-center bg-primary hover:bg-opacity-70 border-transparent',
+                    'w-8 h-8 text-black flex flex-row items-center justify-center hover:bg-opacity-70 border-transparent',
                     buttonClassname,
                     isDisableDecrease &&
                         ' !border-secondary-variant-1 !text-secondary-variant-1 !bg-transparent'
                 )}
                 variant="outline"
                 onClick={(e) => {
+                    e.preventDefault();
                     e.stopPropagation();
                     handleDecrease();
                 }}
                 disabled={isDisableDecrease}
             >
-                -
+                <BiMinus />
             </Button>
             <Input
                 disabled={isDisableInput}
@@ -67,17 +69,18 @@ const Counter = ({
 
             <Button
                 className={cn(
-                    'w-8 h-8 text-white flex flex-row items-center justify-center bg-primary border-none hover:bg-opacity-70',
+                    'w-8 h-8 text-black flex flex-row items-center justify-center border-none hover:bg-opacity-70',
                     buttonClassname
                 )}
                 variant="outline"
                 onClick={(e) => {
+                    e.preventDefault();
                     e.stopPropagation();
                     handleIncrease();
                 }}
                 disabled={isDisableIncrease}
             >
-                +
+                <BiPlus />
             </Button>
         </div>
     );

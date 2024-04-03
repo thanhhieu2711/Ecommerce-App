@@ -16,7 +16,7 @@ type Props = {};
 
 const Banner = (props: Props) => {
     return (
-        <div className="col-span-4 w-full h-full shadow-card rounded-2xl">
+        <div className=" w-full h-full shadow-card rounded-2xl">
             <Swiper
                 spaceBetween={30}
                 centeredSlides={true}
@@ -42,7 +42,7 @@ const Banner = (props: Props) => {
                     .map((banner) => (
                         <SwiperSlide
                             key={banner.id}
-                            className="w-full h-full aspect-w-16 aspect-h-5 rounded-2xl"
+                            className="w-full h-full aspect-w-16 aspect-h-7 sm:aspect-h-5 rounded-2xl"
                         >
                             <Image
                                 src={banner.path}
@@ -50,7 +50,7 @@ const Banner = (props: Props) => {
                                 loading="lazy"
                                 fill
                                 className="rounded-2xl"
-                                objectFit="contain"
+                                objectFit="cover"
                                 objectPosition="center"
                             />
                         </SwiperSlide>

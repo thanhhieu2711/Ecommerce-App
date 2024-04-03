@@ -55,7 +55,7 @@ const WishlistItem = ({ item }: Props) => {
                                 })
                             )}
                         </p>
-                        <p className="text-xs text-black/50 line-through">
+                        <p className="text-sm text-black/50 line-through">
                             {formatCurrency(
                                 priceCalculator({
                                     value: item.price,

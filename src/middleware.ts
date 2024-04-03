@@ -12,22 +12,32 @@ export async function middleware(req: NextRequest) {
                 : '__Secure-next-auth.session-token',
     });
 
-    if (
-        (token === null && currentPath.includes('checkout')) ||
-        (token?.role !== 'ADMIN' && currentPath.includes('dashboard'))
-    ) {
+    if (token === null) {
         if (process.env.NODE_ENV === 'development') {
             return NextResponse.redirect(
-                process.env.NEXTAUTH_URL || 'http://localhost:3000/',
-                302
+                process.env.NEXTAUTH_URL || 'http://localhost:3000/'
             );
         }
         return NextResponse.redirect(
-            process.env.NEXTAUTH_URL_PUBLIC ||
-                'https://raven-store.vercel.app/',
-            302
+            process.env.NEXTAUTH_URL_PUBLIC || 'https://raven-store.vercel.app/'
         );
+    } else {
+        if (token?.role !== 'ADMIN' && currentPath.includes('dashboard')) {
+            if (process.env.NODE_ENV === 'development') {
+                return NextResponse.redirect(
+                    process.env.NEXTAUTH_URL || 'http://localhost:3000/'
+                );
+            }
+            return NextResponse.redirect(
+                process.env.NEXTAUTH_URL_PUBLIC ||
+                    'https://raven-store.vercel.app/'
+            );
+        }
     }
 
     return NextResponse.next();
 }
+
+export const config = {
+    matcher: ['/checkout/:path*', '/dashboard/:path*'],
+};

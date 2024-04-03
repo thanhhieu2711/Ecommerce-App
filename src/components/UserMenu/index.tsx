@@ -24,9 +24,11 @@ import toast from 'react-hot-toast';
 
 type Props = {
     isContrast?: boolean;
+    wishlistQuantity: number;
+    cartQuantity: number;
 };
 
-const UserMenu = ({ isContrast }: Props) => {
+const UserMenu = ({ isContrast, wishlistQuantity, cartQuantity }: Props) => {
     const dispatch = useAppDispatch();
 
     const { data, status } = useSession();
@@ -81,6 +83,7 @@ const UserMenu = ({ isContrast }: Props) => {
         title: string;
         link: string;
         icon: React.ReactNode;
+        badgeCount?: number;
         action?: () => void;
         className?: string;
     }[] = [
@@ -94,12 +97,14 @@ const UserMenu = ({ isContrast }: Props) => {
             id: 2,
             title: 'Đơn hàng của tôi',
             link: '',
+            badgeCount: 0,
             icon: <BiReceipt className="!w-5 !h-5" />,
         },
         {
             id: 3,
             title: 'Giỏ hàng',
             link: '',
+            badgeCount: cartQuantity,
             icon: <BiShoppingBag className="sm:hidden !w-5 !h-5" />,
             className: 'sm:hidden',
             action: () => dispatch(openCartDrawer(true)),
@@ -108,6 +113,7 @@ const UserMenu = ({ isContrast }: Props) => {
             id: 4,
             title: 'Yêu thích',
             link: '',
+            badgeCount: wishlistQuantity,
             icon: <BiHeart className="sm:hidden !w-5 !h-5" />,
             className: 'sm:hidden',
             action: () => dispatch(openWishlistDrawer(true)),
@@ -211,7 +217,7 @@ const UserMenu = ({ isContrast }: Props) => {
             >
                 <div
                     className={cn(
-                        'px-3 py-3 flex flex-row items-center gap-2 hover:bg-secondary cursor-pointer',
+                        'px-3 py-3 flex flex-row items-center gap-2 hover:bg-secondary cursor-pointer relative',
                         item?.className,
                         {
                             'rounded-t-lg': index === 0,
@@ -222,6 +228,13 @@ const UserMenu = ({ isContrast }: Props) => {
                 >
                     {item.icon}
                     <p className={cn('text-sm')}>{item.title}</p>
+                    {item.badgeCount !== undefined && item?.badgeCount > 0 && (
+                        <div className="absolute top-2 sm:top-1 left-6  w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-red-600 text-white  font-medium flex items-center justify-center">
+                            <p className="leading-[6px] text-[7px]">
+                                {item.badgeCount}
+                            </p>
+                        </div>
+                    )}
                 </div>
             </Link>
         ));

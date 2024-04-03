@@ -9,9 +9,14 @@ export const useWishlist = () => {
         return !!item;
     };
 
+    const wishListQuantity = useAppSelector(
+        (state) => state.wishlist.wishList.length
+    );
+
     return {
         wishList,
         checkExist,
+        wishListQuantity,
     };
 };
 

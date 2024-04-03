@@ -72,15 +72,6 @@ const ProductDetailCtn = ({ pid }: Props) => {
         }
     };
 
-    const getRelatedProducts = async () => {
-        try {
-            const { data } = await axios.get(`/api/products/related/${pid}`);
-            console.log(data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     const productColors = useMemo(() => {
         const colors = colorList.filter((color) =>
             product?.color?.find((_color) => _color === color.name)
@@ -158,7 +149,6 @@ const ProductDetailCtn = ({ pid }: Props) => {
 
     useEffect(() => {
         getProductDetail();
-        getRelatedProducts();
     }, [pid]);
 
     return (
@@ -167,7 +157,7 @@ const ProductDetailCtn = ({ pid }: Props) => {
                 <Container>
                     {!loading && (
                         <>
-                            {product.id ? (
+                            {!!product.id ? (
                                 <div className=" grid grid-cols-4 md:row-auto gap-6 bg-white p-4 rounded-lg shadow-card">
                                     <div className="col-span-4 md:col-span-2 flex flex-col">
                                         {/* ẢNH SẢN PHẨM */}
@@ -285,15 +275,12 @@ const ProductDetailCtn = ({ pid }: Props) => {
                                     />
                                 </div>
                             ) : (
-                                !product.id &&
-                                !loading && (
-                                    <div className="w-full min-h-[75vh] grid place-items-center">
-                                        Không tìm thấy sản phẩm.
-                                    </div>
-                                )
+                                <div className="w-full min-h-[75vh] grid place-items-center">
+                                    Không tìm thấy sản phẩm.
+                                </div>
                             )}
 
-                            {product.id && (
+                            {!!product.id && (
                                 <div className="flex flex-col gap-4 my-10">
                                     <ProductSection
                                         category={product.category}
