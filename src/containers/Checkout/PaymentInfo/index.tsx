@@ -10,7 +10,7 @@ import usePaymentInfo from '@/hooks/store/usePaymentInfo';
 import { formatCurrency } from '@/utils/helper';
 import { Form } from 'antd';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import { TOrderDetailInfo, TOrderInfo } from '@/types/general';
@@ -103,6 +103,13 @@ const PaymentInfoCtn = (props: Props) => {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        async () => {
+            const { data } = await axios.get('/api/orders');
+            console.log(data);
+        };
+    }, []);
 
     return (
         <div className="w-full h-[calc(100vh-80px)] bg-secondary ">
