@@ -4,7 +4,7 @@ import RootLayoutCtn from '@/layouts/RootLayout';
 import AppProviders from './app-providers';
 
 export const metadata: Metadata = {
-    title: `Mua Điện Thoại Chính Hãng | Giao Hàng Nhanh | ${process.env.NEXT_APP_NAME}`,
+    title: `${process.env.NEXT_APP_NAME} | Điện Thoại - Laptop - Tablet - Phụ Kiện - PC Chính hãng | Chuyên thu cũ đổi mới | Giao hàng nhanh`,
     description:
         'Khám phá bộ sưu tập điện thoại thông minh hàng đầu từ các thương hiệu hàng đầu tại [Raven Store]. Từ iPhone đến Samsung Galaxy, chúng tôi cung cấp một loạt các điện thoại mới nhất với giá cả phải chăng và chất lượng đảm bảo. Đặt mua ngay hôm nay và nhận ưu đãi độc quyền!',
     colorScheme: 'light',

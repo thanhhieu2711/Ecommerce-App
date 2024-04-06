@@ -6,8 +6,15 @@ import {
     TCapacityInfo,
     TCartItem,
     TColorInfo,
+    TParams,
     TProductInfo,
 } from '@/types/general';
+
+export const getNameFromSlugExcludingId = ({ params }: TParams) => {
+    const id = params.id;
+
+    return id.slice(0, id.lastIndexOf('-'));
+};
 
 export const formatCurrency = (value: number) => {
     const formatValue = new Intl.NumberFormat('vi-VN', {

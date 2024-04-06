@@ -1,8 +1,17 @@
-'use client';
 import ProductDetailCtn from '@/containers/Product/ProductDetail';
-import { useParams } from 'next/navigation';
+import { TParams } from '@/types/general';
+import { getNameFromSlugExcludingId } from '@/utils/helper';
+import { Metadata } from 'next';
+type Props = TParams;
 
-export default function ProductDetail() {
-    const { id } = useParams();
-    return <ProductDetailCtn pid={id as string} />;
+export const generateMetadata = async ({
+    params,
+}: Props): Promise<Metadata> => {
+    return {
+        title: getNameFromSlugExcludingId({ params }),
+    };
+};
+
+export default function ProductDetail({ params }: Props) {
+    return <ProductDetailCtn pid={params.id} />;
 }
