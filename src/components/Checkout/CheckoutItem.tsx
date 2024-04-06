@@ -25,7 +25,7 @@ export const CheckoutItem = ({
     return (
         <div
             className={cn(
-                'flex items-center p-2 flex-wrap gap-3 sm:gap-0 hover:bg-primary/5 rounded-md'
+                'flex items-center p-2 flex-wrap gap-3 sm:gap-0 hover:bg-primary-variant-2/5 rounded-md'
             )}
             onDoubleClick={() => dispatch(removeFromCart({ index: index }))}
         >

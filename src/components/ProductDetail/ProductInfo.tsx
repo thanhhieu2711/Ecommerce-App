@@ -63,7 +63,7 @@ export const ProductInfo = ({
             <div className="flex flex-row items-center gap-4 flex-wrap">
                 <p className="text-sm">Giá niêm yết : </p>
                 <div className="flex flex-row items-center gap-2 flex-wrap">
-                    <p className="text-xl sm:text-2xl font-bold text-primary">
+                    <p className="text-xl sm:text-2xl font-bold text-black/90">
                         {formatCurrency(
                             priceCalculator({
                                 value: product.price,
@@ -157,7 +157,7 @@ export const ProductInfo = ({
             <div className="flex flex-row items-center gap-4 flex-wrap">
                 <p className="text-sm">Số lượng :</p>
                 <Counter
-                    buttonClassname="bg-secondary-variant-2"
+                    buttonClassname="bg-secondary-variant-2 text-white border-none"
                     onChange={handleChangeQuantity}
                     handleDecrease={() => handleChangeQuantity(quantity - 1)}
                     handleIncrease={() => handleChangeQuantity(quantity + 1)}

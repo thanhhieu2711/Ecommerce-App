@@ -52,7 +52,7 @@ export function formatInputPrice(n: string) {
 export function formatDate(date: Date) {
     const dateObject = new Date(date);
 
-    const hours = dateObject.getUTCHours().toString().padStart(2, '0');
+    const hours = (dateObject.getUTCHours() + 7).toString().padStart(2, '0');
     const minutes = dateObject.getUTCMinutes().toString().padStart(2, '0');
     const day = dateObject.getUTCDate().toString().padStart(2, '0');
     const month = (dateObject.getUTCMonth() + 1).toString().padStart(2, '0'); // Tháng tính từ 0 -> 11 nên phải + thêm 1

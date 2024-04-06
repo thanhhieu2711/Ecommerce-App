@@ -65,7 +65,7 @@ const ProductCard = ({ product }: Props) => {
                 <Rate
                     defaultValue={product.ratting}
                     disabled
-                    className="text-sm text-common-warning"
+                    className="text-[13px] sm:text-sm text-common-warning"
                 />
                 <div
                     className="flex items-center gap-1"
@@ -75,7 +75,9 @@ const ProductCard = ({ product }: Props) => {
                         dispatch(toggleAddToWishlist(product));
                     }}
                 >
-                    <p className="text-xs text-black/50">Yêu thích</p>
+                    <p className="hidden md:block text-xs text-black/50">
+                        Yêu thích
+                    </p>
 
                     {checkExist(product.id) ? (
                         <BiSolidHeart className="!w-6 !h-6 !text-red-600 cursor-pointer" />

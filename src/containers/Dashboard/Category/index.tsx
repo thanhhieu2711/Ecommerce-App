@@ -12,11 +12,16 @@ import { Input, Tooltip } from 'antd';
 import Image from 'next/image';
 import useDebounce from '@/hooks/useDebounce';
 import { DEFAULT_PAGINATION } from '@/utils/constants/general';
+import ModalUpdateCategory from './components/ModalUpdateCategory';
 type Props = {};
 
 export const CategoryDashboard = (props: Props) => {
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
     const [categories, setCategories] = useState<TCategoryInfo[]>([]);
+    const [categorySelected, setCategorySelected] = useState<TCategoryInfo>(
+        {} as TCategoryInfo
+    );
+    const [isShowModalUpdate, setIsShowModalUpdate] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useDebounce<string>('', 250);
     const [pagination, setPagination] =
@@ -32,15 +37,13 @@ export const CategoryDashboard = (props: Props) => {
                 params: {
                     page: currentPage,
                     name: searchValue,
-                    pageLimit: 8,
+                    pageLimit: 10,
                 },
             });
             if (data.data) {
                 setCategories(data.data);
                 setPagination(data.pagination);
             }
-
-            setLoading(false);
         } catch (error) {
             console.log(error);
         } finally {
@@ -151,12 +154,12 @@ export const CategoryDashboard = (props: Props) => {
                                                                 theme="white"
                                                                 variant="outline"
                                                                 onClick={() => {
-                                                                    // setSelectedProduct(
-                                                                    //     item
-                                                                    // );
-                                                                    // setIsShowModalUpdate(
-                                                                    //     true
-                                                                    // );
+                                                                    setCategorySelected(
+                                                                        item
+                                                                    );
+                                                                    setIsShowModalUpdate(
+                                                                        true
+                                                                    );
                                                                 }}
                                                             >
                                                                 <BiEdit />
@@ -209,10 +212,20 @@ export const CategoryDashboard = (props: Props) => {
                 </div>
             </div>
 
-            <ModalCreateCategory
-                isShow={isShowModal}
-                onClose={() => setIsShowModal(false)}
-            />
+            {isShowModal && (
+                <ModalCreateCategory
+                    isShow={isShowModal}
+                    onClose={() => setIsShowModal(false)}
+                />
+            )}
+
+            {isShowModalUpdate && (
+                <ModalUpdateCategory
+                    isShow={isShowModalUpdate}
+                    category={categorySelected}
+                    onClose={() => setIsShowModalUpdate(false)}
+                />
+            )}
         </>
     );
 };

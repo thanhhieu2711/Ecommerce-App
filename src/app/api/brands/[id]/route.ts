@@ -8,14 +8,14 @@ export async function PATCH(req: Request, { params }: TParams) {
     try {
         const brand = await prisma?.brand.findUnique({
             where: {
-                id,
+                id: requestData?.id,
             },
         });
 
         if (!!brand) {
             await prisma?.brand.update({
                 where: {
-                    id,
+                    id: requestData.id,
                 },
                 data: {
                     ...requestData,

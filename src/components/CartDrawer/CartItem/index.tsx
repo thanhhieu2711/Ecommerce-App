@@ -2,7 +2,11 @@ import Image from 'next/image';
 import Counter from '@/components/Common/Counter';
 import { BiTrash } from 'react-icons/bi';
 import { TCartItem } from '@/types/general';
-import { formatCurrency } from '@/utils/helper';
+import {
+    formatCurrency,
+    getInitialColorAndCapacity,
+    priceCalculator,
+} from '@/utils/helper';
 import { useAppDispatch } from '@/stores';
 import {
     decreaseQuantity,
@@ -19,7 +23,9 @@ type Props = {
 
 const CartItem = ({ item, index }: Props) => {
     const dispatch = useAppDispatch();
-
+    const { color, capacity } = getInitialColorAndCapacity({
+        product: item.product,
+    });
     return (
         <Link
             className="w-full flex flex-row gap-2 items-center p-2  hover:bg-primary/5  rounded-lg cursor-pointer"
@@ -43,7 +49,7 @@ const CartItem = ({ item, index }: Props) => {
                         {item.product.name}
                     </p>
                     <div
-                        className="hover:bg-secondary-variant-1/50 border border-black/10 hover:!border-transparent w-fit h-fit p-2 rounded-full text-black/50 hover:text-red-600 cursor-pointer ml-[2px]"
+                        className="hover:bg-secondary-variant-1/50 border border-black/10 hover:!border-transparent w-fit h-fit p-2 rounded-full text-black/50 hover:bg-red-600 hover:text-white cursor-pointer ml-[2px]"
                         onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
@@ -81,9 +87,24 @@ const CartItem = ({ item, index }: Props) => {
                         className="!gap-px"
                     />
 
-                    <p className="text-md font-bold text-black/80">
-                        {formatCurrency(item.price)}
-                    </p>
+                    <div className="flex items-center gap-2">
+                        <p className="text-md font-bold text-red-600">
+                            {formatCurrency(item.price)}
+                        </p>
+                        <p className="text-sm text-black/50 line-through">
+                            {formatCurrency(
+                                priceCalculator({
+                                    value:
+                                        item.product.price * item.quantity +
+                                        ((color?.extraPrice || 0) +
+                                            (capacity?.extraPrice || 0)),
+                                    extraPrice:
+                                        (color?.extraPrice || 0) +
+                                        (capacity?.extraPrice || 0),
+                                })
+                            )}
+                        </p>
+                    </div>
                 </div>
             </div>
         </Link>

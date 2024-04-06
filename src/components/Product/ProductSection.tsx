@@ -64,7 +64,7 @@ const ProductSection = ({
                     </Button>
                 </div>
             )}
-            <div className="flex-1 h-full">
+            <div className="flex-1 min-h-full">
                 <Swiper
                     slidesPerView={2}
                     grabCursor
@@ -104,15 +104,14 @@ const ProductSection = ({
                               );
                           })
                         : Array.from({ length: 10 }).map((_, i) => (
-                              <SwiperSlide key={i} className="h-full w-full">
+                              <SwiperSlide key={i}>
                                   <div className="w-full">
                                       <Skeleton
                                           key={i}
-                                          height={365}
                                           enableAnimation
                                           direction="ltr"
                                           duration={1.5}
-                                          className="!rounded-lg "
+                                          className="!rounded-lg h-[300px] sm:h-[360px] md:h-[415px]"
                                       />
                                   </div>
                               </SwiperSlide>

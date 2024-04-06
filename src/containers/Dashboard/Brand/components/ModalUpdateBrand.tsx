@@ -8,13 +8,15 @@ import {
     handleGetOriginFileObj,
     handleUploadImagesToFirebase,
 } from '@/utils/helper';
+import { TBrandInfo } from '@/types/general';
 
 type Props = {
     isShow: boolean;
     onClose: () => void;
+    brand: TBrandInfo;
 };
 
-export const ModalCreateBrand = ({ isShow, onClose }: Props) => {
+export const ModalUpdateBrand = ({ isShow, onClose, brand }: Props) => {
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
@@ -27,7 +29,8 @@ export const ModalCreateBrand = ({ isShow, onClose }: Props) => {
             );
             const url = await handleUploadImagesToFirebase(fileImage, 'brand');
 
-            const response = await axios.post('/api/brands', {
+            const response = await axios.patch('/api/brands', {
+                id: brand.id,
                 ...formData,
                 thumbnail: url?.toString(),
             });
@@ -48,7 +51,7 @@ export const ModalCreateBrand = ({ isShow, onClose }: Props) => {
 
     return (
         <Modal
-            header={'Thêm thương hiệu'}
+            header={'Chỉnh sửa thương hiệu'}
             onClose={onClose}
             isOpen={isShow}
             onOk={form.submit}
@@ -73,7 +76,7 @@ export const ModalCreateBrand = ({ isShow, onClose }: Props) => {
                         },
                     ]}
                 >
-                    <Input size="large" />
+                    <Input defaultValue={brand.name} size="large" />
                 </Form.Item>
 
                 <Form.Item
@@ -129,4 +132,4 @@ export const ModalCreateBrand = ({ isShow, onClose }: Props) => {
     );
 };
 
-export default ModalCreateBrand;
+export default ModalUpdateBrand;

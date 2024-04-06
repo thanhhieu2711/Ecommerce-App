@@ -41,9 +41,7 @@ export const Modal = ({
                 'grid place-items-center px-4 transition-all duration-[250ms] ease-out bg-transparent opacity-0',
                 isOpen && 'fixed inset-0 z-[100] !bg-black/50 !opacity-100'
             )}
-            onClick={(e) => {
-                onClose();
-            }}
+            onClick={onClose}
         >
             {isOpen && (
                 <div

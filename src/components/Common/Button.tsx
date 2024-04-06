@@ -144,7 +144,7 @@ export const Button = ({
             disabled={isDisabled}
             className={cn(
                 `rounded-${rounded} text-center text-base duration-150`,
-                'disabled:pointer-events-none disabled:bg-theme-white-variant-3 disabled:border-transparent disabled:bg-black/20 disabled:text-theme-black/30 disabled:hover:shadow-none disabled:text-white',
+                'disabled:pointer-events-none disabled:bg-theme-white-variant-3 disabled:border-transparent disabled:bg-black/20 disabled:text-theme-black/30 disabled:hover:shadow-none disabled:text-white hover:bg-opacity-80',
                 {
                     'w-full': fullWidth,
                     uppercase: uppercase,

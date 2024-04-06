@@ -1,5 +1,5 @@
 'use client';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { Button, Modal, Spinner } from '@/components/Common';
 import { Input, Upload, UploadFile, Form } from 'antd';
@@ -62,7 +62,7 @@ export const ModalCreateCategory = ({ isShow, onClose }: Props) => {
         >
             <Form
                 form={form}
-                name="basic"
+                name="createCategory"
                 className="w-full"
                 layout="vertical"
                 scrollToFirstError

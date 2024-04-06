@@ -23,7 +23,7 @@ const WishlistItem = ({ item }: Props) => {
     const { color, capacity } = getInitialColorAndCapacity({ product: item });
 
     return (
-        <div className="cursor-pointer w-full flex flex-row gap-2 items-center p-2 hover:bg-secondary-variant-3 rounded-lg">
+        <div className="cursor-pointer w-full flex flex-row gap-2 items-center p-2 hover:bg-primary/5 rounded-lg">
             <Link
                 href={`/products/${item.slug}-${item.id}`}
                 className="w-full flex flex-row items-center gap-2"
@@ -50,7 +50,8 @@ const WishlistItem = ({ item }: Props) => {
                                 priceCalculator({
                                     value: item.price,
                                     extraPrice:
-                                        color.extraPrice + capacity.extraPrice,
+                                        (color.extraPrice || 0) +
+                                        (capacity.extraPrice || 0),
                                     discount: item.discount,
                                 })
                             )}
@@ -60,7 +61,8 @@ const WishlistItem = ({ item }: Props) => {
                                 priceCalculator({
                                     value: item.price,
                                     extraPrice:
-                                        color.extraPrice + capacity.extraPrice,
+                                        (color.extraPrice || 0) +
+                                        (capacity.extraPrice || 0),
                                 })
                             )}
                         </p>
@@ -68,13 +70,13 @@ const WishlistItem = ({ item }: Props) => {
                 </div>
             </Link>
             <div
-                className="hover:bg-secondary-variant-1/50 p-2 border border-black/5 hover:!border-transparent rounded-full text-black/50 hover:text-black cursor-pointer ml-[2px]"
+                className="hover:bg-red-600 p-2 border border-black/5 hover:!border-transparent rounded-full text-black/50 cursor-pointer ml-[2px] group"
                 onClick={(e) => {
                     e.preventDefault();
                     dispatch(toggleAddToWishlist(item));
                 }}
             >
-                <BiTrash className="!w-4 !h-4 xs:!w-4 xs:!h-4 text-black/50 hover:text-red-500" />
+                <BiTrash className="!w-4 !h-4 xs:!w-4 xs:!h-4 text-black/50 group-hover:!text-white " />
             </div>
         </div>
     );

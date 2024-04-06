@@ -142,7 +142,7 @@ export const OrderDetail = ({
                 {!!listCart.length && (
                     <Button
                         size="sm"
-                        className="text-white font-semibold"
+                        className="text-white font-semibold bg-primary-variant-2 hover:bg-primary-variant-2/80"
                         onClick={() => {
                             handlePreCheckOut();
                         }}
