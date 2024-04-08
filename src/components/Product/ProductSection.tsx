@@ -1,11 +1,11 @@
 import cn from 'classnames';
 import axios from 'axios';
 import useSWRImmutable from 'swr/immutable';
-import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { TCategoryInfo, TProductInfo } from '@/types/general';
 import { Button } from '../Common';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 
 import Skeleton from 'react-loading-skeleton';
@@ -46,7 +46,7 @@ const ProductSection = ({
             {isShowHeader && (
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <p className="font-semibold text-xl sm:text-2xl text-black/80 uppercase ">
+                        <p className="font-bold text-xl sm:text-2xl text-black/80 uppercase ">
                             {categoryNameModifier || category.name}
                         </p>
                     </div>
@@ -93,7 +93,7 @@ const ProductSection = ({
                             slidesPerView: 6,
                         },
                     }}
-                    className="!p-1"
+                    className="!px-1 !py-2"
                 >
                     {!!products?.length
                         ? products.map((product) => {

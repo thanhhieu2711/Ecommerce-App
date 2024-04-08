@@ -1,8 +1,6 @@
 'use client';
-import HotProductSection from '@/components/HomePage/HotSaleProductSection';
 import Container from '@/components/Layout/Container';
-//import ProductSection from '@/components/Product/ProductSection';
-import { TCategoryInfo } from '@/types/general';
+import { TArticleInfo, TBrandInfo, TCategoryInfo } from '@/types/general';
 import axios from 'axios';
 import dynamic from 'next/dynamic';
 import useSWRImmutable from 'swr/immutable';
@@ -11,8 +9,24 @@ const CategoryAndBanner = dynamic(
     () => import('@/components/HomePage/CategoryAndBanner')
 );
 
+const BrandSection = dynamic(
+    () => import('@/components/HomePage/BrandSection')
+);
+
 const ProductSection = dynamic(
     () => import('@/components/Product/ProductSection')
+);
+
+const HotProductSection = dynamic(
+    () => import('@/components/HomePage/HotSaleProductSection')
+);
+
+const DiscountPromotionSection = dynamic(
+    () => import('@/components/HomePage/DiscountPromotion')
+);
+
+const ArticleSection = dynamic(
+    () => import('@/components/HomePage/ArticleSection')
 );
 
 type Props = {};
@@ -27,11 +41,31 @@ export default function HomePageContainer(props: Props) {
         getCategories
     );
 
+    const getBrands = async (url: string) => {
+        const { data } = await axios.get(url);
+        return data.data;
+    };
+    const { data: brands }: { data: TBrandInfo[] } = useSWRImmutable(
+        '/api/brands',
+        getBrands
+    );
+
+    const getArticles = async (url: string) => {
+        const { data } = await axios.get(url);
+        return data.data;
+    };
+    const { data: articles }: { data: TArticleInfo[] } = useSWRImmutable(
+        '/api/articles',
+        getArticles
+    );
+
     return (
-        <div className="pt-4 pb-4 bg-secondary flex flex-col gap-10 ">
+        <div className="pt-4 pb-4 bg-white flex flex-col gap-10 ">
             <Container>
                 <div className="flex flex-col gap-8 sm:gap-12 relative">
                     <CategoryAndBanner categories={categories} />
+
+                    <BrandSection brands={brands} />
 
                     <HotProductSection />
 
@@ -50,6 +84,10 @@ export default function HomePageContainer(props: Props) {
                                   category={{} as TCategoryInfo}
                               />
                           ))}
+
+                    <DiscountPromotionSection />
+
+                    <ArticleSection articles={articles} />
                 </div>
             </Container>
         </div>

@@ -156,13 +156,10 @@ const ProductDetailCtn = ({ pid }: Props) => {
     useEffect(() => {
         setLoading(true);
         getProductDetail();
-        // if (!product.isExist && !loading) {
-        //     router.push('/not-found');
-        // }
     }, [pid]);
 
     return (
-        <div className=" h-full w-full min-h-[75vh] bg-secondary py-[25px]">
+        <div className=" h-full w-full min-h-[75vh] bg-white py-[25px]">
             <Container>
                 {product.isExist && !loading && (
                     <>

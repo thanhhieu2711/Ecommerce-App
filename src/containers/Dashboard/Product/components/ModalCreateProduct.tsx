@@ -49,11 +49,6 @@ export const ModalCreateProduct = ({
     const [selectedCapacities, setSelectedCapacities] = useState<string[]>([]);
 
     const handleSubmit = async (formData: any) => {
-        // console.log({
-        //     ...formData,
-        //     color: selectedColors,
-        //     capacity: selectedCapacities,
-        // });
         setLoading(true);
         try {
             const fileList = handleGetOriginFileObj(formData.images.fileList);

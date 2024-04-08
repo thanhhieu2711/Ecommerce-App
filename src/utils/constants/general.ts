@@ -64,6 +64,37 @@ export const bannerList: {
     },
 ];
 
+export const discountPromotions: {
+    id: number;
+    image: string;
+}[] = [
+    {
+        id: 1,
+        image: '/assets/images/discount/hssv-tong-2024.webp',
+    },
+    {
+        id: 2,
+        image: '/assets/images/discount/laptop-hssv-sliding-2024.webp',
+    },
+    {
+        id: 3,
+        image: '/assets/images/discount/ss-hssv-sliding-2024.webp',
+    },
+    {
+        id: 4,
+        image: '/assets/images/discount/mo-the-hsbc-08-04-2024.webp',
+    },
+
+    {
+        id: 5,
+        image: '/assets/images/discount/momo-5-04-2024-slide.webp',
+    },
+    {
+        id: 6,
+        image: '/assets/images/discount/vib-update-01-04-2024.webp',
+    },
+];
+
 export const colorList: TColorInfo[] = [
     {
         id: 1,

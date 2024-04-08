@@ -28,7 +28,7 @@ export async function POST(request: Request) {
             });
             return NextResponse.json({
                 isSuccess: true,
-                message: 'Thêm sản phẩm thành công!',
+                message: 'Tạo sản phẩm thành công!',
             });
         }
     } catch (error) {

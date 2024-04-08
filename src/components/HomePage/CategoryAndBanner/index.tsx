@@ -10,7 +10,7 @@ export const CategoryAndBanner = ({ categories }: Props) => {
     return (
         <div className="w-full h-full flex flex-col gap-8">
             <Banner />
-            {categories && <CategorySection categories={categories} />}
+            <CategorySection categories={categories} />
         </div>
     );
 };

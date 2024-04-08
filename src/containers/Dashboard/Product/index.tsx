@@ -117,7 +117,7 @@ export const ProductDashboard = () => {
 
     return (
         <>
-            <div className="flex flex-col justify-center h-full w-full bg-white rounded-xl relative">
+            <div className="flex flex-col justify-center h-full w-full rounded-xl relative">
                 <div className=" flex justify-between items-center sm:flex-row p-4  ">
                     <div className="w-fit md:w-60 ">
                         <Input

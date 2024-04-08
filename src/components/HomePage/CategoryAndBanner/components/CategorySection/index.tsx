@@ -10,11 +10,11 @@ type Props = {
 const CategorySection = ({ categories = [] }: Props) => {
     return (
         <div className="flex flex-col gap-4 sm:gap-6 ">
-            <p className="w-fit text-xl font-semibold sm:text-2xl uppercase">
+            <p className="w-fit text-lg font-bold sm:text-2xl uppercase">
                 {/* relative after:absolute after:left-0 after:right-0 after:h-1 after:-bottom-1 after:bg-primary  */}
                 Danh mục nổi bật
             </p>
-            <div className="bg-white rounded-2xl shadow-sm p-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-8 xl:grid-cols-10 gap-2">
+            <div className="bg-white rounded-2xl shadow-card p-4 grid grid-cols-3 sm:grid-cols-5 md:grid-cols-8 xl:grid-cols-10 gap-2">
                 {!!categories?.length
                     ? categories.map((item) => {
                           return <CategoryCard category={item} key={item.id} />;

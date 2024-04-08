@@ -1,4 +1,5 @@
 import {
+    Article,
     Brand,
     Category,
     Feedback,
@@ -38,6 +39,8 @@ export type TProductInfo = Product & {
 export type TFeedback = Feedback & {
     user: TUserInfo;
 };
+
+export type TArticleInfo = Article;
 
 export type TPagination = {
     pagaLimit: number;

@@ -9,6 +9,7 @@ import {
     RiProductHuntLine,
     RiBillLine,
     RiAccountCircleLine,
+    RiArticleLine,
 } from 'react-icons/ri';
 import { TbBrandBlogger } from 'react-icons/tb';
 import { TSidebarLink } from '@/types/general';
@@ -41,13 +42,19 @@ const SIDEBAR_LINK: TSidebarLink[] = [
     {
         id: 6,
         name: 'Đơn hàng',
-        link: '/dashboard/order',
+        link: '/dashboard/orders',
         icon: <RiBillLine className="w-6 h-6" />,
     },
     {
         id: 7,
+        name: 'Bài viết',
+        link: '/dashboard/articles',
+        icon: <RiArticleLine className="w-6 h-6" />,
+    },
+    {
+        id: 8,
         name: 'Tài khoản',
-        link: '/dashboard/account',
+        link: '/dashboard/accounts',
         icon: <RiAccountCircleLine className="w-6 h-6" />,
     },
 ];
@@ -58,7 +65,7 @@ const Sidebar = (props: Props) => {
     const pathName = usePathname();
 
     return (
-        <div className="w-full p-4 sm:p-4 md:p-6 flex flex-col text-primary gap-6 shadow-lg h-full rounded-xl">
+        <div className="w-full p-4 sm:p-4 md:p-6 flex flex-col text-primary gap-6  h-full ">
             <p className="hidden sm:block text-2xl font-bold text-center">
                 Admin Dashboard
             </p>
