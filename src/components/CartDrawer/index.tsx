@@ -45,7 +45,7 @@ const CartDrawer = (props: Props) => {
                             <p className="text-sm font-medium text-black/80 ">
                                 Tổng tiền
                             </p>
-                            <p className="text-lg font-bold text-black/80">
+                            <p className="text-lg font-bold text-red-600">
                                 {formatCurrency(cartTotal)}
                             </p>
                         </div>

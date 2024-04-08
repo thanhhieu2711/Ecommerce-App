@@ -16,7 +16,7 @@ const DiscountPromotion = (props: Props) => {
             </p>
             <div className="flex-1">
                 <Swiper
-                    slidesPerView={2}
+                    slidesPerView={1}
                     grabCursor
                     spaceBetween={12}
                     speed={500}
@@ -25,6 +25,9 @@ const DiscountPromotion = (props: Props) => {
                     // className="!p-1"
                     breakpoints={{
                         640: {
+                            slidesPerView: 2,
+                        },
+                        980: {
                             slidesPerView: 3,
                         },
                     }}
@@ -32,9 +35,9 @@ const DiscountPromotion = (props: Props) => {
                 >
                     {discountPromotions.map((i) => (
                         <SwiperSlide key={i.id}>
-                            <div className="aspect-w-5 aspect-h-2 !h-auto  rounded-xl">
+                            <div className="aspect-w-5 aspect-h-2 !h-auto  rounded-xl !bg-transparent shadow-product-card">
                                 <Image
-                                    className="!rounded-xl shadow-product-card"
+                                    className="!rounded-xl "
                                     fill
                                     objectFit="cover"
                                     objectPosition="center"

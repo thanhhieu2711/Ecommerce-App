@@ -15,7 +15,7 @@ const ArticleSection = ({ articles }: Props) => {
             <p className="uppercase font-bold text-lg xl:text-2xl">
                 tin tức công nghệ
             </p>
-            <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-4">
                 {articles?.map((i) => (
                     <Article key={i.id} article={i} />
                 ))}
