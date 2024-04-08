@@ -60,7 +60,7 @@ export default function HomePageContainer(props: Props) {
     );
 
     return (
-        <div className="pt-4 pb-4 bg-white flex flex-col gap-10 ">
+        <div className="py-8 bg-white flex flex-col gap-10 min-h-screen">
             <Container>
                 <div className="flex flex-col gap-8 sm:gap-12 relative">
                     <CategoryAndBanner categories={categories} />
