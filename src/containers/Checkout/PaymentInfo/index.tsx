@@ -130,6 +130,7 @@ const PaymentInfoCtn = (props: Props) => {
                                         width={200}
                                         height={200}
                                         alt="error-img"
+                                        loading="lazy"
                                     />
                                 </div>
                             )}

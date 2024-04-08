@@ -20,6 +20,7 @@ const HotProductSection = (props: Props) => {
                     objectFit="contain"
                     objectPosition="center"
                     quality={50}
+                    loading="lazy"
                 />
             </div>
             <ProductSection

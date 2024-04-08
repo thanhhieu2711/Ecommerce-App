@@ -41,6 +41,7 @@ const DiscountPromotion = (props: Props) => {
                                     alt="discount-promotion"
                                     quality={50}
                                     src={i?.image}
+                                    loading="lazy"
                                 />
                             </div>
                         </SwiperSlide>

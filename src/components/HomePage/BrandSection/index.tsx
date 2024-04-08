@@ -23,7 +23,7 @@ const BrandSection = ({ brands }: Props) => {
                           <Link
                               href={`/products?brandId=${i.id}`}
                               key={i.id}
-                              className="col-span-1 shadow-card px-4 py-2 rounded-md "
+                              className="col-span-1 shadow-card px-4 py-2 rounded-md !bg-transparent"
                           >
                               <div className="aspect-w-2 aspect-h-1">
                                   <Image
@@ -33,6 +33,7 @@ const BrandSection = ({ brands }: Props) => {
                                       alt="brand-logo"
                                       src={i?.thumbnail}
                                       quality={50}
+                                      loading="lazy"
                                   />
                               </div>
                           </Link>
