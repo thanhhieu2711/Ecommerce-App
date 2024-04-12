@@ -9,6 +9,8 @@ import {
     increaseQuantity,
     removeFromCart,
 } from '@/stores/reducers/cart';
+import Link from 'next/link';
+import { BiX } from 'react-icons/bi';
 
 type TCheckouItem = {
     item: TCartItem;
@@ -23,11 +25,11 @@ export const CheckoutItem = ({
 }: TCheckouItem) => {
     const dispatch = useAppDispatch();
     return (
-        <div
+        <Link
+            href={`/products/${item.product.slug}-${item.product.id}`}
             className={cn(
-                'flex items-center p-2 flex-wrap gap-3 sm:gap-0 hover:bg-primary-variant-2/5 rounded-md'
+                'flex items-center p-2 flex-wrap gap-3 sm:gap-0 border hover:border-primary rounded-md cursor-pointer relative group'
             )}
-            onDoubleClick={() => dispatch(removeFromCart({ index: index }))}
         >
             <div
                 className={cn(
@@ -162,7 +164,7 @@ export const CheckoutItem = ({
                     {formatCurrency(item.price)}
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };
 export default CheckoutItem;

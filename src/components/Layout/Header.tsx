@@ -29,9 +29,9 @@ export default function Header() {
                 <div className="flex flex-row items-center gap-2 sm:gap-0 sm:justify-between py-2 xs:py-5 max-w-full ">
                     <Link
                         href={'/'}
-                        className={cn('font-bold text-3xl text-primary')}
+                        className={cn('font-bold text-3xl text-primary font ')}
                     >
-                        LOGO
+                        RAVEN
                     </Link>
                     <div
                         className={cn(

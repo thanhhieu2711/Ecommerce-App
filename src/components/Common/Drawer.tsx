@@ -42,7 +42,7 @@ export const Drawer = ({
                     e.stopPropagation();
                 }}
                 className={cn(
-                    'fixed top-0 right-0 bottom-0 w-full xs:w-[400px] 2xl:w-[500px] bg-white h-screen transition-all duration-300 ease-out translate-x-full z-50',
+                    'fixed top-0 right-0 bottom-0 w-full xs:w-[420px] 2xl:w-[500px] bg-white h-screen transition-all duration-300 ease-out translate-x-full z-50',
                     isOpen && '!translate-x-0'
                 )}
             >

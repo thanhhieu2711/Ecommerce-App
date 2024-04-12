@@ -148,6 +148,7 @@ model Article {
   title String @unique
   thumbnail String
   content String
+  slug String @default("")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

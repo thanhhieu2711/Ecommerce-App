@@ -9,10 +9,12 @@ export default function Footer(props: Props) {
     return (
         <footer className="max-w-full h-full border-t border-black/5">
             <Container>
-                <div className="w-full h-full grid grid-cols-1 md:grid-cols-4 py-4 gap-20">
+                <div className="w-full h-full grid grid-cols-1 md:grid-cols-4 py-10 gap-20">
                     <div className="col-span-1">
                         <Link href={'/'}>
-                            <p className="text-3xl font-bold">LOGO</p>
+                            <p className="text-2xl font-bold text-primary">
+                                RAVEN STORE
+                            </p>
                         </Link>
                         <div className="flex flex-col gap-4 mt-5 text-sm text-black/50">
                             <p>

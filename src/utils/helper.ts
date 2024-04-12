@@ -13,7 +13,7 @@ import {
 export const getNameFromSlugExcludingId = ({ params }: TParams) => {
     const id = params.id;
 
-    return id.slice(0, id.lastIndexOf('-'));
+    return id.slice(0, id.lastIndexOf('-')).replaceAll('-', ' ');
 };
 
 export const formatCurrency = (value: number) => {

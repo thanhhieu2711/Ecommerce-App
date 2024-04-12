@@ -82,18 +82,29 @@ const PaymentInfoCtn = (props: Props) => {
                     }
                 );
 
-                const { isSuccess: _isSucess } = createOrderDetailsRes.data;
+                const { isSuccess: isFinishedOrder } =
+                    createOrderDetailsRes.data;
 
-                if (_isSucess) {
+                if (isFinishedOrder) {
                     dispatch(clearCart({ isShowToast: false }));
                     dispatch(clearShippingService());
                     form.setFieldValue('nameReceiver', '');
                     form.setFieldValue('phoneReceiver', '');
                     form.setFieldValue('deliveryAddressReceiver', '');
                     form.setFieldValue('note', '');
-                    router.push(`/checkout/payment-result/${orderData.id}`);
+                    //router.push(`/checkout/payment-result/${orderData.id}`);
                     setLoading(false);
                     toast.success(message);
+
+                    const paymentRes = await axios.post(
+                        '/api/payment/create-payment-url',
+                        {
+                            data: {
+                                orderId: orderData.id,
+                                amount: orderData.total,
+                            },
+                        }
+                    );
                     return;
                 }
             }

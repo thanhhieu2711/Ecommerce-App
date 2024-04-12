@@ -49,7 +49,9 @@ const CartItem = ({ item, index }: Props) => {
                         {item.product.name}
                     </p>
                     <div
-                        className="hover:bg-secondary-variant-1/50 border border-black/10 hover:!border-transparent w-fit h-fit p-2 rounded-full text-black/50 hover:bg-red-600 hover:text-white cursor-pointer ml-[2px]"
+                        className=" border border-black/10 hover:!border-transparent w-fit h-fit p-2 rounded-full text-black/50 hover:bg-red-600 hover:text-white cursor-pointer ml-[2px]
+                        
+                        "
                         onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
@@ -88,10 +90,7 @@ const CartItem = ({ item, index }: Props) => {
                     />
 
                     <div className="flex items-center gap-2">
-                        <p className="text-md font-bold text-red-600">
-                            {formatCurrency(item.price)}
-                        </p>
-                        <p className="text-sm text-black/50 line-through">
+                        {/* <p className="text-xs text-black/50 line-through">
                             {formatCurrency(
                                 priceCalculator({
                                     value:
@@ -103,6 +102,9 @@ const CartItem = ({ item, index }: Props) => {
                                         (capacity?.extraPrice || 0),
                                 })
                             )}
+                        </p> */}
+                        <p className="text-md font-bold text-red-600">
+                            {formatCurrency(item.price)}
                         </p>
                     </div>
                 </div>

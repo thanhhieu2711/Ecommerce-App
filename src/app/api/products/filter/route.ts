@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
                         : undefined,
                 },
                 {
-                    createdAt: sortByCreatedAt ? 'asc' : 'desc',
+                    createdAt: sortByCreatedAt ? 'desc' : 'asc',
                 },
             ],
             include: {

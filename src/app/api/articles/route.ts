@@ -1,6 +1,6 @@
 import prisma from '@/services/prisma/prismaDB';
 import { NextResponse } from 'next/server';
-
+import slugify from 'slugify';
 export async function POST(request: Request) {
     try {
         const req = await request.json();
@@ -21,6 +21,7 @@ export async function POST(request: Request) {
             await prisma.article.create({
                 data: {
                     ...req,
+                    slug: slugify(req.title),
                 },
             });
             return NextResponse.json({

@@ -10,6 +10,8 @@ type Props = {};
 const CheckoutCtn = (props: Props) => {
     const { listCart, cartTotal, cartSubTotal, discountTotal } = useCart();
 
+    console.log(listCart);
+
     return (
         <div className="h-full w-full bg-secondary py-[25px]">
             <Container>
@@ -20,11 +22,7 @@ const CheckoutCtn = (props: Props) => {
                                 <div className="flex items-center flex-wrap gap-1 p-4 ">
                                     <p className="font-medium text-xl">
                                         Giỏ hàng của bạn
-                                    </p>
-                                    <p className="text-sm">
-                                        ({' '}
-                                        <span className="text-red-600">*</span>{' '}
-                                        Nhấn 2 lần để xóa )
+                                        <span>{listCart.length}</span>
                                     </p>
                                 </div>
                                 <div className=" border-[0.5px] border-black/10 mx-4 " />
@@ -56,12 +54,15 @@ const CheckoutCtn = (props: Props) => {
                                                 <CheckoutItem
                                                     item={item}
                                                     index={index}
-                                                    key={item.product.id}
+                                                    key={index}
                                                 />
                                                 {index !==
                                                     listCart.length - 1 && (
                                                     <div
-                                                        key={item.product.id}
+                                                        key={
+                                                            item.product.id +
+                                                            index
+                                                        }
                                                         className="max-w-full h-px bg-black/10 mx-4"
                                                     />
                                                 )}
