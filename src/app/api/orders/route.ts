@@ -5,12 +5,10 @@ export async function POST(req: NextRequest) {
     try {
         const requestData = await req.json();
 
-        console.log(requestData);
-
         if (!requestData) {
             return NextResponse.json({
                 isSuccess: false,
-                message: 'Thanh toán thất bại!',
+                message: 'Đặt hàng thất bại, xin vui lòng thử lại!',
             });
         }
         const response = await prisma?.order.create({
@@ -24,12 +22,12 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({
                 isSuccess: true,
                 data: response,
-                message: 'Thanh toán thành công!',
+                message: 'Đặt hàng thành công!',
             });
         } else {
             return NextResponse.json({
                 isSuccess: false,
-                message: 'Thanh toán thất bại!',
+                message: 'Đặt hàng thất bại, xin vui lòng thử lại!',
             });
         }
     } catch (error) {

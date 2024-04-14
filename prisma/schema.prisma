@@ -17,7 +17,7 @@ datasource db {
 
 enum PAYMENT_METHOD {
   COD
-  PAYPAL
+  VNPAY
 }
 enum ORDER_STATUS {
   INPROGRESS

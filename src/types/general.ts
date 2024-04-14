@@ -5,6 +5,7 @@ import {
     Feedback,
     Order,
     OrderDetail,
+    PAYMENT_METHOD,
     Product,
 } from '@prisma/client';
 import { TUserInfo } from './user';
@@ -84,6 +85,8 @@ export type TSearchParam = {
     value: string | number | boolean;
     icon?: React.ReactNode;
 };
+
+export type TPaymentMethod = PAYMENT_METHOD;
 
 export type TBannerType = 'main' | 'sub';
 

@@ -1,6 +1,6 @@
 'use client';
-import { TCartItem, TShippingService } from '@/types/general';
-import { SHIPPING_SERVICES } from '@/utils/constants/general';
+import { TCartItem, TPaymentMethod, TShippingService } from '@/types/general';
+import { PAYMENT_METHODS, SHIPPING_SERVICES } from '@/utils/constants/general';
 import { formatCurrency } from '@/utils/helper';
 import { Select } from 'antd';
 import { Button } from '../Common';
@@ -11,6 +11,7 @@ import { useSession } from 'next-auth/react';
 import { openLoginModal } from '@/stores/reducers/modal';
 import { usePaymentInfo } from '@/hooks/store';
 import { useState } from 'react';
+import axios from 'axios';
 type Props = {
     listCart: TCartItem[];
     cartTotal: number;
@@ -39,6 +40,9 @@ export const OrderDetail = ({
         fee: shippingService?.fee || SHIPPING_SERVICES[0].fee,
     });
 
+    const [selectedPaymentMethod, setSelectPaymentMethod] =
+        useState<TPaymentMethod>(PAYMENT_METHODS[0]);
+
     const handlePreCheckOut = () => {
         if (!!data) {
             dispatch(
@@ -46,7 +50,9 @@ export const OrderDetail = ({
                     shippingService: _shippingService,
                 })
             );
-            router.push('/checkout/payment-info');
+            router.push(
+                `/checkout/payment-info?method=${selectedPaymentMethod}`
+            );
             return;
         }
         dispatch(openLoginModal(true));
@@ -114,17 +120,27 @@ export const OrderDetail = ({
                                     label: service.name,
                                     value: service.fee,
                                 }))}
-                                key={1}
                             />
                         </div>
-                        <div className="flex items-center justify-between mt-1">
+                        <div className="flex flex-col gap-4 mt-1">
                             <p className="text-black/50 text-sm font-semibold">
                                 Phương thức thanh toán:
                             </p>
-                            <p className="text-secondary-variant-2 font-semibold">
-                                {' '}
-                                COD
-                            </p>
+                            <Select
+                                defaultValue={{
+                                    label: selectedPaymentMethod,
+                                    value: selectedPaymentMethod,
+                                }}
+                                className="!w-full"
+                                labelInValue
+                                onChange={({ label, value }) => {
+                                    setSelectPaymentMethod(value);
+                                }}
+                                options={PAYMENT_METHODS.map((method) => ({
+                                    label: method,
+                                    value: method,
+                                }))}
+                            />
                         </div>
                     </>
                 )}

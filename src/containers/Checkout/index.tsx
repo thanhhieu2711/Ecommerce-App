@@ -10,8 +10,6 @@ type Props = {};
 const CheckoutCtn = (props: Props) => {
     const { listCart, cartTotal, cartSubTotal, discountTotal } = useCart();
 
-    console.log(listCart);
-
     return (
         <div className="h-full w-full bg-secondary py-[25px]">
             <Container>

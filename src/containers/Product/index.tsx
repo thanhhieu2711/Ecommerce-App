@@ -298,12 +298,17 @@ const ProductListCtn = (props: Props) => {
                 </div>
 
                 {/* PRODUCTS */}
-                <div className="w-full h-fit mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-6 gap-4">
-                    {!!products.length &&
-                        products.map((p) => (
+                {!!products.length ? (
+                    <div className="w-full h-fit mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-6 gap-4">
+                        {products.map((p) => (
                             <ProductCard key={p.id} product={p} />
                         ))}
-                </div>
+                    </div>
+                ) : (
+                    <div className="w-full h-full grid place-content-center mt-96">
+                        <p>Không có sản phẩm nào được tìm thấy.</p>
+                    </div>
+                )}
 
                 {/* LOAD MORE */}
                 {pagination?.hasNext && !!products.length && (

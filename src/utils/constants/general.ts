@@ -5,6 +5,7 @@ import {
     TPagination,
     TShippingService,
     TSearchParam,
+    TPaymentMethod,
 } from '@/types/general';
 
 export const bannerList: {
@@ -234,6 +235,11 @@ export const SHIPPING_SERVICES: TShippingService[] = [
         name: 'Hỏa Tốc , GHN / GHTK',
         fee: 70000,
     },
+];
+
+export const PAYMENT_METHODS: [TPaymentMethod, TPaymentMethod] = [
+    'COD',
+    'VNPAY',
 ];
 
 export const DEFAULT_PAGINATION: TPagination = {

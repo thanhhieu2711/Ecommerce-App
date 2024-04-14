@@ -3,6 +3,7 @@ import { TCapacityInfo, TColorInfo, TProductInfo } from '@/types/general';
 import { formatCurrency, priceCalculator } from '@/utils/helper';
 import { Rate, Tag, Tooltip } from 'antd';
 import Counter from '../Common/Counter';
+import { useCart } from '@/hooks/store';
 
 type Props = {
     product: TProductInfo;
@@ -27,6 +28,8 @@ export const ProductInfo = ({
     handleSelectColor,
     handleChangeQuantity,
 }: Props) => {
+    const { listCart } = useCart();
+
     return (
         <>
             {/* TÊN / ĐÁNH GIÁ */}

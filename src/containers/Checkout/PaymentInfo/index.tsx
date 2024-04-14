@@ -13,11 +13,13 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
-import { TOrderDetailInfo, TOrderInfo } from '@/types/general';
-import { useRouter } from 'next/navigation';
+import { TOrderDetailInfo, TOrderInfo, TPaymentMethod } from '@/types/general';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAppDispatch } from '@/stores';
 import { clearShippingService } from '@/stores/reducers/payment-info';
 import { clearCart } from '@/stores/reducers/cart';
+import { PAYMENT_METHODS } from '@/utils/constants/general';
+import { PAYMENT_METHOD } from '@prisma/client';
 
 type Props = {};
 
@@ -29,6 +31,16 @@ const PaymentInfoCtn = (props: Props) => {
     const { data } = useSession();
     const router = useRouter();
     const dispatch = useAppDispatch();
+
+    const params = useSearchParams();
+
+    const paymentMethod = params.get('method');
+
+    useEffect(() => {
+        if (![...PAYMENT_METHODS].includes(paymentMethod as PAYMENT_METHOD)) {
+            return router.push('/checkout');
+        }
+    }, [paymentMethod]);
 
     const handleSubmitFormOrder = async (receiverFormData: any) => {
         try {
@@ -42,6 +54,7 @@ const PaymentInfoCtn = (props: Props) => {
                 discountTotal: discountTotal,
                 subTotal: cartSubTotal,
                 total: total,
+                paymentMethod,
                 shippingServiceName: shippingService?.name,
                 shippingFee: shippingService?.fee,
                 ...receiverFormData,
@@ -86,26 +99,42 @@ const PaymentInfoCtn = (props: Props) => {
                     createOrderDetailsRes.data;
 
                 if (isFinishedOrder) {
-                    dispatch(clearCart({ isShowToast: false }));
-                    dispatch(clearShippingService());
-                    form.setFieldValue('nameReceiver', '');
-                    form.setFieldValue('phoneReceiver', '');
-                    form.setFieldValue('deliveryAddressReceiver', '');
-                    form.setFieldValue('note', '');
-                    //router.push(`/checkout/payment-result/${orderData.id}`);
-                    setLoading(false);
-                    toast.success(message);
+                    if (paymentMethod === 'COD') {
+                        toast.success(message);
+                        dispatch(clearCart({ isShowToast: false }));
+                        dispatch(clearShippingService());
+                        form.setFieldValue('nameReceiver', '');
+                        form.setFieldValue('phoneReceiver', '');
+                        form.setFieldValue('deliveryAddressReceiver', '');
+                        form.setFieldValue('note', '');
+                        setLoading(false);
+                        return router.push(
+                            `/checkout/payment-result/${orderData.id}`
+                        );
+                    } else {
+                        const { data } = await axios.post(
+                            '/api/payment/create-payment-url',
+                            {
+                                data: {
+                                    orderId: orderData.id,
+                                    amount: orderData.total,
+                                },
+                            }
+                        );
 
-                    const paymentRes = await axios.post(
-                        '/api/payment/create-payment-url',
-                        {
-                            data: {
-                                orderId: orderData.id,
-                                amount: orderData.total,
-                            },
+                        if (data.isSuccess) {
+                            dispatch(clearCart({ isShowToast: false }));
+                            dispatch(clearShippingService());
+                            form.setFieldValue('nameReceiver', '');
+                            form.setFieldValue('phoneReceiver', '');
+                            form.setFieldValue('deliveryAddressReceiver', '');
+                            form.setFieldValue('note', '');
+                            setLoading(false);
+                            return router.push(data.data);
+                        } else {
+                            toast.error('Đặt hàng không thành công!');
                         }
-                    );
-                    return;
+                    }
                 }
             }
         } catch (error) {
